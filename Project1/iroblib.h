@@ -17,5 +17,10 @@ void powerOffRobot(void);
 void powerLed(uint8_t color);
 void setupCMDLeds(void);
 void toggleCMDLeds(void);
-  // Power the create On/Off.
+void bumperLedsNotif(void);
+void robotLeftLedOn(uint8_t color);
+void robotRightLedOn(uint8_t color);
+void robotLeftLedOff(uint8_t color);
+void robotRightLedOff(uint8_t color);
+  // Power the create On/Off
 #endif

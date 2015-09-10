@@ -408,17 +408,17 @@
  310               		.file 3 "timer.h"
 DEFINED SYMBOLS
                             *ABS*:0000000000000000 cmod.c
-     /tmp/ccNc0KJN.s:2      *ABS*:000000000000003e __SP_H__
-     /tmp/ccNc0KJN.s:3      *ABS*:000000000000003d __SP_L__
-     /tmp/ccNc0KJN.s:4      *ABS*:000000000000003f __SREG__
-     /tmp/ccNc0KJN.s:5      *ABS*:0000000000000000 __tmp_reg__
-     /tmp/ccNc0KJN.s:6      *ABS*:0000000000000001 __zero_reg__
-     /tmp/ccNc0KJN.s:12     .text:0000000000000000 setupIOPins
-     /tmp/ccNc0KJN.s:44     .text:0000000000000018 setupSerialPort
-     /tmp/ccNc0KJN.s:69     .text:0000000000000032 initializeCommandModule
-     /tmp/ccNc0KJN.s:104    .text:0000000000000044 byteTx
-     /tmp/ccNc0KJN.s:126    .text:0000000000000052 byteRx
-     /tmp/ccNc0KJN.s:148    .text:0000000000000060 baud
+     /tmp/cc9icFoi.s:2      *ABS*:000000000000003e __SP_H__
+     /tmp/cc9icFoi.s:3      *ABS*:000000000000003d __SP_L__
+     /tmp/cc9icFoi.s:4      *ABS*:000000000000003f __SREG__
+     /tmp/cc9icFoi.s:5      *ABS*:0000000000000000 __tmp_reg__
+     /tmp/cc9icFoi.s:6      *ABS*:0000000000000001 __zero_reg__
+     /tmp/cc9icFoi.s:12     .text:0000000000000000 setupIOPins
+     /tmp/cc9icFoi.s:44     .text:0000000000000018 setupSerialPort
+     /tmp/cc9icFoi.s:69     .text:0000000000000032 initializeCommandModule
+     /tmp/cc9icFoi.s:104    .text:0000000000000044 byteTx
+     /tmp/cc9icFoi.s:126    .text:0000000000000052 byteRx
+     /tmp/cc9icFoi.s:148    .text:0000000000000060 baud
 
 UNDEFINED SYMBOLS
 setupTimer

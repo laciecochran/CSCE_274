@@ -100,57 +100,73 @@
   38:proj1.c       **** 
   39:proj1.c       ****   // Initialize global variables
   40:proj1.c       **** 
-  41:proj1.c       ****   // Setup leds
+  41:proj1.c       ****   // Setup
   42:proj1.c       ****   setupCMDLeds();
   64               		.loc 1 42 0
   65 003e 0E94 0000 		call setupCMDLeds
   66               	.LVL11:
-  67               	.L3:
-  43:proj1.c       **** 
-  44:proj1.c       ****   // Infinite operation loop
-  45:proj1.c       ****   for(;;) {
-  46:proj1.c       ****     // toggle command module Leds
-  47:proj1.c       ****     toggleCMDLeds();
-  68               		.loc 1 47 0
-  69 0042 0E94 0000 		call toggleCMDLeds
-  70               	.LVL12:
-  48:proj1.c       ****     delayMs(500);
+  43:proj1.c       ****   setupSerialPort();
+  67               		.loc 1 43 0
+  68 0042 0E94 0000 		call setupSerialPort
+  69               	.LVL12:
+  70               	.L3:
+  44:proj1.c       **** 
+  45:proj1.c       ****   // Infinite operation loop
+  46:proj1.c       ****   for(;;) {
+  47:proj1.c       ****     // toggle command module Leds
+  48:proj1.c       ****     toggleCMDLeds();
   71               		.loc 1 48 0
-  72 0046 84EF      		ldi r24,lo8(-12)
-  73 0048 91E0      		ldi r25,lo8(1)
-  74 004a 0E94 0000 		call delayMs
-  75               	.LVL13:
-  49:proj1.c       ****     if(UserButtonPressed) {
-  76               		.loc 1 49 0
-  77 004e 4C99      		sbic 0x9,4
-  78 0050 00C0      		rjmp .L3
-  50:proj1.c       ****       powerOffRobot();
-  79               		.loc 1 50 0
-  80 0052 0E94 0000 		call powerOffRobot
-  81               	.LVL14:
-  51:proj1.c       ****       exit(1);
-  82               		.loc 1 51 0
-  83 0056 81E0      		ldi r24,lo8(1)
+  72 0046 0E94 0000 		call toggleCMDLeds
+  73               	.LVL13:
+  49:proj1.c       ****     delayMs(500);
+  74               		.loc 1 49 0
+  75 004a 84EF      		ldi r24,lo8(-12)
+  76 004c 91E0      		ldi r25,lo8(1)
+  77 004e 0E94 0000 		call delayMs
+  78               	.LVL14:
+  50:proj1.c       **** 
+  51:proj1.c       ****     bumperLedsNotif();
+  79               		.loc 1 51 0
+  80 0052 0E94 0000 		call bumperLedsNotif
+  81               	.LVL15:
+  52:proj1.c       ****     delayMs(100);
+  82               		.loc 1 52 0
+  83 0056 84E6      		ldi r24,lo8(100)
   84 0058 90E0      		ldi r25,0
-  85 005a 0E94 0000 		call exit
-  86               	.LVL15:
-  87               		.cfi_endproc
-  88               	.LFE0:
-  90               		.text
-  91               	.Letext0:
-  92               		.file 2 "/usr/lib/avr/include/stdint.h"
-  93               		.file 3 "cmod.h"
-  94               		.file 4 "iroblib.h"
-  95               		.file 5 "timer.h"
-  96               		.file 6 "/usr/lib/avr/include/stdlib.h"
+  85 005a 0E94 0000 		call delayMs
+  86               	.LVL16:
+  53:proj1.c       **** 
+  54:proj1.c       ****     if(UserButtonPressed) {
+  87               		.loc 1 54 0
+  88 005e 4C99      		sbic 0x9,4
+  89 0060 00C0      		rjmp .L3
+  55:proj1.c       ****       powerOffRobot();
+  90               		.loc 1 55 0
+  91 0062 0E94 0000 		call powerOffRobot
+  92               	.LVL17:
+  56:proj1.c       ****       exit(1);
+  93               		.loc 1 56 0
+  94 0066 81E0      		ldi r24,lo8(1)
+  95 0068 90E0      		ldi r25,0
+  96 006a 0E94 0000 		call exit
+  97               	.LVL18:
+  98               		.cfi_endproc
+  99               	.LFE0:
+ 101               		.text
+ 102               	.Letext0:
+ 103               		.file 2 "/usr/lib/avr/include/stdint.h"
+ 104               		.file 3 "cmod.h"
+ 105               		.file 4 "iroblib.h"
+ 106               		.file 5 "timer.h"
+ 107               		.file 6 "/usr/lib/avr/include/stdlib.h"
 DEFINED SYMBOLS
                             *ABS*:0000000000000000 proj1.c
-     /tmp/cceLBmGR.s:2      *ABS*:000000000000003e __SP_H__
-     /tmp/cceLBmGR.s:3      *ABS*:000000000000003d __SP_L__
-     /tmp/cceLBmGR.s:4      *ABS*:000000000000003f __SREG__
-     /tmp/cceLBmGR.s:5      *ABS*:0000000000000000 __tmp_reg__
-     /tmp/cceLBmGR.s:6      *ABS*:0000000000000001 __zero_reg__
-     /tmp/cceLBmGR.s:13     .text.startup:0000000000000000 main
+     /tmp/ccm8uvri.s:2      *ABS*:000000000000003e __SP_H__
+     /tmp/ccm8uvri.s:3      *ABS*:000000000000003d __SP_L__
+     /tmp/ccm8uvri.s:4      *ABS*:000000000000003f __SREG__
+     /tmp/ccm8uvri.s:5      *ABS*:0000000000000000 __tmp_reg__
+     /tmp/ccm8uvri.s:6      *ABS*:0000000000000001 __zero_reg__
+     /tmp/ccm8uvri.s:13     .text.startup:0000000000000000 main
 
 UNDEFINED SYMBOLS
 initializeCommandModule
@@ -161,6 +177,8 @@ defineSongs
 delayMs
 powerLed
 setupCMDLeds
+setupSerialPort
 toggleCMDLeds
+bumperLedsNotif
 powerOffRobot
 exit

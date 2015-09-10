@@ -71,7 +71,7 @@ void powerOffRobot(void) {
 void powerLed(uint8_t color) {
 
   byteTx(CmdLeds); 
-  byteTx(0x00); //both command module Leds off
+  byteTx(0x00); //both robot Leds off
   byteTx(color);
   byteTx(255); //intensity
 
@@ -91,5 +91,65 @@ void toggleCMDLeds(void) {
   //turn the Leds off/on using exclusive or
   
   PORTD ^= (3 << 5);
+
+}
+
+//Detect left or right bumper. Set corresponding Led
+void bumperLedsNotif(void) {
+
+  //Ask about bump sensors
+  byteTx(CmdSensors); //"read sensors"
+  byteTx(SenOverC); //sensor packet 7 for bumps and wheels
+
+  //read response and extract relevant information
+  uint8_t bumps = byteRx();
+  uint8_t bumpRight = bumps & (1 << 0);
+  uint8_t bumpLeft  = bumps & (1 << 1);
+
+  //set robot Leds
+  if(bumpLeft) {robotLeftLedOn(0);}
+  else {robotLeftLedOff(0);}
+  if(bumpRight) {robotRightLedOn(255);}
+  else {robotRightLedOff(255);}
+
+}
+
+//Turn on robot's left Led given a specified color.
+void robotLeftLedOn(uint8_t color) {
+
+  byteTx(CmdLeds); 
+  byteTx(0x01); //
+  byteTx(color);
+  byteTx(255); //intensity
+
+}
+
+//Turn on robot's right Led given a specified color.
+void robotRightLedOn(uint8_t color) {
+
+  byteTx(CmdLeds); 
+  byteTx(0x11); //
+  byteTx(color);
+  byteTx(255); //intensity
+
+}
+
+//Turn off robot's left Led given a specified color.
+void robotLeftLedOff(uint8_t color) {
+
+  byteTx(CmdLeds); 
+  byteTx(0x00); //
+  byteTx(color);
+  byteTx(255); //intensity
+
+}
+
+//Turn off robot's right Led given a specified color.
+void robotRightLedOff(uint8_t color) {
+
+  byteTx(CmdLeds); 
+  byteTx(0x00); //
+  byteTx(color);
+  byteTx(255); //intensity
 
 }

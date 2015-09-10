@@ -122,7 +122,7 @@ END GROUP
 .rela.plt
  *(.rela.plt)
 
-.text           0x0000000000000000      0x3b8
+.text           0x0000000000000000      0x47a
  *(.vectors)
  .vectors       0x0000000000000000       0x68 /usr/lib/gcc/avr/4.8.2/../../../avr/lib/avr5/crtm168.o
                 0x0000000000000000                __vectors
@@ -201,62 +201,67 @@ END GROUP
                 0x000000000000008c                __vector_16
                 0x000000000000008c                __vector_20
  .text          0x0000000000000090        0x0 proj1.o
- .text          0x0000000000000090      0x128 iroblib.o
+ .text          0x0000000000000090      0x1da iroblib.o
                 0x0000000000000090                defineSongs
                 0x000000000000012c                powerOnRobot
                 0x0000000000000166                powerOffRobot
                 0x0000000000000188                powerLed
                 0x00000000000001a6                setupCMDLeds
                 0x00000000000001ae                toggleCMDLeds
- .text          0x00000000000001b8       0x8a timer.o
-                0x00000000000001b8                __vector_18
-                0x00000000000001cc                __vector_11
-                0x000000000000020c                setupTimer
-                0x000000000000022a                delayMs
- .text          0x0000000000000242      0x114 cmod.o
-                0x0000000000000242                setupIOPins
-                0x000000000000025a                setupSerialPort
-                0x0000000000000274                initializeCommandModule
-                0x0000000000000286                byteTx
-                0x0000000000000294                byteRx
-                0x00000000000002a2                baud
- .text          0x0000000000000356        0x0 /usr/lib/gcc/avr/4.8.2/avr5/libgcc.a(_exit.o)
- .text          0x0000000000000356        0x0 /usr/lib/gcc/avr/4.8.2/avr5/libgcc.a(_clear_bss.o)
-                0x0000000000000356                . = ALIGN (0x2)
+                0x00000000000001b8                robotLeftLedOn
+                0x00000000000001d6                robotRightLedOn
+                0x00000000000001f4                robotLeftLedOff
+                0x0000000000000212                robotRightLedOff
+                0x0000000000000230                bumperLedsNotif
+ .text          0x000000000000026a       0x8a timer.o
+                0x000000000000026a                __vector_18
+                0x000000000000027e                __vector_11
+                0x00000000000002be                setupTimer
+                0x00000000000002dc                delayMs
+ .text          0x00000000000002f4      0x114 cmod.o
+                0x00000000000002f4                setupIOPins
+                0x000000000000030c                setupSerialPort
+                0x0000000000000326                initializeCommandModule
+                0x0000000000000338                byteTx
+                0x0000000000000346                byteRx
+                0x0000000000000354                baud
+ .text          0x0000000000000408        0x0 /usr/lib/gcc/avr/4.8.2/avr5/libgcc.a(_exit.o)
+ .text          0x0000000000000408        0x0 /usr/lib/gcc/avr/4.8.2/avr5/libgcc.a(_clear_bss.o)
+                0x0000000000000408                . = ALIGN (0x2)
  *(.text.*)
- .text.startup  0x0000000000000356       0x5e proj1.o
-                0x0000000000000356                main
+ .text.startup  0x0000000000000408       0x6e proj1.o
+                0x0000000000000408                main
  .text.libgcc.mul
-                0x00000000000003b4        0x0 /usr/lib/gcc/avr/4.8.2/avr5/libgcc.a(_exit.o)
+                0x0000000000000476        0x0 /usr/lib/gcc/avr/4.8.2/avr5/libgcc.a(_exit.o)
  .text.libgcc.div
-                0x00000000000003b4        0x0 /usr/lib/gcc/avr/4.8.2/avr5/libgcc.a(_exit.o)
- .text.libgcc   0x00000000000003b4        0x0 /usr/lib/gcc/avr/4.8.2/avr5/libgcc.a(_exit.o)
+                0x0000000000000476        0x0 /usr/lib/gcc/avr/4.8.2/avr5/libgcc.a(_exit.o)
+ .text.libgcc   0x0000000000000476        0x0 /usr/lib/gcc/avr/4.8.2/avr5/libgcc.a(_exit.o)
  .text.libgcc.prologue
-                0x00000000000003b4        0x0 /usr/lib/gcc/avr/4.8.2/avr5/libgcc.a(_exit.o)
+                0x0000000000000476        0x0 /usr/lib/gcc/avr/4.8.2/avr5/libgcc.a(_exit.o)
  .text.libgcc.builtins
-                0x00000000000003b4        0x0 /usr/lib/gcc/avr/4.8.2/avr5/libgcc.a(_exit.o)
+                0x0000000000000476        0x0 /usr/lib/gcc/avr/4.8.2/avr5/libgcc.a(_exit.o)
  .text.libgcc.fmul
-                0x00000000000003b4        0x0 /usr/lib/gcc/avr/4.8.2/avr5/libgcc.a(_exit.o)
+                0x0000000000000476        0x0 /usr/lib/gcc/avr/4.8.2/avr5/libgcc.a(_exit.o)
  .text.libgcc.fixed
-                0x00000000000003b4        0x0 /usr/lib/gcc/avr/4.8.2/avr5/libgcc.a(_exit.o)
+                0x0000000000000476        0x0 /usr/lib/gcc/avr/4.8.2/avr5/libgcc.a(_exit.o)
  .text.libgcc.mul
-                0x00000000000003b4        0x0 /usr/lib/gcc/avr/4.8.2/avr5/libgcc.a(_clear_bss.o)
+                0x0000000000000476        0x0 /usr/lib/gcc/avr/4.8.2/avr5/libgcc.a(_clear_bss.o)
  .text.libgcc.div
-                0x00000000000003b4        0x0 /usr/lib/gcc/avr/4.8.2/avr5/libgcc.a(_clear_bss.o)
- .text.libgcc   0x00000000000003b4        0x0 /usr/lib/gcc/avr/4.8.2/avr5/libgcc.a(_clear_bss.o)
+                0x0000000000000476        0x0 /usr/lib/gcc/avr/4.8.2/avr5/libgcc.a(_clear_bss.o)
+ .text.libgcc   0x0000000000000476        0x0 /usr/lib/gcc/avr/4.8.2/avr5/libgcc.a(_clear_bss.o)
  .text.libgcc.prologue
-                0x00000000000003b4        0x0 /usr/lib/gcc/avr/4.8.2/avr5/libgcc.a(_clear_bss.o)
+                0x0000000000000476        0x0 /usr/lib/gcc/avr/4.8.2/avr5/libgcc.a(_clear_bss.o)
  .text.libgcc.builtins
-                0x00000000000003b4        0x0 /usr/lib/gcc/avr/4.8.2/avr5/libgcc.a(_clear_bss.o)
+                0x0000000000000476        0x0 /usr/lib/gcc/avr/4.8.2/avr5/libgcc.a(_clear_bss.o)
  .text.libgcc.fmul
-                0x00000000000003b4        0x0 /usr/lib/gcc/avr/4.8.2/avr5/libgcc.a(_clear_bss.o)
+                0x0000000000000476        0x0 /usr/lib/gcc/avr/4.8.2/avr5/libgcc.a(_clear_bss.o)
  .text.libgcc.fixed
-                0x00000000000003b4        0x0 /usr/lib/gcc/avr/4.8.2/avr5/libgcc.a(_clear_bss.o)
-                0x00000000000003b4                . = ALIGN (0x2)
+                0x0000000000000476        0x0 /usr/lib/gcc/avr/4.8.2/avr5/libgcc.a(_clear_bss.o)
+                0x0000000000000476                . = ALIGN (0x2)
  *(.fini9)
- .fini9         0x00000000000003b4        0x0 /usr/lib/gcc/avr/4.8.2/avr5/libgcc.a(_exit.o)
-                0x00000000000003b4                exit
-                0x00000000000003b4                _exit
+ .fini9         0x0000000000000476        0x0 /usr/lib/gcc/avr/4.8.2/avr5/libgcc.a(_exit.o)
+                0x0000000000000476                exit
+                0x0000000000000476                _exit
  *(.fini9)
  *(.fini8)
  *(.fini8)
@@ -275,11 +280,11 @@ END GROUP
  *(.fini1)
  *(.fini1)
  *(.fini0)
- .fini0         0x00000000000003b4        0x4 /usr/lib/gcc/avr/4.8.2/avr5/libgcc.a(_exit.o)
+ .fini0         0x0000000000000476        0x4 /usr/lib/gcc/avr/4.8.2/avr5/libgcc.a(_exit.o)
  *(.fini0)
-                0x00000000000003b8                _etext = .
+                0x000000000000047a                _etext = .
 
-.data           0x0000000000800100        0x0 load address 0x00000000000003b8
+.data           0x0000000000800100        0x0 load address 0x000000000000047a
                 0x0000000000800100                PROVIDE (__data_start, .)
  *(.data)
  .data          0x0000000000800100        0x0 /usr/lib/gcc/avr/4.8.2/../../../avr/lib/avr5/crtm168.o
@@ -312,8 +317,8 @@ END GROUP
  *(.bss*)
  *(COMMON)
                 0x0000000000800103                PROVIDE (__bss_end, .)
-                0x00000000000003b8                __data_load_start = LOADADDR (.data)
-                0x00000000000003b8                __data_load_end = (__data_load_start + SIZEOF (.data))
+                0x000000000000047a                __data_load_start = LOADADDR (.data)
+                0x000000000000047a                __data_load_end = (__data_load_start + SIZEOF (.data))
 
 .noinit         0x0000000000800103        0x0
                 0x0000000000800103                PROVIDE (__noinit_start, .)
@@ -395,51 +400,51 @@ END GROUP
 .debug_pubnames
  *(.debug_pubnames)
 
-.debug_info     0x0000000000000000      0x928
+.debug_info     0x0000000000000000      0xc0e
  *(.debug_info)
- .debug_info    0x0000000000000000      0x23b proj1.o
- .debug_info    0x000000000000023b      0x445 iroblib.o
- .debug_info    0x0000000000000680      0x10e timer.o
- .debug_info    0x000000000000078e      0x19a cmod.o
+ .debug_info    0x0000000000000000      0x27a proj1.o
+ .debug_info    0x000000000000027a      0x6ec iroblib.o
+ .debug_info    0x0000000000000966      0x10e timer.o
+ .debug_info    0x0000000000000a74      0x19a cmod.o
  *(.gnu.linkonce.wi.*)
 
-.debug_abbrev   0x0000000000000000      0x397
+.debug_abbrev   0x0000000000000000      0x3d1
  *(.debug_abbrev)
  .debug_abbrev  0x0000000000000000       0xbe proj1.o
- .debug_abbrev  0x00000000000000be      0x11b iroblib.o
- .debug_abbrev  0x00000000000001d9       0xa8 timer.o
- .debug_abbrev  0x0000000000000281      0x116 cmod.o
+ .debug_abbrev  0x00000000000000be      0x155 iroblib.o
+ .debug_abbrev  0x0000000000000213       0xa8 timer.o
+ .debug_abbrev  0x00000000000002bb      0x116 cmod.o
 
-.debug_line     0x0000000000000000      0x24b
+.debug_line     0x0000000000000000      0x289
  *(.debug_line)
- .debug_line    0x0000000000000000       0x92 proj1.o
- .debug_line    0x0000000000000092       0xa9 iroblib.o
- .debug_line    0x000000000000013b       0x67 timer.o
- .debug_line    0x00000000000001a2       0xa9 cmod.o
+ .debug_line    0x0000000000000000       0x95 proj1.o
+ .debug_line    0x0000000000000095       0xe4 iroblib.o
+ .debug_line    0x0000000000000179       0x67 timer.o
+ .debug_line    0x00000000000001e0       0xa9 cmod.o
 
-.debug_frame    0x0000000000000000      0x194
+.debug_frame    0x0000000000000000      0x20c
  *(.debug_frame)
  .debug_frame   0x0000000000000000       0x24 proj1.o
- .debug_frame   0x0000000000000024       0x7c iroblib.o
- .debug_frame   0x00000000000000a0       0x78 timer.o
- .debug_frame   0x0000000000000118       0x7c cmod.o
+ .debug_frame   0x0000000000000024       0xf4 iroblib.o
+ .debug_frame   0x0000000000000118       0x78 timer.o
+ .debug_frame   0x0000000000000190       0x7c cmod.o
 
-.debug_str      0x0000000000000000      0x202
+.debug_str      0x0000000000000000      0x26c
  *(.debug_str)
- .debug_str     0x0000000000000000      0x163 proj1.o
-                                        0x197 (size before relaxing)
- .debug_str     0x0000000000000163       0x10 iroblib.o
-                                        0x16f (size before relaxing)
- .debug_str     0x0000000000000173       0x55 timer.o
-                                        0x16b (size before relaxing)
- .debug_str     0x00000000000001c8       0x3a cmod.o
-                                        0x17f (size before relaxing)
+ .debug_str     0x0000000000000000      0x184 proj1.o
+                                        0x1b8 (size before relaxing)
+ .debug_str     0x0000000000000184       0x70 iroblib.o
+                                        0x1e0 (size before relaxing)
+ .debug_str     0x00000000000001f4       0x55 timer.o
+                                        0x16c (size before relaxing)
+ .debug_str     0x0000000000000249       0x23 cmod.o
+                                        0x180 (size before relaxing)
 
-.debug_loc      0x0000000000000000      0x146
+.debug_loc      0x0000000000000000      0x302
  *(.debug_loc)
- .debug_loc     0x0000000000000000       0x4e iroblib.o
- .debug_loc     0x000000000000004e       0x9f timer.o
- .debug_loc     0x00000000000000ed       0x59 cmod.o
+ .debug_loc     0x0000000000000000      0x20a iroblib.o
+ .debug_loc     0x000000000000020a       0x9f timer.o
+ .debug_loc     0x00000000000002a9       0x59 cmod.o
 
 .debug_macinfo
  *(.debug_macinfo)
@@ -499,7 +504,10 @@ __vectors                                         /usr/lib/gcc/avr/4.8.2/../../.
 _exit                                             /usr/lib/gcc/avr/4.8.2/avr5/libgcc.a(_exit.o)
 baud                                              cmod.o
                                                   proj1.o
+bumperLedsNotif                                   iroblib.o
+                                                  proj1.o
 byteRx                                            cmod.o
+                                                  iroblib.o
 byteTx                                            cmod.o
                                                   iroblib.o
                                                   proj1.o
@@ -524,10 +532,15 @@ powerOffRobot                                     iroblib.o
                                                   proj1.o
 powerOnRobot                                      iroblib.o
                                                   proj1.o
+robotLeftLedOff                                   iroblib.o
+robotLeftLedOn                                    iroblib.o
+robotRightLedOff                                  iroblib.o
+robotRightLedOn                                   iroblib.o
 setupCMDLeds                                      iroblib.o
                                                   proj1.o
 setupIOPins                                       cmod.o
 setupSerialPort                                   cmod.o
+                                                  proj1.o
 setupTimer                                        timer.o
                                                   cmod.o
 toggleCMDLeds                                     iroblib.o

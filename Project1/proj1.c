@@ -38,14 +38,19 @@ int main() {
 
   // Initialize global variables
 
-  // Setup leds
+  // Setup
   setupCMDLeds();
+  setupSerialPort();
 
   // Infinite operation loop
   for(;;) {
     // toggle command module Leds
     toggleCMDLeds();
     delayMs(500);
+
+    bumperLedsNotif();
+    delayMs(100);
+
     if(UserButtonPressed) {
       powerOffRobot();
       exit(1);
