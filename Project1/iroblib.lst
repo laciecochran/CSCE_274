@@ -1,0 +1,406 @@
+   1               		.file	"iroblib.c"
+   2               	__SP_H__ = 0x3e
+   3               	__SP_L__ = 0x3d
+   4               	__SREG__ = 0x3f
+   5               	__tmp_reg__ = 0
+   6               	__zero_reg__ = 1
+   7               		.text
+   8               	.Ltext0:
+   9               		.cfi_sections	.debug_frame
+  10               	.global	defineSongs
+  12               	defineSongs:
+  13               	.LFB0:
+  14               		.file 1 "iroblib.c"
+   1:iroblib.c     **** #include "iroblib.h"
+   2:iroblib.c     **** #include "oi.h"
+   3:iroblib.c     **** #include "cmod.h"
+   4:iroblib.c     **** 
+   5:iroblib.c     **** // Define songs to be played later
+   6:iroblib.c     **** void defineSongs(void) {
+  15               		.loc 1 6 0
+  16               		.cfi_startproc
+  17               	/* prologue: function */
+  18               	/* frame size = 0 */
+  19               	/* stack size = 0 */
+  20               	.L__stack_usage = 0
+   7:iroblib.c     ****   // Reset song
+   8:iroblib.c     ****   byteTx(CmdSong);
+  21               		.loc 1 8 0
+  22 0000 8CE8      		ldi r24,lo8(-116)
+  23 0002 0E94 0000 		call byteTx
+  24               	.LVL0:
+   9:iroblib.c     ****   byteTx(RESET_SONG);
+  25               		.loc 1 9 0
+  26 0006 80E0      		ldi r24,0
+  27 0008 0E94 0000 		call byteTx
+  28               	.LVL1:
+  10:iroblib.c     ****   byteTx(4);
+  29               		.loc 1 10 0
+  30 000c 84E0      		ldi r24,lo8(4)
+  31 000e 0E94 0000 		call byteTx
+  32               	.LVL2:
+  11:iroblib.c     ****   byteTx(60);
+  33               		.loc 1 11 0
+  34 0012 8CE3      		ldi r24,lo8(60)
+  35 0014 0E94 0000 		call byteTx
+  36               	.LVL3:
+  12:iroblib.c     ****   byteTx(6);
+  37               		.loc 1 12 0
+  38 0018 86E0      		ldi r24,lo8(6)
+  39 001a 0E94 0000 		call byteTx
+  40               	.LVL4:
+  13:iroblib.c     ****   byteTx(72);
+  41               		.loc 1 13 0
+  42 001e 88E4      		ldi r24,lo8(72)
+  43 0020 0E94 0000 		call byteTx
+  44               	.LVL5:
+  14:iroblib.c     ****   byteTx(6);
+  45               		.loc 1 14 0
+  46 0024 86E0      		ldi r24,lo8(6)
+  47 0026 0E94 0000 		call byteTx
+  48               	.LVL6:
+  15:iroblib.c     ****   byteTx(84);
+  49               		.loc 1 15 0
+  50 002a 84E5      		ldi r24,lo8(84)
+  51 002c 0E94 0000 		call byteTx
+  52               	.LVL7:
+  16:iroblib.c     ****   byteTx(6);
+  53               		.loc 1 16 0
+  54 0030 86E0      		ldi r24,lo8(6)
+  55 0032 0E94 0000 		call byteTx
+  56               	.LVL8:
+  17:iroblib.c     ****   byteTx(96);
+  57               		.loc 1 17 0
+  58 0036 80E6      		ldi r24,lo8(96)
+  59 0038 0E94 0000 		call byteTx
+  60               	.LVL9:
+  18:iroblib.c     ****   byteTx(6);
+  61               		.loc 1 18 0
+  62 003c 86E0      		ldi r24,lo8(6)
+  63 003e 0E94 0000 		call byteTx
+  64               	.LVL10:
+  19:iroblib.c     **** 
+  20:iroblib.c     ****   // Start song
+  21:iroblib.c     ****   byteTx(CmdSong);
+  65               		.loc 1 21 0
+  66 0042 8CE8      		ldi r24,lo8(-116)
+  67 0044 0E94 0000 		call byteTx
+  68               	.LVL11:
+  22:iroblib.c     ****   byteTx(START_SONG);
+  69               		.loc 1 22 0
+  70 0048 81E0      		ldi r24,lo8(1)
+  71 004a 0E94 0000 		call byteTx
+  72               	.LVL12:
+  23:iroblib.c     ****   byteTx(6);
+  73               		.loc 1 23 0
+  74 004e 86E0      		ldi r24,lo8(6)
+  75 0050 0E94 0000 		call byteTx
+  76               	.LVL13:
+  24:iroblib.c     ****   byteTx(69);
+  77               		.loc 1 24 0
+  78 0054 85E4      		ldi r24,lo8(69)
+  79 0056 0E94 0000 		call byteTx
+  80               	.LVL14:
+  25:iroblib.c     ****   byteTx(18);
+  81               		.loc 1 25 0
+  82 005a 82E1      		ldi r24,lo8(18)
+  83 005c 0E94 0000 		call byteTx
+  84               	.LVL15:
+  26:iroblib.c     ****   byteTx(72);
+  85               		.loc 1 26 0
+  86 0060 88E4      		ldi r24,lo8(72)
+  87 0062 0E94 0000 		call byteTx
+  88               	.LVL16:
+  27:iroblib.c     ****   byteTx(12);
+  89               		.loc 1 27 0
+  90 0066 8CE0      		ldi r24,lo8(12)
+  91 0068 0E94 0000 		call byteTx
+  92               	.LVL17:
+  28:iroblib.c     ****   byteTx(74);
+  93               		.loc 1 28 0
+  94 006c 8AE4      		ldi r24,lo8(74)
+  95 006e 0E94 0000 		call byteTx
+  96               	.LVL18:
+  29:iroblib.c     ****   byteTx(12);
+  97               		.loc 1 29 0
+  98 0072 8CE0      		ldi r24,lo8(12)
+  99 0074 0E94 0000 		call byteTx
+ 100               	.LVL19:
+  30:iroblib.c     ****   byteTx(72);
+ 101               		.loc 1 30 0
+ 102 0078 88E4      		ldi r24,lo8(72)
+ 103 007a 0E94 0000 		call byteTx
+ 104               	.LVL20:
+  31:iroblib.c     ****   byteTx(12);
+ 105               		.loc 1 31 0
+ 106 007e 8CE0      		ldi r24,lo8(12)
+ 107 0080 0E94 0000 		call byteTx
+ 108               	.LVL21:
+  32:iroblib.c     ****   byteTx(69);
+ 109               		.loc 1 32 0
+ 110 0084 85E4      		ldi r24,lo8(69)
+ 111 0086 0E94 0000 		call byteTx
+ 112               	.LVL22:
+  33:iroblib.c     ****   byteTx(12);
+ 113               		.loc 1 33 0
+ 114 008a 8CE0      		ldi r24,lo8(12)
+ 115 008c 0E94 0000 		call byteTx
+ 116               	.LVL23:
+  34:iroblib.c     ****   byteTx(77);
+ 117               		.loc 1 34 0
+ 118 0090 8DE4      		ldi r24,lo8(77)
+ 119 0092 0E94 0000 		call byteTx
+ 120               	.LVL24:
+  35:iroblib.c     ****   byteTx(24);
+ 121               		.loc 1 35 0
+ 122 0096 88E1      		ldi r24,lo8(24)
+ 123 0098 0C94 0000 		jmp byteTx
+ 124               	.LVL25:
+ 125               		.cfi_endproc
+ 126               	.LFE0:
+ 128               	.global	powerOnRobot
+ 130               	powerOnRobot:
+ 131               	.LFB1:
+  36:iroblib.c     **** }
+  37:iroblib.c     **** 
+  38:iroblib.c     **** // Ensure that the robot is On.
+  39:iroblib.c     **** void powerOnRobot(void) {
+ 132               		.loc 1 39 0
+ 133               		.cfi_startproc
+ 134               	/* prologue: function */
+ 135               	/* frame size = 0 */
+ 136               	/* stack size = 0 */
+ 137               	.L__stack_usage = 0
+  40:iroblib.c     ****   // If Create's power is off, turn it on
+  41:iroblib.c     ****   if(!RobotIsOn) {
+ 138               		.loc 1 41 0
+ 139 009c 1D99      		sbic 0x3,5
+ 140 009e 00C0      		rjmp .L7
+ 141               	.L4:
+ 142               	.LBB2:
+  42:iroblib.c     ****     while(!RobotIsOn) {
+ 143               		.loc 1 42 0 discriminator 1
+ 144 00a0 1D99      		sbic 0x3,5
+ 145 00a2 00C0      		rjmp .L12
+ 146               	.LBB3:
+  43:iroblib.c     ****       RobotPwrToggleLow;
+ 147               		.loc 1 43 0
+ 148 00a4 5F98      		cbi 0xb,7
+  44:iroblib.c     ****       delayMs(500);  // Delay in this state
+ 149               		.loc 1 44 0
+ 150 00a6 84EF      		ldi r24,lo8(-12)
+ 151 00a8 91E0      		ldi r25,lo8(1)
+ 152 00aa 0E94 0000 		call delayMs
+ 153               	.LVL26:
+  45:iroblib.c     ****       RobotPwrToggleHigh;  // Low to high transition to toggle power
+ 154               		.loc 1 45 0
+ 155 00ae 5F9A      		sbi 0xb,7
+  46:iroblib.c     ****       delayMs(100);  // Delay in this state
+ 156               		.loc 1 46 0
+ 157 00b0 84E6      		ldi r24,lo8(100)
+ 158 00b2 90E0      		ldi r25,0
+ 159 00b4 0E94 0000 		call delayMs
+ 160               	.LVL27:
+  47:iroblib.c     ****       RobotPwrToggleLow;
+ 161               		.loc 1 47 0
+ 162 00b8 5F98      		cbi 0xb,7
+ 163 00ba 00C0      		rjmp .L4
+ 164               	.L12:
+ 165               	.LBE3:
+  48:iroblib.c     ****     }
+  49:iroblib.c     ****     delayMs(3500);  // Delay for startup
+ 166               		.loc 1 49 0
+ 167 00bc 8CEA      		ldi r24,lo8(-84)
+ 168 00be 9DE0      		ldi r25,lo8(13)
+ 169 00c0 0E94 0000 		call delayMs
+ 170               	.LVL28:
+ 171               	.L7:
+ 172               	.LBE2:
+  50:iroblib.c     ****   }
+  51:iroblib.c     **** 
+  52:iroblib.c     ****   // Flush the buffer
+  53:iroblib.c     ****   while( (UCSR0A & 0x80) && UDR0);
+ 173               		.loc 1 53 0 discriminator 1
+ 174 00c4 8091 C000 		lds r24,192
+ 175 00c8 87FF      		sbrs r24,7
+ 176 00ca 00C0      		rjmp .L2
+ 177               		.loc 1 53 0 is_stmt 0 discriminator 2
+ 178 00cc 8091 C600 		lds r24,198
+ 179 00d0 8111      		cpse r24,__zero_reg__
+ 180 00d2 00C0      		rjmp .L7
+ 181               	.L2:
+ 182 00d4 0895      		ret
+ 183               		.cfi_endproc
+ 184               	.LFE1:
+ 186               	.global	powerOffRobot
+ 188               	powerOffRobot:
+ 189               	.LFB2:
+  54:iroblib.c     **** }
+  55:iroblib.c     **** 
+  56:iroblib.c     **** // Ensure that the robot is OFF.
+  57:iroblib.c     **** void powerOffRobot(void) {
+ 190               		.loc 1 57 0 is_stmt 1
+ 191               		.cfi_startproc
+ 192               	/* prologue: function */
+ 193               	/* frame size = 0 */
+ 194               	/* stack size = 0 */
+ 195               	.L__stack_usage = 0
+  58:iroblib.c     ****   // If Create's power is on, turn it off
+  59:iroblib.c     ****   if(RobotIsOn) {
+ 196               		.loc 1 59 0
+ 197 00d6 1D9B      		sbis 0x3,5
+ 198 00d8 0895      		ret
+ 199               	.L18:
+  60:iroblib.c     ****     while(RobotIsOn) {
+ 200               		.loc 1 60 0 discriminator 1
+ 201 00da 1D9B      		sbis 0x3,5
+ 202 00dc 00C0      		rjmp .L19
+ 203               	.LBB4:
+  61:iroblib.c     ****       RobotPwrToggleLow;
+ 204               		.loc 1 61 0
+ 205 00de 5F98      		cbi 0xb,7
+  62:iroblib.c     ****       delayMs(500);  // Delay in this state
+ 206               		.loc 1 62 0
+ 207 00e0 84EF      		ldi r24,lo8(-12)
+ 208 00e2 91E0      		ldi r25,lo8(1)
+ 209 00e4 0E94 0000 		call delayMs
+ 210               	.LVL29:
+  63:iroblib.c     ****       RobotPwrToggleHigh;  // Low to high transition to toggle power
+ 211               		.loc 1 63 0
+ 212 00e8 5F9A      		sbi 0xb,7
+  64:iroblib.c     ****       delayMs(100);  // Delay in this state
+ 213               		.loc 1 64 0
+ 214 00ea 84E6      		ldi r24,lo8(100)
+ 215 00ec 90E0      		ldi r25,0
+ 216 00ee 0E94 0000 		call delayMs
+ 217               	.LVL30:
+  65:iroblib.c     ****       RobotPwrToggleLow;
+ 218               		.loc 1 65 0
+ 219 00f2 5F98      		cbi 0xb,7
+ 220 00f4 00C0      		rjmp .L18
+ 221               	.L19:
+ 222 00f6 0895      		ret
+ 223               	.LBE4:
+ 224               		.cfi_endproc
+ 225               	.LFE2:
+ 227               	.global	powerLed
+ 229               	powerLed:
+ 230               	.LFB3:
+  66:iroblib.c     ****     }
+  67:iroblib.c     ****   }
+  68:iroblib.c     **** }
+  69:iroblib.c     **** 
+  70:iroblib.c     **** //Turn on power Led given a specified color.
+  71:iroblib.c     **** void powerLed(uint8_t color) {
+ 231               		.loc 1 71 0
+ 232               		.cfi_startproc
+ 233               	.LVL31:
+ 234 00f8 CF93      		push r28
+ 235               	.LCFI0:
+ 236               		.cfi_def_cfa_offset 3
+ 237               		.cfi_offset 28, -2
+ 238               	/* prologue: function */
+ 239               	/* frame size = 0 */
+ 240               	/* stack size = 1 */
+ 241               	.L__stack_usage = 1
+ 242 00fa C82F      		mov r28,r24
+  72:iroblib.c     **** 
+  73:iroblib.c     ****   byteTx(CmdLeds); 
+ 243               		.loc 1 73 0
+ 244 00fc 8BE8      		ldi r24,lo8(-117)
+ 245               	.LVL32:
+ 246 00fe 0E94 0000 		call byteTx
+ 247               	.LVL33:
+  74:iroblib.c     ****   byteTx(0x00); //both command module Leds off
+ 248               		.loc 1 74 0
+ 249 0102 80E0      		ldi r24,0
+ 250 0104 0E94 0000 		call byteTx
+ 251               	.LVL34:
+  75:iroblib.c     ****   byteTx(color);
+ 252               		.loc 1 75 0
+ 253 0108 8C2F      		mov r24,r28
+ 254 010a 0E94 0000 		call byteTx
+ 255               	.LVL35:
+  76:iroblib.c     ****   byteTx(255); //intensity
+ 256               		.loc 1 76 0
+ 257 010e 8FEF      		ldi r24,lo8(-1)
+ 258               	/* epilogue start */
+  77:iroblib.c     **** 
+  78:iroblib.c     **** }
+ 259               		.loc 1 78 0
+ 260 0110 CF91      		pop r28
+ 261               	.LVL36:
+  76:iroblib.c     ****   byteTx(255); //intensity
+ 262               		.loc 1 76 0
+ 263 0112 0C94 0000 		jmp byteTx
+ 264               	.LVL37:
+ 265               		.cfi_endproc
+ 266               	.LFE3:
+ 268               	.global	setupCMDLeds
+ 270               	setupCMDLeds:
+ 271               	.LFB4:
+  79:iroblib.c     **** 
+  80:iroblib.c     **** //Setup the command module Leds
+  81:iroblib.c     **** void setupCMDLeds(void) {
+ 272               		.loc 1 81 0
+ 273               		.cfi_startproc
+ 274               	/* prologue: function */
+ 275               	/* frame size = 0 */
+ 276               	/* stack size = 0 */
+ 277               	.L__stack_usage = 0
+  82:iroblib.c     **** 
+  83:iroblib.c     ****   //Set fifth and sixth bits of direction register of port D to 1.
+  84:iroblib.c     ****   //pin 5 controls right Led, pin 6 controls left Led
+  85:iroblib.c     ****   DDRD |= (3 << 5);
+ 278               		.loc 1 85 0
+ 279 0116 8AB1      		in r24,0xa
+ 280 0118 8066      		ori r24,lo8(96)
+ 281 011a 8AB9      		out 0xa,r24
+ 282 011c 0895      		ret
+ 283               		.cfi_endproc
+ 284               	.LFE4:
+ 286               	.global	toggleCMDLeds
+ 288               	toggleCMDLeds:
+ 289               	.LFB5:
+  86:iroblib.c     **** 
+  87:iroblib.c     **** }
+  88:iroblib.c     **** 
+  89:iroblib.c     **** //Toggle the command module Leds
+  90:iroblib.c     **** void toggleCMDLeds(void) {
+ 290               		.loc 1 90 0
+ 291               		.cfi_startproc
+ 292               	/* prologue: function */
+ 293               	/* frame size = 0 */
+ 294               	/* stack size = 0 */
+ 295               	.L__stack_usage = 0
+  91:iroblib.c     ****   //turn the Leds off/on using exclusive or
+  92:iroblib.c     ****   
+  93:iroblib.c     ****   PORTD ^= (3 << 5);
+ 296               		.loc 1 93 0
+ 297 011e 8BB1      		in r24,0xb
+ 298 0120 90E6      		ldi r25,lo8(96)
+ 299 0122 8927      		eor r24,r25
+ 300 0124 8BB9      		out 0xb,r24
+ 301 0126 0895      		ret
+ 302               		.cfi_endproc
+ 303               	.LFE5:
+ 305               	.Letext0:
+ 306               		.file 2 "cmod.h"
+ 307               		.file 3 "/usr/lib/avr/include/stdint.h"
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 iroblib.c
+     /tmp/ccoqRP3U.s:2      *ABS*:000000000000003e __SP_H__
+     /tmp/ccoqRP3U.s:3      *ABS*:000000000000003d __SP_L__
+     /tmp/ccoqRP3U.s:4      *ABS*:000000000000003f __SREG__
+     /tmp/ccoqRP3U.s:5      *ABS*:0000000000000000 __tmp_reg__
+     /tmp/ccoqRP3U.s:6      *ABS*:0000000000000001 __zero_reg__
+     /tmp/ccoqRP3U.s:12     .text:0000000000000000 defineSongs
+     /tmp/ccoqRP3U.s:130    .text:000000000000009c powerOnRobot
+     /tmp/ccoqRP3U.s:188    .text:00000000000000d6 powerOffRobot
+     /tmp/ccoqRP3U.s:229    .text:00000000000000f8 powerLed
+     /tmp/ccoqRP3U.s:270    .text:0000000000000116 setupCMDLeds
+     /tmp/ccoqRP3U.s:288    .text:000000000000011e toggleCMDLeds
+
+UNDEFINED SYMBOLS
+byteTx
+delayMs

@@ -1,0 +1,733 @@
+
+proj1.elf:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .data         00000000  00800100  000003b8  0000044c  2**0
+                  CONTENTS, ALLOC, LOAD, DATA
+  1 .text         000003b8  00000000  00000000  00000094  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  2 .bss          00000003  00800100  00800100  0000044c  2**0
+                  ALLOC
+  3 .stab         000006cc  00000000  00000000  0000044c  2**2
+                  CONTENTS, READONLY, DEBUGGING
+  4 .stabstr      00000054  00000000  00000000  00000b18  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  5 .comment      00000011  00000000  00000000  00000b6c  2**0
+                  CONTENTS, READONLY
+  6 .debug_aranges 00000080  00000000  00000000  00000b7d  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  7 .debug_info   00000928  00000000  00000000  00000bfd  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  8 .debug_abbrev 00000397  00000000  00000000  00001525  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  9 .debug_line   0000024b  00000000  00000000  000018bc  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 10 .debug_frame  00000194  00000000  00000000  00001b08  2**2
+                  CONTENTS, READONLY, DEBUGGING
+ 11 .debug_str    00000202  00000000  00000000  00001c9c  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 12 .debug_loc    00000146  00000000  00000000  00001e9e  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 13 .debug_ranges 00000010  00000000  00000000  00001fe4  2**0
+                  CONTENTS, READONLY, DEBUGGING
+
+Disassembly of section .text:
+
+00000000 <__vectors>:
+   0:	0c 94 34 00 	jmp	0x68	; 0x68 <__ctors_end>
+   4:	0c 94 46 00 	jmp	0x8c	; 0x8c <__bad_interrupt>
+   8:	0c 94 46 00 	jmp	0x8c	; 0x8c <__bad_interrupt>
+   c:	0c 94 46 00 	jmp	0x8c	; 0x8c <__bad_interrupt>
+  10:	0c 94 46 00 	jmp	0x8c	; 0x8c <__bad_interrupt>
+  14:	0c 94 46 00 	jmp	0x8c	; 0x8c <__bad_interrupt>
+  18:	0c 94 46 00 	jmp	0x8c	; 0x8c <__bad_interrupt>
+  1c:	0c 94 46 00 	jmp	0x8c	; 0x8c <__bad_interrupt>
+  20:	0c 94 46 00 	jmp	0x8c	; 0x8c <__bad_interrupt>
+  24:	0c 94 46 00 	jmp	0x8c	; 0x8c <__bad_interrupt>
+  28:	0c 94 46 00 	jmp	0x8c	; 0x8c <__bad_interrupt>
+  2c:	0c 94 e6 00 	jmp	0x1cc	; 0x1cc <__vector_11>
+  30:	0c 94 46 00 	jmp	0x8c	; 0x8c <__bad_interrupt>
+  34:	0c 94 46 00 	jmp	0x8c	; 0x8c <__bad_interrupt>
+  38:	0c 94 46 00 	jmp	0x8c	; 0x8c <__bad_interrupt>
+  3c:	0c 94 46 00 	jmp	0x8c	; 0x8c <__bad_interrupt>
+  40:	0c 94 46 00 	jmp	0x8c	; 0x8c <__bad_interrupt>
+  44:	0c 94 46 00 	jmp	0x8c	; 0x8c <__bad_interrupt>
+  48:	0c 94 dc 00 	jmp	0x1b8	; 0x1b8 <__vector_18>
+  4c:	0c 94 46 00 	jmp	0x8c	; 0x8c <__bad_interrupt>
+  50:	0c 94 46 00 	jmp	0x8c	; 0x8c <__bad_interrupt>
+  54:	0c 94 46 00 	jmp	0x8c	; 0x8c <__bad_interrupt>
+  58:	0c 94 46 00 	jmp	0x8c	; 0x8c <__bad_interrupt>
+  5c:	0c 94 46 00 	jmp	0x8c	; 0x8c <__bad_interrupt>
+  60:	0c 94 46 00 	jmp	0x8c	; 0x8c <__bad_interrupt>
+  64:	0c 94 46 00 	jmp	0x8c	; 0x8c <__bad_interrupt>
+
+00000068 <__ctors_end>:
+  68:	11 24       	eor	r1, r1
+  6a:	1f be       	out	0x3f, r1	; 63
+  6c:	cf ef       	ldi	r28, 0xFF	; 255
+  6e:	d4 e0       	ldi	r29, 0x04	; 4
+  70:	de bf       	out	0x3e, r29	; 62
+  72:	cd bf       	out	0x3d, r28	; 61
+
+00000074 <__do_clear_bss>:
+  74:	11 e0       	ldi	r17, 0x01	; 1
+  76:	a0 e0       	ldi	r26, 0x00	; 0
+  78:	b1 e0       	ldi	r27, 0x01	; 1
+  7a:	01 c0       	rjmp	.+2      	; 0x7e <.do_clear_bss_start>
+
+0000007c <.do_clear_bss_loop>:
+  7c:	1d 92       	st	X+, r1
+
+0000007e <.do_clear_bss_start>:
+  7e:	a3 30       	cpi	r26, 0x03	; 3
+  80:	b1 07       	cpc	r27, r17
+  82:	e1 f7       	brne	.-8      	; 0x7c <.do_clear_bss_loop>
+  84:	0e 94 ab 01 	call	0x356	; 0x356 <main>
+  88:	0c 94 da 01 	jmp	0x3b4	; 0x3b4 <_exit>
+
+0000008c <__bad_interrupt>:
+  8c:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
+
+00000090 <defineSongs>:
+#include "cmod.h"
+
+// Define songs to be played later
+void defineSongs(void) {
+  // Reset song
+  byteTx(CmdSong);
+  90:	8c e8       	ldi	r24, 0x8C	; 140
+  92:	0e 94 43 01 	call	0x286	; 0x286 <byteTx>
+  byteTx(RESET_SONG);
+  96:	80 e0       	ldi	r24, 0x00	; 0
+  98:	0e 94 43 01 	call	0x286	; 0x286 <byteTx>
+  byteTx(4);
+  9c:	84 e0       	ldi	r24, 0x04	; 4
+  9e:	0e 94 43 01 	call	0x286	; 0x286 <byteTx>
+  byteTx(60);
+  a2:	8c e3       	ldi	r24, 0x3C	; 60
+  a4:	0e 94 43 01 	call	0x286	; 0x286 <byteTx>
+  byteTx(6);
+  a8:	86 e0       	ldi	r24, 0x06	; 6
+  aa:	0e 94 43 01 	call	0x286	; 0x286 <byteTx>
+  byteTx(72);
+  ae:	88 e4       	ldi	r24, 0x48	; 72
+  b0:	0e 94 43 01 	call	0x286	; 0x286 <byteTx>
+  byteTx(6);
+  b4:	86 e0       	ldi	r24, 0x06	; 6
+  b6:	0e 94 43 01 	call	0x286	; 0x286 <byteTx>
+  byteTx(84);
+  ba:	84 e5       	ldi	r24, 0x54	; 84
+  bc:	0e 94 43 01 	call	0x286	; 0x286 <byteTx>
+  byteTx(6);
+  c0:	86 e0       	ldi	r24, 0x06	; 6
+  c2:	0e 94 43 01 	call	0x286	; 0x286 <byteTx>
+  byteTx(96);
+  c6:	80 e6       	ldi	r24, 0x60	; 96
+  c8:	0e 94 43 01 	call	0x286	; 0x286 <byteTx>
+  byteTx(6);
+  cc:	86 e0       	ldi	r24, 0x06	; 6
+  ce:	0e 94 43 01 	call	0x286	; 0x286 <byteTx>
+
+  // Start song
+  byteTx(CmdSong);
+  d2:	8c e8       	ldi	r24, 0x8C	; 140
+  d4:	0e 94 43 01 	call	0x286	; 0x286 <byteTx>
+  byteTx(START_SONG);
+  d8:	81 e0       	ldi	r24, 0x01	; 1
+  da:	0e 94 43 01 	call	0x286	; 0x286 <byteTx>
+  byteTx(6);
+  de:	86 e0       	ldi	r24, 0x06	; 6
+  e0:	0e 94 43 01 	call	0x286	; 0x286 <byteTx>
+  byteTx(69);
+  e4:	85 e4       	ldi	r24, 0x45	; 69
+  e6:	0e 94 43 01 	call	0x286	; 0x286 <byteTx>
+  byteTx(18);
+  ea:	82 e1       	ldi	r24, 0x12	; 18
+  ec:	0e 94 43 01 	call	0x286	; 0x286 <byteTx>
+  byteTx(72);
+  f0:	88 e4       	ldi	r24, 0x48	; 72
+  f2:	0e 94 43 01 	call	0x286	; 0x286 <byteTx>
+  byteTx(12);
+  f6:	8c e0       	ldi	r24, 0x0C	; 12
+  f8:	0e 94 43 01 	call	0x286	; 0x286 <byteTx>
+  byteTx(74);
+  fc:	8a e4       	ldi	r24, 0x4A	; 74
+  fe:	0e 94 43 01 	call	0x286	; 0x286 <byteTx>
+  byteTx(12);
+ 102:	8c e0       	ldi	r24, 0x0C	; 12
+ 104:	0e 94 43 01 	call	0x286	; 0x286 <byteTx>
+  byteTx(72);
+ 108:	88 e4       	ldi	r24, 0x48	; 72
+ 10a:	0e 94 43 01 	call	0x286	; 0x286 <byteTx>
+  byteTx(12);
+ 10e:	8c e0       	ldi	r24, 0x0C	; 12
+ 110:	0e 94 43 01 	call	0x286	; 0x286 <byteTx>
+  byteTx(69);
+ 114:	85 e4       	ldi	r24, 0x45	; 69
+ 116:	0e 94 43 01 	call	0x286	; 0x286 <byteTx>
+  byteTx(12);
+ 11a:	8c e0       	ldi	r24, 0x0C	; 12
+ 11c:	0e 94 43 01 	call	0x286	; 0x286 <byteTx>
+  byteTx(77);
+ 120:	8d e4       	ldi	r24, 0x4D	; 77
+ 122:	0e 94 43 01 	call	0x286	; 0x286 <byteTx>
+  byteTx(24);
+ 126:	88 e1       	ldi	r24, 0x18	; 24
+ 128:	0c 94 43 01 	jmp	0x286	; 0x286 <byteTx>
+
+0000012c <powerOnRobot>:
+}
+
+// Ensure that the robot is On.
+void powerOnRobot(void) {
+  // If Create's power is off, turn it on
+  if(!RobotIsOn) {
+ 12c:	1d 99       	sbic	0x03, 5	; 3
+ 12e:	12 c0       	rjmp	.+36     	; 0x154 <powerOnRobot+0x28>
+    while(!RobotIsOn) {
+ 130:	1d 99       	sbic	0x03, 5	; 3
+ 132:	0c c0       	rjmp	.+24     	; 0x14c <powerOnRobot+0x20>
+      RobotPwrToggleLow;
+ 134:	5f 98       	cbi	0x0b, 7	; 11
+      delayMs(500);  // Delay in this state
+ 136:	84 ef       	ldi	r24, 0xF4	; 244
+ 138:	91 e0       	ldi	r25, 0x01	; 1
+ 13a:	0e 94 15 01 	call	0x22a	; 0x22a <delayMs>
+      RobotPwrToggleHigh;  // Low to high transition to toggle power
+ 13e:	5f 9a       	sbi	0x0b, 7	; 11
+      delayMs(100);  // Delay in this state
+ 140:	84 e6       	ldi	r24, 0x64	; 100
+ 142:	90 e0       	ldi	r25, 0x00	; 0
+ 144:	0e 94 15 01 	call	0x22a	; 0x22a <delayMs>
+      RobotPwrToggleLow;
+ 148:	5f 98       	cbi	0x0b, 7	; 11
+ 14a:	f2 cf       	rjmp	.-28     	; 0x130 <powerOnRobot+0x4>
+    }
+    delayMs(3500);  // Delay for startup
+ 14c:	8c ea       	ldi	r24, 0xAC	; 172
+ 14e:	9d e0       	ldi	r25, 0x0D	; 13
+ 150:	0e 94 15 01 	call	0x22a	; 0x22a <delayMs>
+  }
+
+  // Flush the buffer
+  while( (UCSR0A & 0x80) && UDR0);
+ 154:	80 91 c0 00 	lds	r24, 0x00C0
+ 158:	87 ff       	sbrs	r24, 7
+ 15a:	04 c0       	rjmp	.+8      	; 0x164 <powerOnRobot+0x38>
+ 15c:	80 91 c6 00 	lds	r24, 0x00C6
+ 160:	81 11       	cpse	r24, r1
+ 162:	f8 cf       	rjmp	.-16     	; 0x154 <powerOnRobot+0x28>
+ 164:	08 95       	ret
+
+00000166 <powerOffRobot>:
+}
+
+// Ensure that the robot is OFF.
+void powerOffRobot(void) {
+  // If Create's power is on, turn it off
+  if(RobotIsOn) {
+ 166:	1d 9b       	sbis	0x03, 5	; 3
+ 168:	08 95       	ret
+    while(RobotIsOn) {
+ 16a:	1d 9b       	sbis	0x03, 5	; 3
+ 16c:	0c c0       	rjmp	.+24     	; 0x186 <powerOffRobot+0x20>
+      RobotPwrToggleLow;
+ 16e:	5f 98       	cbi	0x0b, 7	; 11
+      delayMs(500);  // Delay in this state
+ 170:	84 ef       	ldi	r24, 0xF4	; 244
+ 172:	91 e0       	ldi	r25, 0x01	; 1
+ 174:	0e 94 15 01 	call	0x22a	; 0x22a <delayMs>
+      RobotPwrToggleHigh;  // Low to high transition to toggle power
+ 178:	5f 9a       	sbi	0x0b, 7	; 11
+      delayMs(100);  // Delay in this state
+ 17a:	84 e6       	ldi	r24, 0x64	; 100
+ 17c:	90 e0       	ldi	r25, 0x00	; 0
+ 17e:	0e 94 15 01 	call	0x22a	; 0x22a <delayMs>
+      RobotPwrToggleLow;
+ 182:	5f 98       	cbi	0x0b, 7	; 11
+ 184:	f2 cf       	rjmp	.-28     	; 0x16a <powerOffRobot+0x4>
+ 186:	08 95       	ret
+
+00000188 <powerLed>:
+    }
+  }
+}
+
+//Turn on power Led given a specified color.
+void powerLed(uint8_t color) {
+ 188:	cf 93       	push	r28
+ 18a:	c8 2f       	mov	r28, r24
+
+  byteTx(CmdLeds); 
+ 18c:	8b e8       	ldi	r24, 0x8B	; 139
+ 18e:	0e 94 43 01 	call	0x286	; 0x286 <byteTx>
+  byteTx(0x00); //both command module Leds off
+ 192:	80 e0       	ldi	r24, 0x00	; 0
+ 194:	0e 94 43 01 	call	0x286	; 0x286 <byteTx>
+  byteTx(color);
+ 198:	8c 2f       	mov	r24, r28
+ 19a:	0e 94 43 01 	call	0x286	; 0x286 <byteTx>
+  byteTx(255); //intensity
+ 19e:	8f ef       	ldi	r24, 0xFF	; 255
+
+}
+ 1a0:	cf 91       	pop	r28
+void powerLed(uint8_t color) {
+
+  byteTx(CmdLeds); 
+  byteTx(0x00); //both command module Leds off
+  byteTx(color);
+  byteTx(255); //intensity
+ 1a2:	0c 94 43 01 	jmp	0x286	; 0x286 <byteTx>
+
+000001a6 <setupCMDLeds>:
+//Setup the command module Leds
+void setupCMDLeds(void) {
+
+  //Set fifth and sixth bits of direction register of port D to 1.
+  //pin 5 controls right Led, pin 6 controls left Led
+  DDRD |= (3 << 5);
+ 1a6:	8a b1       	in	r24, 0x0a	; 10
+ 1a8:	80 66       	ori	r24, 0x60	; 96
+ 1aa:	8a b9       	out	0x0a, r24	; 10
+ 1ac:	08 95       	ret
+
+000001ae <toggleCMDLeds>:
+
+//Toggle the command module Leds
+void toggleCMDLeds(void) {
+  //turn the Leds off/on using exclusive or
+  
+  PORTD ^= (3 << 5);
+ 1ae:	8b b1       	in	r24, 0x0b	; 11
+ 1b0:	90 e6       	ldi	r25, 0x60	; 96
+ 1b2:	89 27       	eor	r24, r25
+ 1b4:	8b b9       	out	0x0b, r24	; 11
+ 1b6:	08 95       	ret
+
+000001b8 <__vector_18>:
+// Timer variables defined here
+volatile uint16_t delayTimerCount = 0;            // Definition checked against declaration
+volatile uint8_t  delayTimerRunning = 0;          // Definition checked against declaration
+
+
+ISR(USART_RX_vect) {  //SIGNAL(SIG_USART_RECV) 
+ 1b8:	1f 92       	push	r1
+ 1ba:	0f 92       	push	r0
+ 1bc:	0f b6       	in	r0, 0x3f	; 63
+ 1be:	0f 92       	push	r0
+ 1c0:	11 24       	eor	r1, r1
+  
+  // CSCE 274 students, I have only ever used this method 
+  // when retrieving/storing a large amount of sensor data. 
+  // You DO NOT need it for this assignment. If i feel it 
+  // becomes relevant, I will show you how/when to use it.
+}
+ 1c2:	0f 90       	pop	r0
+ 1c4:	0f be       	out	0x3f, r0	; 63
+ 1c6:	0f 90       	pop	r0
+ 1c8:	1f 90       	pop	r1
+ 1ca:	18 95       	reti
+
+000001cc <__vector_11>:
+
+//SIGNAL(SIG_OUTPUT_COMPARE1A)
+ISR(TIMER1_COMPA_vect) {
+ 1cc:	1f 92       	push	r1
+ 1ce:	0f 92       	push	r0
+ 1d0:	0f b6       	in	r0, 0x3f	; 63
+ 1d2:	0f 92       	push	r0
+ 1d4:	11 24       	eor	r1, r1
+ 1d6:	8f 93       	push	r24
+ 1d8:	9f 93       	push	r25
+  // Interrupt handler called every 1ms.
+  // Decrement the counter variable, to allow delayMs to keep time.
+  if(delayTimerCount != 0) {
+ 1da:	80 91 01 01 	lds	r24, 0x0101
+ 1de:	90 91 02 01 	lds	r25, 0x0102
+ 1e2:	89 2b       	or	r24, r25
+ 1e4:	51 f0       	breq	.+20     	; 0x1fa <__vector_11+0x2e>
+    delayTimerCount--;
+ 1e6:	80 91 01 01 	lds	r24, 0x0101
+ 1ea:	90 91 02 01 	lds	r25, 0x0102
+ 1ee:	01 97       	sbiw	r24, 0x01	; 1
+ 1f0:	90 93 02 01 	sts	0x0102, r25
+ 1f4:	80 93 01 01 	sts	0x0101, r24
+ 1f8:	02 c0       	rjmp	.+4      	; 0x1fe <__vector_11+0x32>
+  } else {
+    delayTimerRunning = 0;
+ 1fa:	10 92 00 01 	sts	0x0100, r1
+  }
+}
+ 1fe:	9f 91       	pop	r25
+ 200:	8f 91       	pop	r24
+ 202:	0f 90       	pop	r0
+ 204:	0f be       	out	0x3f, r0	; 63
+ 206:	0f 90       	pop	r0
+ 208:	1f 90       	pop	r1
+ 20a:	18 95       	reti
+
+0000020c <setupTimer>:
+// It's probably best to treat this as a black box.
+// Basic idea: Except for the 71, these are special codes, for which details
+// appear in the ATMega168 data sheet. The 71 is a computed value, based on
+// the processor speed and the amount of "scaling" of the timer, that gives
+// us the 1ms time interval.
+  TCCR1A = 0x00;
+ 20c:	10 92 80 00 	sts	0x0080, r1
+  TCCR1B = (_BV(WGM12) | _BV(CS12));
+ 210:	8c e0       	ldi	r24, 0x0C	; 12
+ 212:	80 93 81 00 	sts	0x0081, r24
+    // TCCR1B = 0x0C;
+  OCR1A = 71;
+ 216:	87 e4       	ldi	r24, 0x47	; 71
+ 218:	90 e0       	ldi	r25, 0x00	; 0
+ 21a:	90 93 89 00 	sts	0x0089, r25
+ 21e:	80 93 88 00 	sts	0x0088, r24
+  TIMSK1 = _BV(OCIE1A);
+ 222:	82 e0       	ldi	r24, 0x02	; 2
+ 224:	80 93 6f 00 	sts	0x006F, r24
+ 228:	08 95       	ret
+
+0000022a <delayMs>:
+}
+
+// Delay for the specified time in ms without updating sensor values
+void delayMs(uint16_t time_ms)
+{
+  delayTimerRunning = 1;
+ 22a:	21 e0       	ldi	r18, 0x01	; 1
+ 22c:	20 93 00 01 	sts	0x0100, r18
+  delayTimerCount = time_ms;
+ 230:	90 93 02 01 	sts	0x0102, r25
+ 234:	80 93 01 01 	sts	0x0101, r24
+  while(delayTimerRunning) ;
+ 238:	80 91 00 01 	lds	r24, 0x0100
+ 23c:	81 11       	cpse	r24, r1
+ 23e:	fc cf       	rjmp	.-8      	; 0x238 <delayMs+0xe>
+ 240:	08 95       	ret
+
+00000242 <setupIOPins>:
+  sei();
+}
+
+void setupIOPins(void) {
+  // Set I/O pins
+  DDRB  = 0x10;
+ 242:	80 e1       	ldi	r24, 0x10	; 16
+ 244:	84 b9       	out	0x04, r24	; 4
+  PORTB = 0xCF;
+ 246:	8f ec       	ldi	r24, 0xCF	; 207
+ 248:	85 b9       	out	0x05, r24	; 5
+  DDRC  = 0x00;
+ 24a:	17 b8       	out	0x07, r1	; 7
+  PORTC = 0xFF;
+ 24c:	8f ef       	ldi	r24, 0xFF	; 255
+ 24e:	88 b9       	out	0x08, r24	; 8
+  DDRD  = 0xE6;
+ 250:	86 ee       	ldi	r24, 0xE6	; 230
+ 252:	8a b9       	out	0x0a, r24	; 10
+  PORTD = 0x7D;
+ 254:	8d e7       	ldi	r24, 0x7D	; 125
+ 256:	8b b9       	out	0x0b, r24	; 11
+ 258:	08 95       	ret
+
+0000025a <setupSerialPort>:
+}
+
+void setupSerialPort(void) {
+  // Set the transmission speed to 57600 baud, which is what the Create expects,
+  // unless we tell it otherwise.
+  UBRR0 = 19;
+ 25a:	83 e1       	ldi	r24, 0x13	; 19
+ 25c:	90 e0       	ldi	r25, 0x00	; 0
+ 25e:	90 93 c5 00 	sts	0x00C5, r25
+ 262:	80 93 c4 00 	sts	0x00C4, r24
+  
+  // Enable both transmit and receive.
+  UCSR0B = (_BV(RXCIE0) | _BV(TXEN0) | _BV(RXEN0));
+ 266:	88 e9       	ldi	r24, 0x98	; 152
+ 268:	80 93 c1 00 	sts	0x00C1, r24
+    // UCSR0B = 0x18;
+  
+  // Set 8-bit data.
+  UCSR0C = (_BV(UCSZ00) | _BV(UCSZ01));
+ 26c:	86 e0       	ldi	r24, 0x06	; 6
+ 26e:	80 93 c2 00 	sts	0x00C2, r24
+ 272:	08 95       	ret
+
+00000274 <initializeCommandModule>:
+#include "oi.h"
+#include "timer.h"
+
+void initializeCommandModule(void){
+  // Disable interrupts. ("Clear interrupt bit")
+  cli();
+ 274:	f8 94       	cli
+
+  // One-time setup operations.
+  setupIOPins();
+ 276:	0e 94 21 01 	call	0x242	; 0x242 <setupIOPins>
+  setupTimer();
+ 27a:	0e 94 06 01 	call	0x20c	; 0x20c <setupTimer>
+  setupSerialPort();
+ 27e:	0e 94 2d 01 	call	0x25a	; 0x25a <setupSerialPort>
+
+  // Enable interrupts. ("Set interrupt bit")
+  sei();
+ 282:	78 94       	sei
+ 284:	08 95       	ret
+
+00000286 <byteTx>:
+}
+
+void byteTx(uint8_t value) {
+  // Transmit one byte to the robot.
+  // Wait for the buffer to be empty.
+  while(!(UCSR0A & 0x20)) ;
+ 286:	90 91 c0 00 	lds	r25, 0x00C0
+ 28a:	95 ff       	sbrs	r25, 5
+ 28c:	fc cf       	rjmp	.-8      	; 0x286 <byteTx>
+
+  // Send the byte.
+  UDR0 = value;
+ 28e:	80 93 c6 00 	sts	0x00C6, r24
+ 292:	08 95       	ret
+
+00000294 <byteRx>:
+
+uint8_t byteRx(void) {
+  // Receive one byte from the robot.
+  // Call setupSerialPort() first.
+  // Wait for a byte to arrive in the recieve buffer.
+  while(!(UCSR0A & 0x80)) ;
+ 294:	80 91 c0 00 	lds	r24, 0x00C0
+ 298:	87 ff       	sbrs	r24, 7
+ 29a:	fc cf       	rjmp	.-8      	; 0x294 <byteRx>
+  
+  // Return that byte.
+  return UDR0;
+ 29c:	80 91 c6 00 	lds	r24, 0x00C6
+}
+ 2a0:	08 95       	ret
+
+000002a2 <baud>:
+
+void baud(uint8_t baud_code) {
+ 2a2:	cf 93       	push	r28
+ 2a4:	c8 2f       	mov	r28, r24
+  // Switch the baud rate on both Create and module
+  if(baud_code <= 11)
+ 2a6:	8c 30       	cpi	r24, 0x0C	; 12
+ 2a8:	08 f0       	brcs	.+2      	; 0x2ac <baud+0xa>
+ 2aa:	53 c0       	rjmp	.+166    	; 0x352 <baud+0xb0>
+  {
+    byteTx(CmdBaud);
+ 2ac:	81 e8       	ldi	r24, 0x81	; 129
+ 2ae:	0e 94 43 01 	call	0x286	; 0x286 <byteTx>
+    UCSR0A |= _BV(TXC0);
+ 2b2:	80 91 c0 00 	lds	r24, 0x00C0
+ 2b6:	80 64       	ori	r24, 0x40	; 64
+ 2b8:	80 93 c0 00 	sts	0x00C0, r24
+    byteTx(baud_code);
+ 2bc:	8c 2f       	mov	r24, r28
+ 2be:	0e 94 43 01 	call	0x286	; 0x286 <byteTx>
+    // Wait until transmit is complete
+    while(!(UCSR0A & _BV(TXC0))) ;
+ 2c2:	80 91 c0 00 	lds	r24, 0x00C0
+ 2c6:	86 ff       	sbrs	r24, 6
+ 2c8:	fc cf       	rjmp	.-8      	; 0x2c2 <baud+0x20>
+
+    cli();
+ 2ca:	f8 94       	cli
+
+    // Switch the baud rate register
+    if(baud_code == Baud115200) {
+ 2cc:	cb 30       	cpi	r28, 0x0B	; 11
+ 2ce:	19 f4       	brne	.+6      	; 0x2d6 <baud+0x34>
+      UBRR0 = Ubrr115200;
+ 2d0:	89 e0       	ldi	r24, 0x09	; 9
+ 2d2:	90 e0       	ldi	r25, 0x00	; 0
+ 2d4:	34 c0       	rjmp	.+104    	; 0x33e <baud+0x9c>
+    } else if(baud_code == Baud57600) {
+ 2d6:	ca 30       	cpi	r28, 0x0A	; 10
+ 2d8:	19 f4       	brne	.+6      	; 0x2e0 <baud+0x3e>
+      UBRR0 = Ubrr57600;
+ 2da:	83 e1       	ldi	r24, 0x13	; 19
+ 2dc:	90 e0       	ldi	r25, 0x00	; 0
+ 2de:	2f c0       	rjmp	.+94     	; 0x33e <baud+0x9c>
+    } else if(baud_code == Baud38400) {
+ 2e0:	c9 30       	cpi	r28, 0x09	; 9
+ 2e2:	19 f4       	brne	.+6      	; 0x2ea <baud+0x48>
+      UBRR0 = Ubrr38400;
+ 2e4:	8d e1       	ldi	r24, 0x1D	; 29
+ 2e6:	90 e0       	ldi	r25, 0x00	; 0
+ 2e8:	2a c0       	rjmp	.+84     	; 0x33e <baud+0x9c>
+    } else if(baud_code == Baud28800) {
+ 2ea:	c8 30       	cpi	r28, 0x08	; 8
+ 2ec:	19 f4       	brne	.+6      	; 0x2f4 <baud+0x52>
+      UBRR0 = Ubrr28800;
+ 2ee:	87 e2       	ldi	r24, 0x27	; 39
+ 2f0:	90 e0       	ldi	r25, 0x00	; 0
+ 2f2:	25 c0       	rjmp	.+74     	; 0x33e <baud+0x9c>
+    } else if(baud_code == Baud19200) {
+ 2f4:	c7 30       	cpi	r28, 0x07	; 7
+ 2f6:	19 f4       	brne	.+6      	; 0x2fe <baud+0x5c>
+      UBRR0 = Ubrr19200;
+ 2f8:	8b e3       	ldi	r24, 0x3B	; 59
+ 2fa:	90 e0       	ldi	r25, 0x00	; 0
+ 2fc:	20 c0       	rjmp	.+64     	; 0x33e <baud+0x9c>
+    } else if(baud_code == Baud14400) {
+ 2fe:	c6 30       	cpi	r28, 0x06	; 6
+ 300:	19 f4       	brne	.+6      	; 0x308 <baud+0x66>
+      UBRR0 = Ubrr14400;
+ 302:	8f e4       	ldi	r24, 0x4F	; 79
+ 304:	90 e0       	ldi	r25, 0x00	; 0
+ 306:	1b c0       	rjmp	.+54     	; 0x33e <baud+0x9c>
+    } else if(baud_code == Baud9600) {
+ 308:	c5 30       	cpi	r28, 0x05	; 5
+ 30a:	19 f4       	brne	.+6      	; 0x312 <baud+0x70>
+      UBRR0 = Ubrr9600;
+ 30c:	87 e7       	ldi	r24, 0x77	; 119
+ 30e:	90 e0       	ldi	r25, 0x00	; 0
+ 310:	16 c0       	rjmp	.+44     	; 0x33e <baud+0x9c>
+    } else if(baud_code == Baud4800) {
+ 312:	c4 30       	cpi	r28, 0x04	; 4
+ 314:	19 f4       	brne	.+6      	; 0x31c <baud+0x7a>
+      UBRR0 = Ubrr4800;
+ 316:	8f ee       	ldi	r24, 0xEF	; 239
+ 318:	90 e0       	ldi	r25, 0x00	; 0
+ 31a:	11 c0       	rjmp	.+34     	; 0x33e <baud+0x9c>
+    } else if(baud_code == Baud2400) {
+ 31c:	c3 30       	cpi	r28, 0x03	; 3
+ 31e:	19 f4       	brne	.+6      	; 0x326 <baud+0x84>
+      UBRR0 = Ubrr2400;
+ 320:	8f ed       	ldi	r24, 0xDF	; 223
+ 322:	91 e0       	ldi	r25, 0x01	; 1
+ 324:	0c c0       	rjmp	.+24     	; 0x33e <baud+0x9c>
+    } else if(baud_code == Baud1200) {
+ 326:	c2 30       	cpi	r28, 0x02	; 2
+ 328:	19 f4       	brne	.+6      	; 0x330 <baud+0x8e>
+      UBRR0 = Ubrr1200;
+ 32a:	8f eb       	ldi	r24, 0xBF	; 191
+ 32c:	93 e0       	ldi	r25, 0x03	; 3
+ 32e:	07 c0       	rjmp	.+14     	; 0x33e <baud+0x9c>
+    } else if(baud_code == Baud600) {
+ 330:	c1 30       	cpi	r28, 0x01	; 1
+ 332:	19 f4       	brne	.+6      	; 0x33a <baud+0x98>
+      UBRR0 = Ubrr600;
+ 334:	8f e7       	ldi	r24, 0x7F	; 127
+ 336:	97 e0       	ldi	r25, 0x07	; 7
+ 338:	02 c0       	rjmp	.+4      	; 0x33e <baud+0x9c>
+    } else if(baud_code == Baud300) {
+      UBRR0 = Ubrr300;
+ 33a:	8f ef       	ldi	r24, 0xFF	; 255
+ 33c:	9e e0       	ldi	r25, 0x0E	; 14
+ 33e:	90 93 c5 00 	sts	0x00C5, r25
+ 342:	80 93 c4 00 	sts	0x00C4, r24
+    }
+    sei();
+ 346:	78 94       	sei
+
+    delayMs(100);
+ 348:	84 e6       	ldi	r24, 0x64	; 100
+ 34a:	90 e0       	ldi	r25, 0x00	; 0
+  }
+}
+ 34c:	cf 91       	pop	r28
+    } else if(baud_code == Baud300) {
+      UBRR0 = Ubrr300;
+    }
+    sei();
+
+    delayMs(100);
+ 34e:	0c 94 15 01 	jmp	0x22a	; 0x22a <delayMs>
+  }
+}
+ 352:	cf 91       	pop	r28
+ 354:	08 95       	ret
+
+00000356 <main>:
+
+// Declare Global variables 
+
+int main() {
+  // Set up Create and module
+  initializeCommandModule();
+ 356:	0e 94 3a 01 	call	0x274	; 0x274 <initializeCommandModule>
+    
+  powerOnRobot();
+ 35a:	0e 94 96 00 	call	0x12c	; 0x12c <powerOnRobot>
+    // Is the Robot on
+  byteTx(CmdStart);
+ 35e:	80 e8       	ldi	r24, 0x80	; 128
+ 360:	0e 94 43 01 	call	0x286	; 0x286 <byteTx>
+    // Start the create
+  baud(Baud57600);
+ 364:	8a e0       	ldi	r24, 0x0A	; 10
+ 366:	0e 94 51 01 	call	0x2a2	; 0x2a2 <baud>
+    // Set the baud rate for the Create and Command Module
+  defineSongs();
+ 36a:	0e 94 48 00 	call	0x90	; 0x90 <defineSongs>
+    // Define some songs so that we know the robot is on.
+  byteTx(CmdControl);
+ 36e:	82 e8       	ldi	r24, 0x82	; 130
+ 370:	0e 94 43 01 	call	0x286	; 0x286 <byteTx>
+    // Deprecated form of safe mode. I use it because it will
+    // turn of all LEDs, so it's essentially a reset.
+  byteTx(CmdFull);
+ 374:	84 e8       	ldi	r24, 0x84	; 132
+ 376:	0e 94 43 01 	call	0x286	; 0x286 <byteTx>
+
+  // CSCE 274 students: I would make sure the robot stops. 
+  //                    As a precaution for the robot and your grade.
+
+  // Play the reset song and wait while it plays.
+  byteTx(CmdPlay);
+ 37a:	8d e8       	ldi	r24, 0x8D	; 141
+ 37c:	0e 94 43 01 	call	0x286	; 0x286 <byteTx>
+  byteTx(RESET_SONG);
+ 380:	80 e0       	ldi	r24, 0x00	; 0
+ 382:	0e 94 43 01 	call	0x286	; 0x286 <byteTx>
+  delayMs(750);
+ 386:	8e ee       	ldi	r24, 0xEE	; 238
+ 388:	92 e0       	ldi	r25, 0x02	; 2
+ 38a:	0e 94 15 01 	call	0x22a	; 0x22a <delayMs>
+
+  // Turn the power button on to something.
+  //powerLed(0); //green
+  powerLed(255); //red
+ 38e:	8f ef       	ldi	r24, 0xFF	; 255
+ 390:	0e 94 c4 00 	call	0x188	; 0x188 <powerLed>
+
+  // Initialize global variables
+
+  // Setup leds
+  setupCMDLeds();
+ 394:	0e 94 d3 00 	call	0x1a6	; 0x1a6 <setupCMDLeds>
+
+  // Infinite operation loop
+  for(;;) {
+    // toggle command module Leds
+    toggleCMDLeds();
+ 398:	0e 94 d7 00 	call	0x1ae	; 0x1ae <toggleCMDLeds>
+    delayMs(500);
+ 39c:	84 ef       	ldi	r24, 0xF4	; 244
+ 39e:	91 e0       	ldi	r25, 0x01	; 1
+ 3a0:	0e 94 15 01 	call	0x22a	; 0x22a <delayMs>
+    if(UserButtonPressed) {
+ 3a4:	4c 99       	sbic	0x09, 4	; 9
+ 3a6:	f8 cf       	rjmp	.-16     	; 0x398 <main+0x42>
+      powerOffRobot();
+ 3a8:	0e 94 b3 00 	call	0x166	; 0x166 <powerOffRobot>
+      exit(1);
+ 3ac:	81 e0       	ldi	r24, 0x01	; 1
+ 3ae:	90 e0       	ldi	r25, 0x00	; 0
+ 3b0:	0e 94 da 01 	call	0x3b4	; 0x3b4 <_exit>
+
+000003b4 <_exit>:
+ 3b4:	f8 94       	cli
+
+000003b6 <__stop_program>:
+ 3b6:	ff cf       	rjmp	.-2      	; 0x3b6 <__stop_program>

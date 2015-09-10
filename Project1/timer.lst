@@ -1,0 +1,222 @@
+   1               		.file	"timer.c"
+   2               	__SP_H__ = 0x3e
+   3               	__SP_L__ = 0x3d
+   4               	__SREG__ = 0x3f
+   5               	__tmp_reg__ = 0
+   6               	__zero_reg__ = 1
+   7               		.text
+   8               	.Ltext0:
+   9               		.cfi_sections	.debug_frame
+  10               	.global	__vector_18
+  12               	__vector_18:
+  13               	.LFB0:
+  14               		.file 1 "timer.c"
+   1:timer.c       **** #include "timer.h"    // Declaration made available here
+   2:timer.c       **** 
+   3:timer.c       **** 
+   4:timer.c       **** // Timer variables defined here
+   5:timer.c       **** volatile uint16_t delayTimerCount = 0;            // Definition checked against declaration
+   6:timer.c       **** volatile uint8_t  delayTimerRunning = 0;          // Definition checked against declaration
+   7:timer.c       **** 
+   8:timer.c       **** 
+   9:timer.c       **** ISR(USART_RX_vect) {  //SIGNAL(SIG_USART_RECV) 
+  15               		.loc 1 9 0
+  16               		.cfi_startproc
+  17 0000 1F92      		push r1
+  18               	.LCFI0:
+  19               		.cfi_def_cfa_offset 3
+  20               		.cfi_offset 1, -2
+  21 0002 0F92      		push r0
+  22               	.LCFI1:
+  23               		.cfi_def_cfa_offset 4
+  24               		.cfi_offset 0, -3
+  25 0004 0FB6      		in r0,__SREG__
+  26 0006 0F92      		push r0
+  27 0008 1124      		clr __zero_reg__
+  28               	/* prologue: Signal */
+  29               	/* frame size = 0 */
+  30               	/* stack size = 3 */
+  31               	.L__stack_usage = 3
+  32               	/* epilogue start */
+  10:timer.c       ****   // Serial receive interrupt to store sensor values
+  11:timer.c       ****   
+  12:timer.c       ****   // CSCE 274 students, I have only ever used this method 
+  13:timer.c       ****   // when retrieving/storing a large amount of sensor data. 
+  14:timer.c       ****   // You DO NOT need it for this assignment. If i feel it 
+  15:timer.c       ****   // becomes relevant, I will show you how/when to use it.
+  16:timer.c       **** }
+  33               		.loc 1 16 0
+  34 000a 0F90      		pop r0
+  35 000c 0FBE      		out __SREG__,r0
+  36 000e 0F90      		pop r0
+  37 0010 1F90      		pop r1
+  38 0012 1895      		reti
+  39               		.cfi_endproc
+  40               	.LFE0:
+  42               	.global	__vector_11
+  44               	__vector_11:
+  45               	.LFB1:
+  17:timer.c       **** 
+  18:timer.c       **** //SIGNAL(SIG_OUTPUT_COMPARE1A)
+  19:timer.c       **** ISR(TIMER1_COMPA_vect) {
+  46               		.loc 1 19 0
+  47               		.cfi_startproc
+  48 0014 1F92      		push r1
+  49               	.LCFI2:
+  50               		.cfi_def_cfa_offset 3
+  51               		.cfi_offset 1, -2
+  52 0016 0F92      		push r0
+  53               	.LCFI3:
+  54               		.cfi_def_cfa_offset 4
+  55               		.cfi_offset 0, -3
+  56 0018 0FB6      		in r0,__SREG__
+  57 001a 0F92      		push r0
+  58 001c 1124      		clr __zero_reg__
+  59 001e 8F93      		push r24
+  60               	.LCFI4:
+  61               		.cfi_def_cfa_offset 5
+  62               		.cfi_offset 24, -4
+  63 0020 9F93      		push r25
+  64               	.LCFI5:
+  65               		.cfi_def_cfa_offset 6
+  66               		.cfi_offset 25, -5
+  67               	/* prologue: Signal */
+  68               	/* frame size = 0 */
+  69               	/* stack size = 5 */
+  70               	.L__stack_usage = 5
+  20:timer.c       ****   // Interrupt handler called every 1ms.
+  21:timer.c       ****   // Decrement the counter variable, to allow delayMs to keep time.
+  22:timer.c       ****   if(delayTimerCount != 0) {
+  71               		.loc 1 22 0
+  72 0022 8091 0000 		lds r24,delayTimerCount
+  73 0026 9091 0000 		lds r25,delayTimerCount+1
+  74 002a 892B      		or r24,r25
+  75 002c 01F0      		breq .L3
+  23:timer.c       ****     delayTimerCount--;
+  76               		.loc 1 23 0
+  77 002e 8091 0000 		lds r24,delayTimerCount
+  78 0032 9091 0000 		lds r25,delayTimerCount+1
+  79 0036 0197      		sbiw r24,1
+  80 0038 9093 0000 		sts delayTimerCount+1,r25
+  81 003c 8093 0000 		sts delayTimerCount,r24
+  82 0040 00C0      		rjmp .L2
+  83               	.L3:
+  24:timer.c       ****   } else {
+  25:timer.c       ****     delayTimerRunning = 0;
+  84               		.loc 1 25 0
+  85 0042 1092 0000 		sts delayTimerRunning,__zero_reg__
+  86               	.L2:
+  87               	/* epilogue start */
+  26:timer.c       ****   }
+  27:timer.c       **** }
+  88               		.loc 1 27 0
+  89 0046 9F91      		pop r25
+  90 0048 8F91      		pop r24
+  91 004a 0F90      		pop r0
+  92 004c 0FBE      		out __SREG__,r0
+  93 004e 0F90      		pop r0
+  94 0050 1F90      		pop r1
+  95 0052 1895      		reti
+  96               		.cfi_endproc
+  97               	.LFE1:
+  99               	.global	setupTimer
+ 101               	setupTimer:
+ 102               	.LFB2:
+  28:timer.c       **** 
+  29:timer.c       **** void setupTimer(void) {
+ 103               		.loc 1 29 0
+ 104               		.cfi_startproc
+ 105               	/* prologue: function */
+ 106               	/* frame size = 0 */
+ 107               	/* stack size = 0 */
+ 108               	.L__stack_usage = 0
+  30:timer.c       **** // Set up the timer 1 interupt to be called every 1ms.
+  31:timer.c       **** // It's probably best to treat this as a black box.
+  32:timer.c       **** // Basic idea: Except for the 71, these are special codes, for which details
+  33:timer.c       **** // appear in the ATMega168 data sheet. The 71 is a computed value, based on
+  34:timer.c       **** // the processor speed and the amount of "scaling" of the timer, that gives
+  35:timer.c       **** // us the 1ms time interval.
+  36:timer.c       ****   TCCR1A = 0x00;
+ 109               		.loc 1 36 0
+ 110 0054 1092 8000 		sts 128,__zero_reg__
+  37:timer.c       ****   TCCR1B = (_BV(WGM12) | _BV(CS12));
+ 111               		.loc 1 37 0
+ 112 0058 8CE0      		ldi r24,lo8(12)
+ 113 005a 8093 8100 		sts 129,r24
+  38:timer.c       ****     // TCCR1B = 0x0C;
+  39:timer.c       ****   OCR1A = 71;
+ 114               		.loc 1 39 0
+ 115 005e 87E4      		ldi r24,lo8(71)
+ 116 0060 90E0      		ldi r25,0
+ 117 0062 9093 8900 		sts 136+1,r25
+ 118 0066 8093 8800 		sts 136,r24
+  40:timer.c       ****   TIMSK1 = _BV(OCIE1A);
+ 119               		.loc 1 40 0
+ 120 006a 82E0      		ldi r24,lo8(2)
+ 121 006c 8093 6F00 		sts 111,r24
+ 122 0070 0895      		ret
+ 123               		.cfi_endproc
+ 124               	.LFE2:
+ 126               	.global	delayMs
+ 128               	delayMs:
+ 129               	.LFB3:
+  41:timer.c       ****     // TIMSK1 = 0x02;
+  42:timer.c       **** }
+  43:timer.c       **** 
+  44:timer.c       **** // Delay for the specified time in ms without updating sensor values
+  45:timer.c       **** void delayMs(uint16_t time_ms)
+  46:timer.c       **** {
+ 130               		.loc 1 46 0
+ 131               		.cfi_startproc
+ 132               	.LVL0:
+ 133               	/* prologue: function */
+ 134               	/* frame size = 0 */
+ 135               	/* stack size = 0 */
+ 136               	.L__stack_usage = 0
+  47:timer.c       ****   delayTimerRunning = 1;
+ 137               		.loc 1 47 0
+ 138 0072 21E0      		ldi r18,lo8(1)
+ 139 0074 2093 0000 		sts delayTimerRunning,r18
+  48:timer.c       ****   delayTimerCount = time_ms;
+ 140               		.loc 1 48 0
+ 141 0078 9093 0000 		sts delayTimerCount+1,r25
+ 142 007c 8093 0000 		sts delayTimerCount,r24
+ 143               	.LVL1:
+ 144               	.L9:
+  49:timer.c       ****   while(delayTimerRunning) ;
+ 145               		.loc 1 49 0 discriminator 1
+ 146 0080 8091 0000 		lds r24,delayTimerRunning
+ 147 0084 8111      		cpse r24,__zero_reg__
+ 148 0086 00C0      		rjmp .L9
+ 149               	/* epilogue start */
+  50:timer.c       **** }...
+ 150               		.loc 1 50 0
+ 151 0088 0895      		ret
+ 152               		.cfi_endproc
+ 153               	.LFE3:
+ 155               	.global	delayTimerRunning
+ 156               		.section .bss
+ 159               	delayTimerRunning:
+ 160 0000 00        		.zero	1
+ 161               	.global	delayTimerCount
+ 164               	delayTimerCount:
+ 165 0001 0000      		.zero	2
+ 166               		.text
+ 167               	.Letext0:
+ 168               		.file 2 "/usr/lib/avr/include/stdint.h"
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 timer.c
+     /tmp/cc9tkKpL.s:2      *ABS*:000000000000003e __SP_H__
+     /tmp/cc9tkKpL.s:3      *ABS*:000000000000003d __SP_L__
+     /tmp/cc9tkKpL.s:4      *ABS*:000000000000003f __SREG__
+     /tmp/cc9tkKpL.s:5      *ABS*:0000000000000000 __tmp_reg__
+     /tmp/cc9tkKpL.s:6      *ABS*:0000000000000001 __zero_reg__
+     /tmp/cc9tkKpL.s:12     .text:0000000000000000 __vector_18
+     /tmp/cc9tkKpL.s:44     .text:0000000000000014 __vector_11
+     /tmp/cc9tkKpL.s:164    .bss:0000000000000001 delayTimerCount
+     /tmp/cc9tkKpL.s:159    .bss:0000000000000000 delayTimerRunning
+     /tmp/cc9tkKpL.s:101    .text:0000000000000054 setupTimer
+     /tmp/cc9tkKpL.s:128    .text:0000000000000072 delayMs
+
+UNDEFINED SYMBOLS
+__do_clear_bss
