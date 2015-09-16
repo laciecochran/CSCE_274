@@ -107,49 +107,48 @@ void bumperLedsNotif(void) {
   uint8_t bumpLeft  = bumps & (1 << 1);
 
   //set robot Leds
-  if(bumpLeft) {robotLeftLedOn(0);}
-  else {robotLeftLedOff(0);}
-  if(bumpRight) {robotRightLedOn(255);}
-  else {robotRightLedOff(255);}
+  if(bumpLeft && bumpRight) {robotLedsOn();}
+  else if(bumpLeft) {robotLeftLedOn();}
+  else if(bumpRight) {robotRightLedOn();}
+  else {robotLedsOff();}
 
 }
 
 //Turn on robot's left Led given a specified color.
-void robotLeftLedOn(uint8_t color) {
+void robotLeftLedOn(void) {
 
   byteTx(CmdLeds); 
-  byteTx(0x01); //
-  byteTx(color);
+  byteTx(0x02); //
+  byteTx(0);
   byteTx(255); //intensity
 
 }
 
 //Turn on robot's right Led given a specified color.
-void robotRightLedOn(uint8_t color) {
+void robotRightLedOn(void) {
 
   byteTx(CmdLeds); 
-  byteTx(0x11); //
-  byteTx(color);
+  byteTx(0x08); //
+  byteTx(0);
   byteTx(255); //intensity
+
+}
+
+void robotLedsOn(void) {
+
+  byteTx(CmdLeds);
+  byteTx(0x0a);
+  byteTx(0);
+  byteTx(255);
 
 }
 
 //Turn off robot's left Led given a specified color.
-void robotLeftLedOff(uint8_t color) {
+void robotLedsOff(void) {
 
   byteTx(CmdLeds); 
   byteTx(0x00); //
-  byteTx(color);
-  byteTx(255); //intensity
-
+  byteTx(0);
+  byteTx(255);
 }
 
-//Turn off robot's right Led given a specified color.
-void robotRightLedOff(uint8_t color) {
-
-  byteTx(CmdLeds); 
-  byteTx(0x00); //
-  byteTx(color);
-  byteTx(255); //intensity
-
-}

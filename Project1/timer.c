@@ -3,7 +3,11 @@
 
 // Timer variables defined here
 volatile uint16_t delayTimerCount = 0;            // Definition checked against declaration
+volatile uint16_t ToggleCMDTimerCount = 0;            // Definition checked against declaration
+
 volatile uint8_t  delayTimerRunning = 0;          // Definition checked against declaration
+volatile uint8_t  ToggleCMDTimerRunning = 0;          // Definition checked against declaration
+
 
 
 ISR(USART_RX_vect) {  //SIGNAL(SIG_USART_RECV) 
@@ -24,6 +28,13 @@ ISR(TIMER1_COMPA_vect) {
   } else {
     delayTimerRunning = 0;
   }
+    if(ToggleCMDTimerRunning  != 0) {
+    ToggleCMDTimerCount--;
+    ToggleCMDTimerRunning  = 1;
+  } else {
+    ToggleCMDTimerRunning  = 0;
+  }
+
 }
 
 void setupTimer(void) {
@@ -47,4 +58,12 @@ void delayMs(uint16_t time_ms)
   delayTimerRunning = 1;
   delayTimerCount = time_ms;
   while(delayTimerRunning) ;
+}
+void ToggleCMDTimer(uint16_t time_ms2)
+{
+  if(ToggleCMDTimerRunning  == 0){
+    PORTD ^= (3 << 5);
+    ToggleCMDTimerCount = time_ms2;
+  //toggleCMDLeds();
+  }
 }

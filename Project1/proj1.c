@@ -33,23 +33,26 @@ int main() {
   delayMs(750);
 
   // Turn the power button on to something.
-  //powerLed(0); //green
-  powerLed(255); //red
+  powerLed(0); //green
+  //powerLed(255); //red
 
   // Initialize global variables
 
+  cli();
   // Setup
   setupCMDLeds();
   setupSerialPort();
 
+  sei();
   // Infinite operation loop
   for(;;) {
     // toggle command module Leds
-    toggleCMDLeds();
-    delayMs(500);
-
+    ToggleCMDTimer(500);
+    
     bumperLedsNotif();
-    delayMs(100);
+    //robotRightLedOn();
+    //delayMs(100);
+    //robotRightLedOff();
 
     if(UserButtonPressed) {
       powerOffRobot();
