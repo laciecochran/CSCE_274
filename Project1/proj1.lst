@@ -71,102 +71,157 @@
   26:proj1.c       **** 
   27:proj1.c       ****   // CSCE 274 students: I would make sure the robot stops. 
   28:proj1.c       ****   //                    As a precaution for the robot and your grade.
-  29:proj1.c       **** 
-  30:proj1.c       ****   // Play the reset song and wait while it plays.
-  31:proj1.c       ****   byteTx(CmdPlay);
-  47               		.loc 1 31 0
-  48 0024 8DE8      		ldi r24,lo8(-115)
+  29:proj1.c       **** byteTx(CmdDriveWheels);
+  47               		.loc 1 29 0
+  48 0024 81E9      		ldi r24,lo8(-111)
   49 0026 0E94 0000 		call byteTx
   50               	.LVL7:
-  32:proj1.c       ****   byteTx(RESET_SONG);
-  51               		.loc 1 32 0
+  30:proj1.c       **** byteTx(0);
+  51               		.loc 1 30 0
   52 002a 80E0      		ldi r24,0
   53 002c 0E94 0000 		call byteTx
   54               	.LVL8:
-  33:proj1.c       ****   delayMs(750);
-  55               		.loc 1 33 0
-  56 0030 8EEE      		ldi r24,lo8(-18)
-  57 0032 92E0      		ldi r25,lo8(2)
-  58 0034 0E94 0000 		call delayMs
-  59               	.LVL9:
-  34:proj1.c       **** 
-  35:proj1.c       ****   // Turn the power button on to something.
-  36:proj1.c       ****   //powerLed(0); //green
-  37:proj1.c       ****   powerLed(255); //red
-  60               		.loc 1 37 0
-  61 0038 8FEF      		ldi r24,lo8(-1)
-  62 003a 0E94 0000 		call powerLed
-  63               	.LVL10:
-  38:proj1.c       **** 
-  39:proj1.c       ****   // Initialize global variables
-  40:proj1.c       **** 
-  41:proj1.c       ****   // Setup
-  42:proj1.c       ****   setupCMDLeds();
-  64               		.loc 1 42 0
-  65 003e 0E94 0000 		call setupCMDLeds
+  31:proj1.c       **** byteTx(0);
+  55               		.loc 1 31 0
+  56 0030 80E0      		ldi r24,0
+  57 0032 0E94 0000 		call byteTx
+  58               	.LVL9:
+  32:proj1.c       **** byteTx(0);
+  59               		.loc 1 32 0
+  60 0036 80E0      		ldi r24,0
+  61 0038 0E94 0000 		call byteTx
+  62               	.LVL10:
+  33:proj1.c       **** byteTx(0);
+  63               		.loc 1 33 0
+  64 003c 80E0      		ldi r24,0
+  65 003e 0E94 0000 		call byteTx
   66               	.LVL11:
-  43:proj1.c       ****   setupSerialPort();
-  67               		.loc 1 43 0
-  68 0042 0E94 0000 		call setupSerialPort
-  69               	.LVL12:
-  70               	.L3:
+  34:proj1.c       **** delayMs(20);
+  67               		.loc 1 34 0
+  68 0042 84E1      		ldi r24,lo8(20)
+  69 0044 90E0      		ldi r25,0
+  70 0046 0E94 0000 		call delayMs
+  71               	.LVL12:
+  35:proj1.c       **** 
+  36:proj1.c       ****   // Play the reset song and wait while it plays.
+  37:proj1.c       ****   byteTx(CmdPlay);
+  72               		.loc 1 37 0
+  73 004a 8DE8      		ldi r24,lo8(-115)
+  74 004c 0E94 0000 		call byteTx
+  75               	.LVL13:
+  38:proj1.c       ****   byteTx(RESET_SONG);
+  76               		.loc 1 38 0
+  77 0050 80E0      		ldi r24,0
+  78 0052 0E94 0000 		call byteTx
+  79               	.LVL14:
+  39:proj1.c       ****   delayMs(750);
+  80               		.loc 1 39 0
+  81 0056 8EEE      		ldi r24,lo8(-18)
+  82 0058 92E0      		ldi r25,lo8(2)
+  83 005a 0E94 0000 		call delayMs
+  84               	.LVL15:
+  40:proj1.c       **** 
+  41:proj1.c       ****   // Turn the power button on to something.
+  42:proj1.c       ****   //powerLed(0); //green
+  43:proj1.c       ****   //powerLed(255); //red
   44:proj1.c       **** 
-  45:proj1.c       ****   // Infinite operation loop
-  46:proj1.c       ****   for(;;) {
-  47:proj1.c       ****     // toggle command module Leds
-  48:proj1.c       ****     toggleCMDLeds();
-  71               		.loc 1 48 0
-  72 0046 0E94 0000 		call toggleCMDLeds
-  73               	.LVL13:
-  49:proj1.c       ****     delayMs(500);
-  74               		.loc 1 49 0
-  75 004a 84EF      		ldi r24,lo8(-12)
-  76 004c 91E0      		ldi r25,lo8(1)
-  77 004e 0E94 0000 		call delayMs
-  78               	.LVL14:
-  50:proj1.c       **** 
-  51:proj1.c       ****     bumperLedsNotif();
-  79               		.loc 1 51 0
-  80 0052 0E94 0000 		call bumperLedsNotif
-  81               	.LVL15:
-  52:proj1.c       ****     delayMs(100);
-  82               		.loc 1 52 0
-  83 0056 84E6      		ldi r24,lo8(100)
-  84 0058 90E0      		ldi r25,0
-  85 005a 0E94 0000 		call delayMs
-  86               	.LVL16:
-  53:proj1.c       **** 
-  54:proj1.c       ****     if(UserButtonPressed) {
-  87               		.loc 1 54 0
-  88 005e 4C99      		sbic 0x9,4
-  89 0060 00C0      		rjmp .L3
-  55:proj1.c       ****       powerOffRobot();
-  90               		.loc 1 55 0
-  91 0062 0E94 0000 		call powerOffRobot
-  92               	.LVL17:
-  56:proj1.c       ****       exit(1);
-  93               		.loc 1 56 0
-  94 0066 81E0      		ldi r24,lo8(1)
-  95 0068 90E0      		ldi r25,0
-  96 006a 0E94 0000 		call exit
-  97               	.LVL18:
-  98               		.cfi_endproc
-  99               	.LFE0:
- 101               		.text
- 102               	.Letext0:
- 103               		.file 2 "/usr/lib/avr/include/stdint.h"
- 104               		.file 3 "cmod.h"
- 105               		.file 4 "iroblib.h"
- 106               		.file 5 "timer.h"
- 107               		.file 6 "/usr/lib/avr/include/stdlib.h"
+  45:proj1.c       ****   // Initialize global variables
+  46:proj1.c       **** 
+  47:proj1.c       ****   cli();
+  85               		.loc 1 47 0
+  86               	/* #APP */
+  87               	 ;  47 "proj1.c" 1
+  88 005e F894      		cli
+  89               	 ;  0 "" 2
+  48:proj1.c       ****   // Setup
+  49:proj1.c       ****   setupCMDLeds();
+  90               		.loc 1 49 0
+  91               	/* #NOAPP */
+  92 0060 0E94 0000 		call setupCMDLeds
+  93               	.LVL16:
+  50:proj1.c       ****   setupSerialPort();
+  94               		.loc 1 50 0
+  95 0064 0E94 0000 		call setupSerialPort
+  96               	.LVL17:
+  51:proj1.c       **** 
+  52:proj1.c       ****   sei();
+  97               		.loc 1 52 0
+  98               	/* #APP */
+  99               	 ;  52 "proj1.c" 1
+ 100 0068 7894      		sei
+ 101               	 ;  0 "" 2
+  53:proj1.c       ****   PORTD &= ~(0x40);
+ 102               		.loc 1 53 0
+ 103               	/* #NOAPP */
+ 104 006a 5E98      		cbi 0xb,6
+  54:proj1.c       ****   // Infinite operation loop
+  55:proj1.c       ****   for(;;) {
+  56:proj1.c       ****     // toggle command module Leds
+  57:proj1.c       ****     if(ToggleCMDTimerCount  == 0){
+  58:proj1.c       ****     	PORTD ^= (3 << 5);	
+ 105               		.loc 1 58 0
+ 106 006c 10E6      		ldi r17,lo8(96)
+  59:proj1.c       ****     	ToggleCMDTimerCount = 1000;
+ 107               		.loc 1 59 0
+ 108 006e C8EE      		ldi r28,lo8(-24)
+ 109 0070 D3E0      		ldi r29,lo8(3)
+ 110               	.L4:
+  57:proj1.c       ****     if(ToggleCMDTimerCount  == 0){
+ 111               		.loc 1 57 0
+ 112 0072 8091 0000 		lds r24,ToggleCMDTimerCount
+ 113 0076 9091 0000 		lds r25,ToggleCMDTimerCount+1
+ 114 007a 892B      		or r24,r25
+ 115 007c 01F4      		brne .L2
+  58:proj1.c       ****     	PORTD ^= (3 << 5);	
+ 116               		.loc 1 58 0
+ 117 007e 8BB1      		in r24,0xb
+ 118 0080 8127      		eor r24,r17
+ 119 0082 8BB9      		out 0xb,r24
+ 120               		.loc 1 59 0
+ 121 0084 D093 0000 		sts ToggleCMDTimerCount+1,r29
+ 122 0088 C093 0000 		sts ToggleCMDTimerCount,r28
+ 123               	.L2:
+  60:proj1.c       ****     }
+  61:proj1.c       ****     
+  62:proj1.c       ****     bumperLedsNotif();
+ 124               		.loc 1 62 0
+ 125 008c 0E94 0000 		call bumperLedsNotif
+ 126               	.LVL18:
+  63:proj1.c       ****     //robotRightLedOn();
+  64:proj1.c       ****     //delayMs(100);
+  65:proj1.c       ****     //robotRightLedOff();
+  66:proj1.c       **** 
+  67:proj1.c       ****     if(UserButtonPressed) {
+ 127               		.loc 1 67 0
+ 128 0090 4C99      		sbic 0x9,4
+ 129 0092 00C0      		rjmp .L4
+  68:proj1.c       ****       powerOffRobot();
+ 130               		.loc 1 68 0
+ 131 0094 0E94 0000 		call powerOffRobot
+ 132               	.LVL19:
+  69:proj1.c       ****       exit(1);
+ 133               		.loc 1 69 0
+ 134 0098 81E0      		ldi r24,lo8(1)
+ 135 009a 90E0      		ldi r25,0
+ 136 009c 0E94 0000 		call exit
+ 137               	.LVL20:
+ 138               		.cfi_endproc
+ 139               	.LFE0:
+ 141               		.text
+ 142               	.Letext0:
+ 143               		.file 2 "/usr/lib/avr/include/stdint.h"
+ 144               		.file 3 "cmod.h"
+ 145               		.file 4 "iroblib.h"
+ 146               		.file 5 "timer.h"
+ 147               		.file 6 "/usr/lib/avr/include/stdlib.h"
 DEFINED SYMBOLS
                             *ABS*:0000000000000000 proj1.c
-     /tmp/ccm8uvri.s:2      *ABS*:000000000000003e __SP_H__
-     /tmp/ccm8uvri.s:3      *ABS*:000000000000003d __SP_L__
-     /tmp/ccm8uvri.s:4      *ABS*:000000000000003f __SREG__
-     /tmp/ccm8uvri.s:5      *ABS*:0000000000000000 __tmp_reg__
-     /tmp/ccm8uvri.s:6      *ABS*:0000000000000001 __zero_reg__
-     /tmp/ccm8uvri.s:13     .text.startup:0000000000000000 main
+     /tmp/ccVbIQMS.s:2      *ABS*:000000000000003e __SP_H__
+     /tmp/ccVbIQMS.s:3      *ABS*:000000000000003d __SP_L__
+     /tmp/ccVbIQMS.s:4      *ABS*:000000000000003f __SREG__
+     /tmp/ccVbIQMS.s:5      *ABS*:0000000000000000 __tmp_reg__
+     /tmp/ccVbIQMS.s:6      *ABS*:0000000000000001 __zero_reg__
+     /tmp/ccVbIQMS.s:13     .text.startup:0000000000000000 main
 
 UNDEFINED SYMBOLS
 initializeCommandModule
@@ -175,10 +230,9 @@ byteTx
 baud
 defineSongs
 delayMs
-powerLed
 setupCMDLeds
 setupSerialPort
-toggleCMDLeds
+ToggleCMDTimerCount
 bumperLedsNotif
 powerOffRobot
 exit

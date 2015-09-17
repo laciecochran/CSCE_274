@@ -99,7 +99,7 @@ void bumperLedsNotif(void) {
 
   //Ask about bump sensors
   byteTx(CmdSensors); //"read sensors"
-  byteTx(SenOverC); //sensor packet 7 for bumps and wheels
+  byteTx(7); //sensor packet 7 for bumps and wheels
 
   //read response and extract relevant information
   uint8_t bumps = byteRx();
@@ -114,7 +114,7 @@ void bumperLedsNotif(void) {
 
 }
 
-//Turn on robot's left Led given a specified color.
+//Turn on robot's left Led
 void robotLeftLedOn(void) {
 
   byteTx(CmdLeds); 
@@ -124,7 +124,7 @@ void robotLeftLedOn(void) {
 
 }
 
-//Turn on robot's right Led given a specified color.
+//Turn on robot's right Led
 void robotRightLedOn(void) {
 
   byteTx(CmdLeds); 
@@ -133,7 +133,7 @@ void robotRightLedOn(void) {
   byteTx(255); //intensity
 
 }
-
+//Turn on both play and advance Leds
 void robotLedsOn(void) {
 
   byteTx(CmdLeds);
@@ -143,7 +143,7 @@ void robotLedsOn(void) {
 
 }
 
-//Turn off robot's left Led given a specified color.
+//Turn off robot's left Led
 void robotLedsOff(void) {
 
   byteTx(CmdLeds); 
@@ -152,3 +152,40 @@ void robotLedsOff(void) {
   byteTx(255);
 }
 
+//drive the create around a pentagon clockwise
+//vl needs to be negative
+void drivePentagonCW(void) {
+
+  for(uint8_t numRotates = 0; numRotates < 5; numRotates++) {
+
+    driveStraight(V_HIGH, V_LOW, V_HIGH, V_LOW);
+    delayMS(800);
+    rotate();
+
+  }
+
+}
+
+//drive the create around a pentagon counter clockwise
+void drivePentagonCCW(void) {
+
+  
+
+}
+
+
+//drive create straight for a specified distance
+void driveStraight(uint8_t vr_high, uint8_t vr_low, uint8_t vl_high, uint8_t vl_low) {
+
+  byteTx(CmdDriveWheels);
+  byteTx(vr_high);
+  byteTx(vr_low);
+  byteTx(vl_high);
+  byteTx(vl_low);
+}
+
+void rotate(uint8_t vr_high, uint8_t vr_low, uint8_t vl_high, uint8_t vl_low) {
+
+  
+
+}

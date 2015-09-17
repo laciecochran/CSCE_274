@@ -16,6 +16,6 @@
   // Declaration of timer variables
   extern volatile uint16_t delayTimerCount;
   extern volatile uint8_t  delayTimerRunning;
-  extern volatile uint8_t  ToggleCMDTimmerCount;
+  extern volatile uint16_t  ToggleCMDTimerCount;
   extern volatile uint8_t  ToggleCMDTimerRunning;
 #endif

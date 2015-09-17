@@ -26,6 +26,12 @@ int main() {
 
   // CSCE 274 students: I would make sure the robot stops. 
   //                    As a precaution for the robot and your grade.
+byteTx(CmdDriveWheels);
+byteTx(0);
+byteTx(0);
+byteTx(0);
+byteTx(0);
+delayMs(20);
 
   // Play the reset song and wait while it plays.
   byteTx(CmdPlay);
@@ -33,8 +39,8 @@ int main() {
   delayMs(750);
 
   // Turn the power button on to something.
-  powerLed(0); //green
-  //powerLed(255); //red
+  //powerLed(0); //green
+  powerLed(255); //red
 
   // Initialize global variables
 
@@ -44,10 +50,14 @@ int main() {
   setupSerialPort();
 
   sei();
+  PORTD &= ~(0x40);
   // Infinite operation loop
   for(;;) {
     // toggle command module Leds
-    ToggleCMDTimer(500);
+    if(ToggleCMDTimerCount  == 0){
+    	PORTD ^= (3 << 5);	
+    	ToggleCMDTimerCount = 1000;
+    }
     
     bumperLedsNotif();
     //robotRightLedOn();
