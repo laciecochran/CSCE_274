@@ -24,14 +24,13 @@ int main() {
   byteTx(CmdFull);
     // We are operating in FULL mode.
 
+  // Setup
+  setupCMDLeds();
+  
   // CSCE 274 students: I would make sure the robot stops. 
   //                    As a precaution for the robot and your grade.
-byteTx(CmdDriveWheels);
-byteTx(0);
-byteTx(0);
-byteTx(0);
-byteTx(0);
-delayMs(20);
+  stopCreate();
+  delayMs(20);
 
   // Play the reset song and wait while it plays.
   byteTx(CmdPlay);
@@ -39,17 +38,12 @@ delayMs(20);
   delayMs(750);
 
   // Turn the power button on to something.
-  //powerLed(0); //green
-  powerLed(255); //red
+  powerLed(0); //green
+  //powerLed(255); //red
 
   // Initialize global variables
+  delayMs(100);
 
-  cli();
-  // Setup
-  setupCMDLeds();
-  setupSerialPort();
-
-  sei();
   PORTD &= ~(0x40);
   // Infinite operation loop
   for(;;) {
@@ -60,10 +54,17 @@ delayMs(20);
     }
     
     bumperLedsNotif();
-    //robotRightLedOn();
-    //delayMs(100);
-    //robotRightLedOff();
 
+    //Problems executing drive commands
+    //drivePentagonCW();
+
+    buttonDetect();
+    //driveStraight(100, 100);
+    //delayMs(1000);
+    //stopCreate();
+    //delayMs(500);
+
+    
     if(UserButtonPressed) {
       powerOffRobot();
       exit(1);

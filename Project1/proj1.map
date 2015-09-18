@@ -122,7 +122,7 @@ END GROUP
 .rela.plt
  *(.rela.plt)
 
-.text           0x0000000000000000      0x4ba
+.text           0x0000000000000000      0x5b4
  *(.vectors)
  .vectors       0x0000000000000000       0x68 /usr/lib/gcc/avr/4.8.2/../../../avr/lib/avr5/crtm168.o
                 0x0000000000000000                __vectors
@@ -201,7 +201,7 @@ END GROUP
                 0x000000000000008c                __vector_16
                 0x000000000000008c                __vector_20
  .text          0x0000000000000090        0x0 proj1.o
- .text          0x0000000000000090      0x1c8 iroblib.o
+ .text          0x0000000000000090      0x2d2 iroblib.o
                 0x0000000000000090                defineSongs
                 0x000000000000012c                powerOnRobot
                 0x0000000000000166                powerOffRobot
@@ -213,58 +213,62 @@ END GROUP
                 0x00000000000001e8                robotLedsOn
                 0x0000000000000200                robotLedsOff
                 0x0000000000000218                bumperLedsNotif
-                0x0000000000000244                drivePentagon
+                0x0000000000000244                drivePentagonCCW
                 0x0000000000000246                driveStraight
- .text          0x0000000000000258       0xaa timer.o
-                0x0000000000000258                __vector_18
-                0x000000000000026c                __vector_11
-                0x00000000000002ca                setupTimer
-                0x00000000000002e8                delayMs
-                0x0000000000000300                ToggleCMDTimer
- .text          0x0000000000000302      0x114 cmod.o
-                0x0000000000000302                setupIOPins
-                0x000000000000031a                setupSerialPort
-                0x0000000000000334                initializeCommandModule
-                0x0000000000000346                byteTx
-                0x0000000000000354                byteRx
-                0x0000000000000362                baud
- .text          0x0000000000000416        0x0 /usr/lib/gcc/avr/4.8.2/avr5/libgcc.a(_exit.o)
- .text          0x0000000000000416        0x0 /usr/lib/gcc/avr/4.8.2/avr5/libgcc.a(_clear_bss.o)
-                0x0000000000000416                . = ALIGN (0x2)
+                0x000000000000028c                rotate
+                0x00000000000002d2                stopCreate
+                0x00000000000002f0                drivePentagonCW
+                0x000000000000032c                buttonDetect
+ .text          0x0000000000000362       0xaa timer.o
+                0x0000000000000362                __vector_18
+                0x0000000000000376                __vector_11
+                0x00000000000003d4                setupTimer
+                0x00000000000003f2                delayMs
+                0x000000000000040a                ToggleCMDTimer
+ .text          0x000000000000040c      0x114 cmod.o
+                0x000000000000040c                setupIOPins
+                0x0000000000000424                setupSerialPort
+                0x000000000000043e                initializeCommandModule
+                0x0000000000000450                byteTx
+                0x000000000000045e                byteRx
+                0x000000000000046c                baud
+ .text          0x0000000000000520        0x0 /usr/lib/gcc/avr/4.8.2/avr5/libgcc.a(_exit.o)
+ .text          0x0000000000000520        0x0 /usr/lib/gcc/avr/4.8.2/avr5/libgcc.a(_clear_bss.o)
+                0x0000000000000520                . = ALIGN (0x2)
  *(.text.*)
- .text.startup  0x0000000000000416       0xa0 proj1.o
-                0x0000000000000416                main
+ .text.startup  0x0000000000000520       0x90 proj1.o
+                0x0000000000000520                main
  .text.libgcc.mul
-                0x00000000000004b6        0x0 /usr/lib/gcc/avr/4.8.2/avr5/libgcc.a(_exit.o)
+                0x00000000000005b0        0x0 /usr/lib/gcc/avr/4.8.2/avr5/libgcc.a(_exit.o)
  .text.libgcc.div
-                0x00000000000004b6        0x0 /usr/lib/gcc/avr/4.8.2/avr5/libgcc.a(_exit.o)
- .text.libgcc   0x00000000000004b6        0x0 /usr/lib/gcc/avr/4.8.2/avr5/libgcc.a(_exit.o)
+                0x00000000000005b0        0x0 /usr/lib/gcc/avr/4.8.2/avr5/libgcc.a(_exit.o)
+ .text.libgcc   0x00000000000005b0        0x0 /usr/lib/gcc/avr/4.8.2/avr5/libgcc.a(_exit.o)
  .text.libgcc.prologue
-                0x00000000000004b6        0x0 /usr/lib/gcc/avr/4.8.2/avr5/libgcc.a(_exit.o)
+                0x00000000000005b0        0x0 /usr/lib/gcc/avr/4.8.2/avr5/libgcc.a(_exit.o)
  .text.libgcc.builtins
-                0x00000000000004b6        0x0 /usr/lib/gcc/avr/4.8.2/avr5/libgcc.a(_exit.o)
+                0x00000000000005b0        0x0 /usr/lib/gcc/avr/4.8.2/avr5/libgcc.a(_exit.o)
  .text.libgcc.fmul
-                0x00000000000004b6        0x0 /usr/lib/gcc/avr/4.8.2/avr5/libgcc.a(_exit.o)
+                0x00000000000005b0        0x0 /usr/lib/gcc/avr/4.8.2/avr5/libgcc.a(_exit.o)
  .text.libgcc.fixed
-                0x00000000000004b6        0x0 /usr/lib/gcc/avr/4.8.2/avr5/libgcc.a(_exit.o)
+                0x00000000000005b0        0x0 /usr/lib/gcc/avr/4.8.2/avr5/libgcc.a(_exit.o)
  .text.libgcc.mul
-                0x00000000000004b6        0x0 /usr/lib/gcc/avr/4.8.2/avr5/libgcc.a(_clear_bss.o)
+                0x00000000000005b0        0x0 /usr/lib/gcc/avr/4.8.2/avr5/libgcc.a(_clear_bss.o)
  .text.libgcc.div
-                0x00000000000004b6        0x0 /usr/lib/gcc/avr/4.8.2/avr5/libgcc.a(_clear_bss.o)
- .text.libgcc   0x00000000000004b6        0x0 /usr/lib/gcc/avr/4.8.2/avr5/libgcc.a(_clear_bss.o)
+                0x00000000000005b0        0x0 /usr/lib/gcc/avr/4.8.2/avr5/libgcc.a(_clear_bss.o)
+ .text.libgcc   0x00000000000005b0        0x0 /usr/lib/gcc/avr/4.8.2/avr5/libgcc.a(_clear_bss.o)
  .text.libgcc.prologue
-                0x00000000000004b6        0x0 /usr/lib/gcc/avr/4.8.2/avr5/libgcc.a(_clear_bss.o)
+                0x00000000000005b0        0x0 /usr/lib/gcc/avr/4.8.2/avr5/libgcc.a(_clear_bss.o)
  .text.libgcc.builtins
-                0x00000000000004b6        0x0 /usr/lib/gcc/avr/4.8.2/avr5/libgcc.a(_clear_bss.o)
+                0x00000000000005b0        0x0 /usr/lib/gcc/avr/4.8.2/avr5/libgcc.a(_clear_bss.o)
  .text.libgcc.fmul
-                0x00000000000004b6        0x0 /usr/lib/gcc/avr/4.8.2/avr5/libgcc.a(_clear_bss.o)
+                0x00000000000005b0        0x0 /usr/lib/gcc/avr/4.8.2/avr5/libgcc.a(_clear_bss.o)
  .text.libgcc.fixed
-                0x00000000000004b6        0x0 /usr/lib/gcc/avr/4.8.2/avr5/libgcc.a(_clear_bss.o)
-                0x00000000000004b6                . = ALIGN (0x2)
+                0x00000000000005b0        0x0 /usr/lib/gcc/avr/4.8.2/avr5/libgcc.a(_clear_bss.o)
+                0x00000000000005b0                . = ALIGN (0x2)
  *(.fini9)
- .fini9         0x00000000000004b6        0x0 /usr/lib/gcc/avr/4.8.2/avr5/libgcc.a(_exit.o)
-                0x00000000000004b6                exit
-                0x00000000000004b6                _exit
+ .fini9         0x00000000000005b0        0x0 /usr/lib/gcc/avr/4.8.2/avr5/libgcc.a(_exit.o)
+                0x00000000000005b0                exit
+                0x00000000000005b0                _exit
  *(.fini9)
  *(.fini8)
  *(.fini8)
@@ -283,11 +287,11 @@ END GROUP
  *(.fini1)
  *(.fini1)
  *(.fini0)
- .fini0         0x00000000000004b6        0x4 /usr/lib/gcc/avr/4.8.2/avr5/libgcc.a(_exit.o)
+ .fini0         0x00000000000005b0        0x4 /usr/lib/gcc/avr/4.8.2/avr5/libgcc.a(_exit.o)
  *(.fini0)
-                0x00000000000004ba                _etext = .
+                0x00000000000005b4                _etext = .
 
-.data           0x0000000000800100        0x0 load address 0x00000000000004ba
+.data           0x0000000000800100        0x0 load address 0x00000000000005b4
                 0x0000000000800100                PROVIDE (__data_start, .)
  *(.data)
  .data          0x0000000000800100        0x0 /usr/lib/gcc/avr/4.8.2/../../../avr/lib/avr5/crtm168.o
@@ -322,8 +326,8 @@ END GROUP
  *(.bss*)
  *(COMMON)
                 0x0000000000800106                PROVIDE (__bss_end, .)
-                0x00000000000004ba                __data_load_start = LOADADDR (.data)
-                0x00000000000004ba                __data_load_end = (__data_load_start + SIZEOF (.data))
+                0x00000000000005b4                __data_load_start = LOADADDR (.data)
+                0x00000000000005b4                __data_load_end = (__data_load_start + SIZEOF (.data))
 
 .noinit         0x0000000000800106        0x0
                 0x0000000000800106                PROVIDE (__noinit_start, .)
@@ -405,51 +409,51 @@ END GROUP
 .debug_pubnames
  *(.debug_pubnames)
 
-.debug_info     0x0000000000000000      0xca0
+.debug_info     0x0000000000000000      0xed7
  *(.debug_info)
- .debug_info    0x0000000000000000      0x296 proj1.o
- .debug_info    0x0000000000000296      0x711 iroblib.o
- .debug_info    0x00000000000009a7      0x15f timer.o
- .debug_info    0x0000000000000b06      0x19a cmod.o
+ .debug_info    0x0000000000000000      0x289 proj1.o
+ .debug_info    0x0000000000000289      0x955 iroblib.o
+ .debug_info    0x0000000000000bde      0x15f timer.o
+ .debug_info    0x0000000000000d3d      0x19a cmod.o
  *(.gnu.linkonce.wi.*)
 
-.debug_abbrev   0x0000000000000000      0x3e8
+.debug_abbrev   0x0000000000000000      0x3e4
  *(.debug_abbrev)
  .debug_abbrev  0x0000000000000000       0xd6 proj1.o
- .debug_abbrev  0x00000000000000d6      0x145 iroblib.o
- .debug_abbrev  0x000000000000021b       0xb7 timer.o
- .debug_abbrev  0x00000000000002d2      0x116 cmod.o
+ .debug_abbrev  0x00000000000000d6      0x141 iroblib.o
+ .debug_abbrev  0x0000000000000217       0xb7 timer.o
+ .debug_abbrev  0x00000000000002ce      0x116 cmod.o
 
-.debug_line     0x0000000000000000      0x297
+.debug_line     0x0000000000000000      0x2f6
  *(.debug_line)
- .debug_line    0x0000000000000000       0x9f proj1.o
- .debug_line    0x000000000000009f       0xe3 iroblib.o
- .debug_line    0x0000000000000182       0x6c timer.o
- .debug_line    0x00000000000001ee       0xa9 cmod.o
+ .debug_line    0x0000000000000000       0x9b proj1.o
+ .debug_line    0x000000000000009b      0x146 iroblib.o
+ .debug_line    0x00000000000001e1       0x6c timer.o
+ .debug_line    0x000000000000024d       0xa9 cmod.o
 
-.debug_frame    0x0000000000000000      0x214
+.debug_frame    0x0000000000000000      0x28c
  *(.debug_frame)
  .debug_frame   0x0000000000000000       0x24 proj1.o
- .debug_frame   0x0000000000000024       0xec iroblib.o
- .debug_frame   0x0000000000000110       0x88 timer.o
- .debug_frame   0x0000000000000198       0x7c cmod.o
+ .debug_frame   0x0000000000000024      0x164 iroblib.o
+ .debug_frame   0x0000000000000188       0x88 timer.o
+ .debug_frame   0x0000000000000210       0x7c cmod.o
 
-.debug_str      0x0000000000000000      0x2cb
+.debug_str      0x0000000000000000      0x31c
  *(.debug_str)
- .debug_str     0x0000000000000000      0x181 proj1.o
-                                        0x1b5 (size before relaxing)
- .debug_str     0x0000000000000181       0xa4 iroblib.o
-                                        0x206 (size before relaxing)
- .debug_str     0x0000000000000225       0x83 timer.o
-                                        0x1ae (size before relaxing)
- .debug_str     0x00000000000002a8       0x23 cmod.o
-                                        0x180 (size before relaxing)
+ .debug_str     0x0000000000000000      0x19a proj1.o
+                                        0x1ce (size before relaxing)
+ .debug_str     0x000000000000019a       0xcc iroblib.o
+                                        0x257 (size before relaxing)
+ .debug_str     0x0000000000000266       0x83 timer.o
+                                        0x1b6 (size before relaxing)
+ .debug_str     0x00000000000002e9       0x33 cmod.o
+                                        0x188 (size before relaxing)
 
-.debug_loc      0x0000000000000000      0x218
+.debug_loc      0x0000000000000000      0x41e
  *(.debug_loc)
- .debug_loc     0x0000000000000000      0x120 iroblib.o
- .debug_loc     0x0000000000000120       0x9f timer.o
- .debug_loc     0x00000000000001bf       0x59 cmod.o
+ .debug_loc     0x0000000000000000      0x326 iroblib.o
+ .debug_loc     0x0000000000000326       0x9f timer.o
+ .debug_loc     0x00000000000003c5       0x59 cmod.o
 
 .debug_macinfo
  *(.debug_macinfo)
@@ -515,6 +519,8 @@ baud                                              cmod.o
                                                   proj1.o
 bumperLedsNotif                                   iroblib.o
                                                   proj1.o
+buttonDetect                                      iroblib.o
+                                                  proj1.o
 byteRx                                            cmod.o
                                                   iroblib.o
 byteTx                                            cmod.o
@@ -528,7 +534,8 @@ delayMs                                           timer.o
                                                   proj1.o
 delayTimerCount                                   timer.o
 delayTimerRunning                                 timer.o
-drivePentagon                                     iroblib.o
+drivePentagonCCW                                  iroblib.o
+drivePentagonCW                                   iroblib.o
 driveStraight                                     iroblib.o
 exit                                              /usr/lib/gcc/avr/4.8.2/avr5/libgcc.a(_exit.o)
                                                   proj1.o
@@ -538,6 +545,7 @@ initializeCommandModule                           cmod.o
 main                                              proj1.o
                                                   /usr/lib/gcc/avr/4.8.2/../../../avr/lib/avr5/crtm168.o
 powerLed                                          iroblib.o
+                                                  proj1.o
 powerOffRobot                                     iroblib.o
                                                   proj1.o
 powerOnRobot                                      iroblib.o
@@ -546,11 +554,13 @@ robotLedsOff                                      iroblib.o
 robotLedsOn                                       iroblib.o
 robotLeftLedOn                                    iroblib.o
 robotRightLedOn                                   iroblib.o
+rotate                                            iroblib.o
 setupCMDLeds                                      iroblib.o
                                                   proj1.o
 setupIOPins                                       cmod.o
 setupSerialPort                                   cmod.o
-                                                  proj1.o
 setupTimer                                        timer.o
                                                   cmod.o
+stopCreate                                        iroblib.o
+                                                  proj1.o
 toggleCMDLeds                                     iroblib.o

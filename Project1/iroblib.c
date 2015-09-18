@@ -1,6 +1,7 @@
 #include "iroblib.h"
 #include "oi.h"
 #include "cmod.h"
+#include "timer.h"
 
 // Define songs to be played later
 void defineSongs(void) {
@@ -152,17 +153,39 @@ void robotLedsOff(void) {
   byteTx(255);
 }
 
+//detect the play and advance buttons
+void buttonDetect(void) {
+
+  //Ask about bump sensors
+  byteTx(CmdSensors); //"read sensors"
+  byteTx(18); //sensor packet 18 for play and advance buttons
+
+  uint8_t buttons = byteRx();
+  uint8_t play = buttons & (1 << 0);
+  uint8_t advance  = buttons & (1 << 2);
+
+  if(play) {drivePentagonCW();}
+  else if(advance) {rotate(~V, V);delayMs(1750);}
+  else {stopCreate();}
+
+
+}
+
 //drive the create around a pentagon clockwise
-//vl needs to be negative
+//vl needs to be positive
 void drivePentagonCW(void) {
 
   for(uint8_t numRotates = 0; numRotates < 5; numRotates++) {
 
-    driveStraight(V_HIGH, V_LOW, V_HIGH, V_LOW);
-    delayMS(800);
-    rotate();
-
+    driveStraight(V, V);
+    delayMs(8400);
+    stopCreate();
+    rotate(~V, V);
+    delayMs(1715);
+    stopCreate();
   }
+
+  
 
 }
 
@@ -175,17 +198,31 @@ void drivePentagonCCW(void) {
 
 
 //drive create straight for a specified distance
-void driveStraight(uint8_t vr_high, uint8_t vr_low, uint8_t vl_high, uint8_t vl_low) {
+void driveStraight(uint16_t vr, uint16_t vl) {
 
   byteTx(CmdDriveWheels);
-  byteTx(vr_high);
-  byteTx(vr_low);
-  byteTx(vl_high);
-  byteTx(vl_low);
+  byteTx((vr>>8)&0xFF);
+  byteTx(vr&0xFF);
+  byteTx((vl>>8)&0xFF);
+  byteTx(vl&0xFF);
 }
 
-void rotate(uint8_t vr_high, uint8_t vr_low, uint8_t vl_high, uint8_t vl_low) {
+void rotate(uint16_t vr, uint16_t vl) {
 
-  
+  byteTx(CmdDriveWheels);
+  byteTx((vr>>8)&0xFF);
+  byteTx(vr&0xFF);
+  byteTx((vl>>8)&0xFF);
+  byteTx(vl&0xFF);
+
+}
+
+void stopCreate(void) {
+
+  byteTx(CmdDriveWheels);
+  byteTx(0);
+  byteTx(0);
+  byteTx(0);
+  byteTx(0);
 
 }

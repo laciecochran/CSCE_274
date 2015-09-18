@@ -5,7 +5,7 @@ iroblib.o: iroblib.c iroblib.h /usr/lib/avr/include/avr/io.h \
  /usr/lib/avr/include/avr/portpins.h /usr/lib/avr/include/avr/common.h \
  /usr/lib/avr/include/avr/version.h /usr/lib/avr/include/avr/fuse.h \
  /usr/lib/avr/include/avr/lock.h /usr/lib/avr/include/avr/interrupt.h \
- oi.h cmod.h
+ oi.h cmod.h timer.h
 
 iroblib.h:
 
@@ -38,3 +38,5 @@ iroblib.h:
 oi.h:
 
 cmod.h:
+
+timer.h:

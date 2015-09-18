@@ -408,17 +408,17 @@
  310               		.file 3 "timer.h"
 DEFINED SYMBOLS
                             *ABS*:0000000000000000 cmod.c
-     /tmp/ccb878wF.s:2      *ABS*:000000000000003e __SP_H__
-     /tmp/ccb878wF.s:3      *ABS*:000000000000003d __SP_L__
-     /tmp/ccb878wF.s:4      *ABS*:000000000000003f __SREG__
-     /tmp/ccb878wF.s:5      *ABS*:0000000000000000 __tmp_reg__
-     /tmp/ccb878wF.s:6      *ABS*:0000000000000001 __zero_reg__
-     /tmp/ccb878wF.s:12     .text:0000000000000000 setupIOPins
-     /tmp/ccb878wF.s:44     .text:0000000000000018 setupSerialPort
-     /tmp/ccb878wF.s:69     .text:0000000000000032 initializeCommandModule
-     /tmp/ccb878wF.s:104    .text:0000000000000044 byteTx
-     /tmp/ccb878wF.s:126    .text:0000000000000052 byteRx
-     /tmp/ccb878wF.s:148    .text:0000000000000060 baud
+     /tmp/ccufrWP5.s:2      *ABS*:000000000000003e __SP_H__
+     /tmp/ccufrWP5.s:3      *ABS*:000000000000003d __SP_L__
+     /tmp/ccufrWP5.s:4      *ABS*:000000000000003f __SREG__
+     /tmp/ccufrWP5.s:5      *ABS*:0000000000000000 __tmp_reg__
+     /tmp/ccufrWP5.s:6      *ABS*:0000000000000001 __zero_reg__
+     /tmp/ccufrWP5.s:12     .text:0000000000000000 setupIOPins
+     /tmp/ccufrWP5.s:44     .text:0000000000000018 setupSerialPort
+     /tmp/ccufrWP5.s:69     .text:0000000000000032 initializeCommandModule
+     /tmp/ccufrWP5.s:104    .text:0000000000000044 byteTx
+     /tmp/ccufrWP5.s:126    .text:0000000000000052 byteRx
+     /tmp/ccufrWP5.s:148    .text:0000000000000060 baud
 
 UNDEFINED SYMBOLS
 setupTimer
