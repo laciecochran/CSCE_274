@@ -11,12 +11,13 @@
 #define L 260
 //angle for pentagon
 #define ROTATE_ANGLE 72 //180-108
-//these are hex values for 100 mm/sec
-#define V_HIGH 0x00
-#define V_LOW 0x64
-#define V_HIGH_N 0x00
-#define V_LOW_N 0x9c
+//define the drive velocity for the create
 #define V 100
+//drive and rotate delays
+#define DRIVE_D 8400
+#define ROTATE_72_D 1715
+#define ROTATE_108_D 2570 //1715*1.5=2573
+
 
 void defineSongs(void);
   // Songs
@@ -29,8 +30,6 @@ void powerLed(uint8_t color);
 //turn on and change color of power Led
 void setupCMDLeds(void);
 //setup to be able to use CMD Leds
-void toggleCMDLeds(void);
-//toggle the CDM Leds (need to make this toggle left/right, not just on/off)
 void bumperLedsNotif(void);
 //bumper detection
 void buttonDetect(void);

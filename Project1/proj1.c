@@ -44,26 +44,20 @@ int main() {
   // Initialize global variables
   delayMs(100);
 
+  //turn on one CMD Led so that it will toggle left and right
   PORTD &= ~(0x40);
   // Infinite operation loop
   for(;;) {
-    // toggle command module Leds
+    // toggle command module Leds using a timer
     if(ToggleCMDTimerCount  == 0){
     	PORTD ^= (3 << 5);	
     	ToggleCMDTimerCount = 1000;
     }
-    
+    //bump detection for task one
     bumperLedsNotif();
-
-    //Problems executing drive commands
-    //drivePentagonCW();
-
+    //driving for task two. USING HERSHEL!!!
+    //Assuming place create at bottom left corner facing "up"
     buttonDetect();
-    //driveStraight(100, 100);
-    //delayMs(1000);
-    //stopCreate();
-    //delayMs(500);
-
     
     if(UserButtonPressed) {
       powerOffRobot();

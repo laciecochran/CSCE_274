@@ -87,14 +87,6 @@ void setupCMDLeds(void) {
 
 }
 
-//Toggle the command module Leds
-void toggleCMDLeds(void) {
-  //turn the Leds off/on using exclusive or
-  
-  PORTD ^= (3 << 5);
-
-}
-
 //Detect left or right bumper. Set corresponding Led
 void bumperLedsNotif(void) {
 
@@ -144,7 +136,7 @@ void robotLedsOn(void) {
 
 }
 
-//Turn off robot's left Led
+//Turn off robot's Led
 void robotLedsOff(void) {
 
   byteTx(CmdLeds); 
@@ -165,7 +157,7 @@ void buttonDetect(void) {
   uint8_t advance  = buttons & (1 << 2);
 
   if(play) {drivePentagonCW();}
-  else if(advance) {rotate(~V, V);delayMs(1750);}
+  else if(advance) {drivePentagonCCW();}
   else {stopCreate();}
 
 
@@ -178,22 +170,35 @@ void drivePentagonCW(void) {
   for(uint8_t numRotates = 0; numRotates < 5; numRotates++) {
 
     driveStraight(V, V);
-    delayMs(8400);
+    delayMs(DRIVE_D);
     stopCreate();
     rotate(~V, V);
-    delayMs(1715);
+    delayMs(ROTATE_72_D);
     stopCreate();
   }
-
-  
-
 }
 
 //drive the create around a pentagon counter clockwise
+//vl needs to be negative
+//The rotates before/after the for loop account for beginning/ending
+//orientation.
 void drivePentagonCCW(void) {
 
-  
+  rotate(~V, V);
+  delayMs(ROTATE_108_D);  
+  stopCreate();
+  for(uint8_t numRotates = 0; numRotates < 5; numRotates++) {
 
+    driveStraight(V, V);
+    delayMs(DRIVE_D);
+    stopCreate();
+    rotate(V, ~V);
+    delayMs(ROTATE_72_D);
+    stopCreate();
+  }
+  rotate(V, ~V);
+  delayMs(ROTATE_108_D);
+  stopCreate();
 }
 
 
