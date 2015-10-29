@@ -78,16 +78,8 @@ void powerLed(uint8_t color) {
 
 }
 
-//Setup the command module Leds
-void setupCMDLeds(void) {
-
-  //Set fifth and sixth bits of direction register of port D to 1.
-  //pin 5 controls right Led, pin 6 controls left Led
-  DDRD |= (3 << 5);
-
-}
-
 //Detect left or right bumper. Set corresponding Led
+//Probably get rid of for Project 2
 void bumperLedsNotif(void) {
 
   //Ask about bump sensors
@@ -145,6 +137,14 @@ void robotLedsOff(void) {
   byteTx(255);
 }
 
+//toggle cmd leds
+void toggleCMDLeds(uint16_t time) {
+  if(ToggleCMDTimerCount  == 0){
+    PORTD ^= (3 << 5);	
+    ToggleCMDTimerCount = time;
+  }
+}
+
 //detect the play and advance buttons
 void buttonDetect(void) {
 
@@ -156,63 +156,24 @@ void buttonDetect(void) {
   uint8_t play = buttons & (1 << 0);
   uint8_t advance  = buttons & (1 << 2);
 
-  if(play) {drivePentagonCW();}
-  else if(advance) {drivePentagonCCW();}
+  if(play) {}
+  else if(advance) {}
   else {stopCreate();}
 
 
 }
 
-//drive the create around a pentagon clockwise
-//vl needs to be positive
-void drivePentagonCW(void) {
-
-  for(uint8_t numRotates = 0; numRotates < 5; numRotates++) {
-
-    driveStraight(V, V);
-    delayMs(DRIVE_D);
-    stopCreate();
-    rotate(~V, V);
-    delayMs(ROTATE_72_D);
-    stopCreate();
-  }
-}
-
-//drive the create around a pentagon counter clockwise
-//vl needs to be negative
-//The rotates before/after the for loop account for beginning/ending
-//orientation.
-void drivePentagonCCW(void) {
-
-  rotate(~V, V);
-  delayMs(ROTATE_108_D);  
-  stopCreate();
-  for(uint8_t numRotates = 0; numRotates < 5; numRotates++) {
-
-    driveStraight(V, V);
-    delayMs(DRIVE_D);
-    stopCreate();
-    rotate(V, ~V);
-    delayMs(ROTATE_72_D);
-    stopCreate();
-  }
-  rotate(V, ~V);
-  delayMs(ROTATE_108_D);
-  stopCreate();
-}
-
-
 //drive create straight for a specified distance
-void driveStraight(uint16_t vr, uint16_t vl) {
+void driveStraight(uint16_t v) {
 
   byteTx(CmdDriveWheels);
-  byteTx((vr>>8)&0xFF);
-  byteTx(vr&0xFF);
-  byteTx((vl>>8)&0xFF);
-  byteTx(vl&0xFF);
+  byteTx((v>>8)&0xFF);
+  byteTx(v&0xFF);
+  byteTx((v>>8)&0xFF);
+  byteTx(v&0xFF);
 }
 
-void rotate(uint16_t vr, uint16_t vl) {
+void rotate(int16_t vr, int16_t vl) {
 
   byteTx(CmdDriveWheels);
   byteTx((vr>>8)&0xFF);

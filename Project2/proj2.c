@@ -25,7 +25,8 @@ int main() {
     // We are operating in FULL mode.
 
   // Setup
-  setupCMDLeds();
+  //Set up cmd leds
+  DDRD |= (3 <<5);
   
   // CSCE 274 students: I would make sure the robot stops. 
   //                    As a precaution for the robot and your grade.
@@ -49,15 +50,9 @@ int main() {
   // Infinite operation loop
   for(;;) {
     // toggle command module Leds using a timer
-    if(ToggleCMDTimerCount  == 0){
-    	PORTD ^= (3 << 5);	
-    	ToggleCMDTimerCount = 1000;
-    }
-    //bump detection for task one
-    bumperLedsNotif();
-    //driving for task two. USING HERSHEL!!!
-    //Assuming place create at bottom left corner facing "up"
-    buttonDetect();
+    toggleCMDLeds(1000);
+    //USING HERSHEL!!!
+    
     
     if(UserButtonPressed) {
       powerOffRobot();

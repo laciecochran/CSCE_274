@@ -38,12 +38,11 @@ void robotLeftLedOn(void);
 void robotRightLedOn(void);
 void robotLedsOff(void);
 void robotLedsOn(void);
-//turn on/off the play and advance Leds
+//toggle cmd leds
+void toggleCMDLeds(uint16_t time);
 
-void drivePentagonCW(void);
-void drivePentagonCCW(void);
-void driveStraight(uint16_t vr, uint16_t vl);
-void rotate(uint16_t vr, uint16_t vl);
+void driveStraight(uint16_t v);
+void rotate(int16_t vr, int16_t vl);
 //drive the create around a pentagon
 void stopCreate(void);
 //stop the create's motion

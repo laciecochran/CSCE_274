@@ -17,5 +17,4 @@
   extern volatile uint16_t delayTimerCount;
   extern volatile uint8_t  delayTimerRunning;
   extern volatile uint16_t  ToggleCMDTimerCount;
-  extern volatile uint8_t  ToggleCMDTimerRunning;
 #endif
