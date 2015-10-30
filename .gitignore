@@ -30,3 +30,15 @@
 
 # Debug files
 *.dSYM/
+
+# Create files
+*.lst
+*.hex
+*.eep
+*.cof
+*.elf
+*.map
+*.sym
+*.lss
+*.o
+
