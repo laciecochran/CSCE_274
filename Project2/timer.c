@@ -1,13 +1,15 @@
 #include "timer.h"    // Declaration made available here
-
+#include "cmod.h"
 
 // Timer variables defined here
 volatile uint16_t delayTimerCount = 0;            // Definition checked against declaration
 volatile uint16_t ToggleCMDTimerCount = 0;            // Definition checked against declaration
-
 volatile uint8_t  delayTimerRunning = 0;          // Definition checked against declaration
+volatile uint8_t sensors[Sen6Size];
+volatile uint8_t timer2Scale = 0;
+volatile uint8_t canPrint=0;
+volatile uint8_t canSense=0;
 
-//http://www.avrfreaks.net/forum/solved-serial-echo-using-usartrxvect-interrupt-issue
 ISR(USART_RX_vect) {  //SIGNAL(SIG_USART_RECV) 
   // Serial receive interrupt to store sensor values
   
@@ -15,14 +17,6 @@ ISR(USART_RX_vect) {  //SIGNAL(SIG_USART_RECV)
   // when retrieving/storing a large amount of sensor data. 
   // You DO NOT need it for this assignment. If i feel it 
   // becomes relevant, I will show you how/when to use it.
-}
-
-ISR(TIMER1_COMPA_vect) {
-  //byteTx(CmdSensors);
-  //byteTx(6); //get all the data!
-  //move to timer 2 which interrupts at every 50ms
-
-  
 }
 
 //SIGNAL(SIG_OUTPUT_COMPARE1A)
@@ -40,6 +34,21 @@ ISR(TIMER0_COMPA_vect) {
   }
 
 }
+
+ISR(TIMER1_COMPA_vect) {
+  canPrint=1;
+}
+
+
+ISR(TIMER2_COMPA_vect) {
+ if(timer2Scale == 10){
+   timer2Scale = 0; 
+   canSense=1;  
+  }
+  else
+  timer2Scale++;
+}
+
 
 void setupTimer(void) {
 // Set up timer 0
@@ -62,6 +71,18 @@ TIMSK0 = _BV(OCIE0A);
   OCR1A = 17999;
   TIMSK1 = _BV(OCIE1A);
     // TIMSK1 = 0x02;
+
+
+// Set up the timer 2
+// Use: cause an interrupt to get all sensor data every 10ms 
+//      Use a counter inside the ISR to get a 50ms interrupt
+// Mode: CTC
+// Prescalar: 1024
+  TCCR2A = _BV(WGM01); //Mode
+  TCCR2B = (_BV(CS22) | _BV(CS21) | _BV(CS20)); //prescalar
+  OCR2A = 170;
+  TIMSK2 = _BV(OCIE2A);
+
 }
 
 // Delay for the specified time in ms without updating sensor values

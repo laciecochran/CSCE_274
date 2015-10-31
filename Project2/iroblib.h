@@ -3,6 +3,8 @@
 
 #include <avr/io.h>
 #include <avr/interrupt.h>
+#include <stdio.h>
+#include <string.h>
 
 // Constants
 #define RESET_SONG 0
@@ -46,4 +48,5 @@ void rotate(int16_t vr, int16_t vl);
 //drive the create around a pentagon
 void stopCreate(void);
 //stop the create's motion
+void printToConsole(char printData[]);
 #endif

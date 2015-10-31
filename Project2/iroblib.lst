@@ -9,7 +9,7 @@
    9               		.cfi_sections	.debug_frame
   10               	.global	defineSongs
   12               	defineSongs:
-  13               	.LFB0:
+  13               	.LFB1:
   14               		.file 1 "iroblib.c"
    1:iroblib.c     **** #include "iroblib.h"
    2:iroblib.c     **** #include "oi.h"
@@ -158,10 +158,10 @@
  123 0098 0C94 0000 		jmp byteTx
  124               	.LVL25:
  125               		.cfi_endproc
- 126               	.LFE0:
+ 126               	.LFE1:
  128               	.global	powerOnRobot
  130               	powerOnRobot:
- 131               	.LFB1:
+ 131               	.LFB2:
   37:iroblib.c     **** }
   38:iroblib.c     **** 
   39:iroblib.c     **** // Ensure that the robot is On.
@@ -228,10 +228,10 @@
  177               	.L2:
  178 00d4 0895      		ret
  179               		.cfi_endproc
- 180               	.LFE1:
+ 180               	.LFE2:
  182               	.global	powerOffRobot
  184               	powerOffRobot:
- 185               	.LFB2:
+ 185               	.LFB3:
   55:iroblib.c     **** }
   56:iroblib.c     **** 
   57:iroblib.c     **** // Ensure that the robot is OFF.
@@ -277,10 +277,10 @@
  216               	.L19:
  217 00f6 0895      		ret
  218               		.cfi_endproc
- 219               	.LFE2:
+ 219               	.LFE3:
  221               	.global	powerLed
  223               	powerLed:
- 224               	.LFB3:
+ 224               	.LFB4:
   67:iroblib.c     ****     }
   68:iroblib.c     ****   }
   69:iroblib.c     **** }
@@ -330,258 +330,269 @@
  257 0112 0C94 0000 		jmp byteTx
  258               	.LVL37:
  259               		.cfi_endproc
- 260               	.LFE3:
- 262               	.global	setupCMDLeds
- 264               	setupCMDLeds:
- 265               	.LFB4:
+ 260               	.LFE4:
+ 262               	.global	robotLeftLedOn
+ 264               	robotLeftLedOn:
+ 265               	.LFB6:
   80:iroblib.c     **** 
-  81:iroblib.c     **** //Setup the command module Leds
-  82:iroblib.c     **** void setupCMDLeds(void) {
- 266               		.loc 1 82 0
+  81:iroblib.c     **** //Detect left or right bumper. Set corresponding Led
+  82:iroblib.c     **** //Probably get rid of for Project 2
+  83:iroblib.c     **** void bumperLedsNotif(void) {
+  84:iroblib.c     **** 
+  85:iroblib.c     ****   //Ask about bump sensors
+  86:iroblib.c     ****   byteTx(CmdSensors); //"read sensors"
+  87:iroblib.c     ****   byteTx(7); //sensor packet 7 for bumps and wheels
+  88:iroblib.c     **** 
+  89:iroblib.c     ****   //read response and extract relevant information
+  90:iroblib.c     ****   uint8_t bumps = byteRx();
+  91:iroblib.c     ****   uint8_t bumpRight = bumps & (1 << 0);
+  92:iroblib.c     ****   uint8_t bumpLeft  = bumps & (1 << 1);
+  93:iroblib.c     **** 
+  94:iroblib.c     ****   //set robot Leds
+  95:iroblib.c     ****   if(bumpLeft && bumpRight) {robotLedsOn();}
+  96:iroblib.c     ****   else if(bumpLeft) {robotLeftLedOn();}
+  97:iroblib.c     ****   else if(bumpRight) {robotRightLedOn();}
+  98:iroblib.c     ****   else {robotLedsOff();}
+  99:iroblib.c     **** 
+ 100:iroblib.c     **** }
+ 101:iroblib.c     **** 
+ 102:iroblib.c     **** //Turn on robot's left Led
+ 103:iroblib.c     **** void robotLeftLedOn(void) {
+ 266               		.loc 1 103 0
  267               		.cfi_startproc
  268               	/* prologue: function */
  269               	/* frame size = 0 */
  270               	/* stack size = 0 */
  271               	.L__stack_usage = 0
-  83:iroblib.c     **** 
-  84:iroblib.c     ****   //Set fifth and sixth bits of direction register of port D to 1.
-  85:iroblib.c     ****   //pin 5 controls right Led, pin 6 controls left Led
-  86:iroblib.c     ****   DDRD |= (3 << 5);
- 272               		.loc 1 86 0
- 273 0116 8AB1      		in r24,0xa
- 274 0118 8066      		ori r24,lo8(96)
- 275 011a 8AB9      		out 0xa,r24
- 276 011c 0895      		ret
- 277               		.cfi_endproc
- 278               	.LFE4:
- 280               	.global	robotLeftLedOn
- 282               	robotLeftLedOn:
- 283               	.LFB6:
-  87:iroblib.c     **** 
-  88:iroblib.c     **** }
-  89:iroblib.c     **** 
-  90:iroblib.c     **** //Detect left or right bumper. Set corresponding Led
-  91:iroblib.c     **** void bumperLedsNotif(void) {
-  92:iroblib.c     **** 
-  93:iroblib.c     ****   //Ask about bump sensors
-  94:iroblib.c     ****   byteTx(CmdSensors); //"read sensors"
-  95:iroblib.c     ****   byteTx(7); //sensor packet 7 for bumps and wheels
-  96:iroblib.c     **** 
-  97:iroblib.c     ****   //read response and extract relevant information
-  98:iroblib.c     ****   uint8_t bumps = byteRx();
-  99:iroblib.c     ****   uint8_t bumpRight = bumps & (1 << 0);
- 100:iroblib.c     ****   uint8_t bumpLeft  = bumps & (1 << 1);
- 101:iroblib.c     **** 
- 102:iroblib.c     ****   //set robot Leds
- 103:iroblib.c     ****   if(bumpLeft && bumpRight) {robotLedsOn();}
- 104:iroblib.c     ****   else if(bumpLeft) {robotLeftLedOn();}
- 105:iroblib.c     ****   else if(bumpRight) {robotRightLedOn();}
- 106:iroblib.c     ****   else {robotLedsOff();}
- 107:iroblib.c     **** 
- 108:iroblib.c     **** }
+ 104:iroblib.c     **** 
+ 105:iroblib.c     ****   byteTx(CmdLeds); 
+ 272               		.loc 1 105 0
+ 273 0116 8BE8      		ldi r24,lo8(-117)
+ 274 0118 0E94 0000 		call byteTx
+ 275               	.LVL38:
+ 106:iroblib.c     ****   byteTx(0x02); //
+ 276               		.loc 1 106 0
+ 277 011c 82E0      		ldi r24,lo8(2)
+ 278 011e 0E94 0000 		call byteTx
+ 279               	.LVL39:
+ 107:iroblib.c     ****   byteTx(0);
+ 280               		.loc 1 107 0
+ 281 0122 80E0      		ldi r24,0
+ 282 0124 0E94 0000 		call byteTx
+ 283               	.LVL40:
+ 108:iroblib.c     ****   byteTx(255); //intensity
+ 284               		.loc 1 108 0
+ 285 0128 8FEF      		ldi r24,lo8(-1)
+ 286 012a 0C94 0000 		jmp byteTx
+ 287               	.LVL41:
+ 288               		.cfi_endproc
+ 289               	.LFE6:
+ 291               	.global	robotRightLedOn
+ 293               	robotRightLedOn:
+ 294               	.LFB7:
  109:iroblib.c     **** 
- 110:iroblib.c     **** //Turn on robot's left Led
- 111:iroblib.c     **** void robotLeftLedOn(void) {
- 284               		.loc 1 111 0
- 285               		.cfi_startproc
- 286               	/* prologue: function */
- 287               	/* frame size = 0 */
- 288               	/* stack size = 0 */
- 289               	.L__stack_usage = 0
- 112:iroblib.c     **** 
- 113:iroblib.c     ****   byteTx(CmdLeds); 
- 290               		.loc 1 113 0
- 291 011e 8BE8      		ldi r24,lo8(-117)
- 292 0120 0E94 0000 		call byteTx
- 293               	.LVL38:
- 114:iroblib.c     ****   byteTx(0x02); //
- 294               		.loc 1 114 0
- 295 0124 82E0      		ldi r24,lo8(2)
- 296 0126 0E94 0000 		call byteTx
- 297               	.LVL39:
- 115:iroblib.c     ****   byteTx(0);
- 298               		.loc 1 115 0
- 299 012a 80E0      		ldi r24,0
- 300 012c 0E94 0000 		call byteTx
- 301               	.LVL40:
- 116:iroblib.c     ****   byteTx(255); //intensity
- 302               		.loc 1 116 0
- 303 0130 8FEF      		ldi r24,lo8(-1)
- 304 0132 0C94 0000 		jmp byteTx
- 305               	.LVL41:
- 306               		.cfi_endproc
- 307               	.LFE6:
- 309               	.global	robotRightLedOn
- 311               	robotRightLedOn:
- 312               	.LFB7:
- 117:iroblib.c     **** 
- 118:iroblib.c     **** }
+ 110:iroblib.c     **** }
+ 111:iroblib.c     **** 
+ 112:iroblib.c     **** //Turn on robot's right Led
+ 113:iroblib.c     **** void robotRightLedOn(void) {
+ 295               		.loc 1 113 0
+ 296               		.cfi_startproc
+ 297               	/* prologue: function */
+ 298               	/* frame size = 0 */
+ 299               	/* stack size = 0 */
+ 300               	.L__stack_usage = 0
+ 114:iroblib.c     **** 
+ 115:iroblib.c     ****   byteTx(CmdLeds); 
+ 301               		.loc 1 115 0
+ 302 012e 8BE8      		ldi r24,lo8(-117)
+ 303 0130 0E94 0000 		call byteTx
+ 304               	.LVL42:
+ 116:iroblib.c     ****   byteTx(0x08); //
+ 305               		.loc 1 116 0
+ 306 0134 88E0      		ldi r24,lo8(8)
+ 307 0136 0E94 0000 		call byteTx
+ 308               	.LVL43:
+ 117:iroblib.c     ****   byteTx(0);
+ 309               		.loc 1 117 0
+ 310 013a 80E0      		ldi r24,0
+ 311 013c 0E94 0000 		call byteTx
+ 312               	.LVL44:
+ 118:iroblib.c     ****   byteTx(255); //intensity
+ 313               		.loc 1 118 0
+ 314 0140 8FEF      		ldi r24,lo8(-1)
+ 315 0142 0C94 0000 		jmp byteTx
+ 316               	.LVL45:
+ 317               		.cfi_endproc
+ 318               	.LFE7:
+ 320               	.global	robotLedsOn
+ 322               	robotLedsOn:
+ 323               	.LFB8:
  119:iroblib.c     **** 
- 120:iroblib.c     **** //Turn on robot's right Led
- 121:iroblib.c     **** void robotRightLedOn(void) {
- 313               		.loc 1 121 0
- 314               		.cfi_startproc
- 315               	/* prologue: function */
- 316               	/* frame size = 0 */
- 317               	/* stack size = 0 */
- 318               	.L__stack_usage = 0
- 122:iroblib.c     **** 
- 123:iroblib.c     ****   byteTx(CmdLeds); 
- 319               		.loc 1 123 0
- 320 0136 8BE8      		ldi r24,lo8(-117)
- 321 0138 0E94 0000 		call byteTx
- 322               	.LVL42:
- 124:iroblib.c     ****   byteTx(0x08); //
- 323               		.loc 1 124 0
- 324 013c 88E0      		ldi r24,lo8(8)
- 325 013e 0E94 0000 		call byteTx
- 326               	.LVL43:
- 125:iroblib.c     ****   byteTx(0);
- 327               		.loc 1 125 0
- 328 0142 80E0      		ldi r24,0
- 329 0144 0E94 0000 		call byteTx
- 330               	.LVL44:
- 126:iroblib.c     ****   byteTx(255); //intensity
- 331               		.loc 1 126 0
- 332 0148 8FEF      		ldi r24,lo8(-1)
- 333 014a 0C94 0000 		jmp byteTx
- 334               	.LVL45:
- 335               		.cfi_endproc
- 336               	.LFE7:
- 338               	.global	robotLedsOn
- 340               	robotLedsOn:
- 341               	.LFB8:
- 127:iroblib.c     **** 
- 128:iroblib.c     **** }
- 129:iroblib.c     **** //Turn on both play and advance Leds
- 130:iroblib.c     **** void robotLedsOn(void) {
- 342               		.loc 1 130 0
- 343               		.cfi_startproc
- 344               	/* prologue: function */
- 345               	/* frame size = 0 */
- 346               	/* stack size = 0 */
- 347               	.L__stack_usage = 0
- 131:iroblib.c     **** 
- 132:iroblib.c     ****   byteTx(CmdLeds);
- 348               		.loc 1 132 0
- 349 014e 8BE8      		ldi r24,lo8(-117)
- 350 0150 0E94 0000 		call byteTx
- 351               	.LVL46:
- 133:iroblib.c     ****   byteTx(0x0a);
- 352               		.loc 1 133 0
- 353 0154 8AE0      		ldi r24,lo8(10)
- 354 0156 0E94 0000 		call byteTx
- 355               	.LVL47:
- 134:iroblib.c     ****   byteTx(0);
- 356               		.loc 1 134 0
- 357 015a 80E0      		ldi r24,0
- 358 015c 0E94 0000 		call byteTx
- 359               	.LVL48:
- 135:iroblib.c     ****   byteTx(255);
- 360               		.loc 1 135 0
- 361 0160 8FEF      		ldi r24,lo8(-1)
- 362 0162 0C94 0000 		jmp byteTx
- 363               	.LVL49:
- 364               		.cfi_endproc
- 365               	.LFE8:
- 367               	.global	robotLedsOff
- 369               	robotLedsOff:
- 370               	.LFB9:
- 136:iroblib.c     **** 
- 137:iroblib.c     **** }
- 138:iroblib.c     **** 
- 139:iroblib.c     **** //Turn off robot's Led
- 140:iroblib.c     **** void robotLedsOff(void) {
- 371               		.loc 1 140 0
- 372               		.cfi_startproc
- 373               	/* prologue: function */
- 374               	/* frame size = 0 */
- 375               	/* stack size = 0 */
- 376               	.L__stack_usage = 0
- 141:iroblib.c     **** 
- 142:iroblib.c     ****   byteTx(CmdLeds); 
- 377               		.loc 1 142 0
- 378 0166 8BE8      		ldi r24,lo8(-117)
- 379 0168 0E94 0000 		call byteTx
- 380               	.LVL50:
- 143:iroblib.c     ****   byteTx(0x00); //
- 381               		.loc 1 143 0
- 382 016c 80E0      		ldi r24,0
- 383 016e 0E94 0000 		call byteTx
- 384               	.LVL51:
- 144:iroblib.c     ****   byteTx(0);
- 385               		.loc 1 144 0
- 386 0172 80E0      		ldi r24,0
- 387 0174 0E94 0000 		call byteTx
- 388               	.LVL52:
- 145:iroblib.c     ****   byteTx(255);
- 389               		.loc 1 145 0
- 390 0178 8FEF      		ldi r24,lo8(-1)
- 391 017a 0C94 0000 		jmp byteTx
- 392               	.LVL53:
- 393               		.cfi_endproc
- 394               	.LFE9:
- 396               	.global	bumperLedsNotif
- 398               	bumperLedsNotif:
- 399               	.LFB5:
-  91:iroblib.c     **** void bumperLedsNotif(void) {
- 400               		.loc 1 91 0
- 401               		.cfi_startproc
- 402               	/* prologue: function */
- 403               	/* frame size = 0 */
- 404               	/* stack size = 0 */
- 405               	.L__stack_usage = 0
-  94:iroblib.c     ****   byteTx(CmdSensors); //"read sensors"
- 406               		.loc 1 94 0
- 407 017e 8EE8      		ldi r24,lo8(-114)
- 408 0180 0E94 0000 		call byteTx
- 409               	.LVL54:
-  95:iroblib.c     ****   byteTx(7); //sensor packet 7 for bumps and wheels
- 410               		.loc 1 95 0
- 411 0184 87E0      		ldi r24,lo8(7)
- 412 0186 0E94 0000 		call byteTx
- 413               	.LVL55:
-  98:iroblib.c     ****   uint8_t bumps = byteRx();
- 414               		.loc 1 98 0
- 415 018a 0E94 0000 		call byteRx
- 416               	.LVL56:
-  99:iroblib.c     ****   uint8_t bumpRight = bumps & (1 << 0);
- 417               		.loc 1 99 0
- 418 018e 982F      		mov r25,r24
- 419 0190 9170      		andi r25,lo8(1)
- 420               	.LVL57:
- 103:iroblib.c     ****   if(bumpLeft && bumpRight) {robotLedsOn();}
- 421               		.loc 1 103 0
- 422 0192 81FF      		sbrs r24,1
- 423 0194 00C0      		rjmp .L27
- 103:iroblib.c     ****   if(bumpLeft && bumpRight) {robotLedsOn();}
- 424               		.loc 1 103 0 is_stmt 0 discriminator 1
- 425 0196 9111      		cpse r25,__zero_reg__
- 426 0198 0C94 0000 		jmp robotLedsOn
- 427               	.LVL58:
- 428               	.L28:
- 104:iroblib.c     ****   else if(bumpLeft) {robotLeftLedOn();}
- 429               		.loc 1 104 0 is_stmt 1 discriminator 1
- 430 019c 0C94 0000 		jmp robotLeftLedOn
- 431               	.LVL59:
- 432               	.L27:
- 105:iroblib.c     ****   else if(bumpRight) {robotRightLedOn();}
- 433               		.loc 1 105 0
- 434 01a0 9111      		cpse r25,__zero_reg__
- 105:iroblib.c     ****   else if(bumpRight) {robotRightLedOn();}
- 435               		.loc 1 105 0 is_stmt 0 discriminator 1
- 436 01a2 0C94 0000 		jmp robotRightLedOn
- 437               	.LVL60:
- 438               	.L29:
- 106:iroblib.c     ****   else {robotLedsOff();}
- 439               		.loc 1 106 0 is_stmt 1
- 440 01a6 0C94 0000 		jmp robotLedsOff
- 441               	.LVL61:
- 442               		.cfi_endproc
- 443               	.LFE5:
- 445               	.global	driveStraight
- 447               	driveStraight:
- 448               	.LFB13:
+ 120:iroblib.c     **** }
+ 121:iroblib.c     **** //Turn on both play and advance Leds
+ 122:iroblib.c     **** void robotLedsOn(void) {
+ 324               		.loc 1 122 0
+ 325               		.cfi_startproc
+ 326               	/* prologue: function */
+ 327               	/* frame size = 0 */
+ 328               	/* stack size = 0 */
+ 329               	.L__stack_usage = 0
+ 123:iroblib.c     **** 
+ 124:iroblib.c     ****   byteTx(CmdLeds);
+ 330               		.loc 1 124 0
+ 331 0146 8BE8      		ldi r24,lo8(-117)
+ 332 0148 0E94 0000 		call byteTx
+ 333               	.LVL46:
+ 125:iroblib.c     ****   byteTx(0x0a);
+ 334               		.loc 1 125 0
+ 335 014c 8AE0      		ldi r24,lo8(10)
+ 336 014e 0E94 0000 		call byteTx
+ 337               	.LVL47:
+ 126:iroblib.c     ****   byteTx(0);
+ 338               		.loc 1 126 0
+ 339 0152 80E0      		ldi r24,0
+ 340 0154 0E94 0000 		call byteTx
+ 341               	.LVL48:
+ 127:iroblib.c     ****   byteTx(255);
+ 342               		.loc 1 127 0
+ 343 0158 8FEF      		ldi r24,lo8(-1)
+ 344 015a 0C94 0000 		jmp byteTx
+ 345               	.LVL49:
+ 346               		.cfi_endproc
+ 347               	.LFE8:
+ 349               	.global	robotLedsOff
+ 351               	robotLedsOff:
+ 352               	.LFB9:
+ 128:iroblib.c     **** 
+ 129:iroblib.c     **** }
+ 130:iroblib.c     **** 
+ 131:iroblib.c     **** //Turn off robot's Led
+ 132:iroblib.c     **** void robotLedsOff(void) {
+ 353               		.loc 1 132 0
+ 354               		.cfi_startproc
+ 355               	/* prologue: function */
+ 356               	/* frame size = 0 */
+ 357               	/* stack size = 0 */
+ 358               	.L__stack_usage = 0
+ 133:iroblib.c     **** 
+ 134:iroblib.c     ****   byteTx(CmdLeds); 
+ 359               		.loc 1 134 0
+ 360 015e 8BE8      		ldi r24,lo8(-117)
+ 361 0160 0E94 0000 		call byteTx
+ 362               	.LVL50:
+ 135:iroblib.c     ****   byteTx(0x00); //
+ 363               		.loc 1 135 0
+ 364 0164 80E0      		ldi r24,0
+ 365 0166 0E94 0000 		call byteTx
+ 366               	.LVL51:
+ 136:iroblib.c     ****   byteTx(0);
+ 367               		.loc 1 136 0
+ 368 016a 80E0      		ldi r24,0
+ 369 016c 0E94 0000 		call byteTx
+ 370               	.LVL52:
+ 137:iroblib.c     ****   byteTx(255);
+ 371               		.loc 1 137 0
+ 372 0170 8FEF      		ldi r24,lo8(-1)
+ 373 0172 0C94 0000 		jmp byteTx
+ 374               	.LVL53:
+ 375               		.cfi_endproc
+ 376               	.LFE9:
+ 378               	.global	bumperLedsNotif
+ 380               	bumperLedsNotif:
+ 381               	.LFB5:
+  83:iroblib.c     **** void bumperLedsNotif(void) {
+ 382               		.loc 1 83 0
+ 383               		.cfi_startproc
+ 384               	/* prologue: function */
+ 385               	/* frame size = 0 */
+ 386               	/* stack size = 0 */
+ 387               	.L__stack_usage = 0
+  86:iroblib.c     ****   byteTx(CmdSensors); //"read sensors"
+ 388               		.loc 1 86 0
+ 389 0176 8EE8      		ldi r24,lo8(-114)
+ 390 0178 0E94 0000 		call byteTx
+ 391               	.LVL54:
+  87:iroblib.c     ****   byteTx(7); //sensor packet 7 for bumps and wheels
+ 392               		.loc 1 87 0
+ 393 017c 87E0      		ldi r24,lo8(7)
+ 394 017e 0E94 0000 		call byteTx
+ 395               	.LVL55:
+  90:iroblib.c     ****   uint8_t bumps = byteRx();
+ 396               		.loc 1 90 0
+ 397 0182 0E94 0000 		call byteRx
+ 398               	.LVL56:
+  91:iroblib.c     ****   uint8_t bumpRight = bumps & (1 << 0);
+ 399               		.loc 1 91 0
+ 400 0186 982F      		mov r25,r24
+ 401 0188 9170      		andi r25,lo8(1)
+ 402               	.LVL57:
+  95:iroblib.c     ****   if(bumpLeft && bumpRight) {robotLedsOn();}
+ 403               		.loc 1 95 0
+ 404 018a 81FF      		sbrs r24,1
+ 405 018c 00C0      		rjmp .L26
+  95:iroblib.c     ****   if(bumpLeft && bumpRight) {robotLedsOn();}
+ 406               		.loc 1 95 0 is_stmt 0 discriminator 1
+ 407 018e 9111      		cpse r25,__zero_reg__
+ 408 0190 0C94 0000 		jmp robotLedsOn
+ 409               	.LVL58:
+ 410               	.L27:
+  96:iroblib.c     ****   else if(bumpLeft) {robotLeftLedOn();}
+ 411               		.loc 1 96 0 is_stmt 1 discriminator 1
+ 412 0194 0C94 0000 		jmp robotLeftLedOn
+ 413               	.LVL59:
+ 414               	.L26:
+  97:iroblib.c     ****   else if(bumpRight) {robotRightLedOn();}
+ 415               		.loc 1 97 0
+ 416 0198 9111      		cpse r25,__zero_reg__
+  97:iroblib.c     ****   else if(bumpRight) {robotRightLedOn();}
+ 417               		.loc 1 97 0 is_stmt 0 discriminator 1
+ 418 019a 0C94 0000 		jmp robotRightLedOn
+ 419               	.LVL60:
+ 420               	.L28:
+  98:iroblib.c     ****   else {robotLedsOff();}
+ 421               		.loc 1 98 0 is_stmt 1
+ 422 019e 0C94 0000 		jmp robotLedsOff
+ 423               	.LVL61:
+ 424               		.cfi_endproc
+ 425               	.LFE5:
+ 427               	.global	toggleCMDLeds
+ 429               	toggleCMDLeds:
+ 430               	.LFB10:
+ 138:iroblib.c     **** }
+ 139:iroblib.c     **** 
+ 140:iroblib.c     **** //toggle cmd leds
+ 141:iroblib.c     **** void toggleCMDLeds(uint16_t time) {
+ 431               		.loc 1 141 0
+ 432               		.cfi_startproc
+ 433               	.LVL62:
+ 434               	/* prologue: function */
+ 435               	/* frame size = 0 */
+ 436               	/* stack size = 0 */
+ 437               	.L__stack_usage = 0
+ 142:iroblib.c     ****   if(ToggleCMDTimerCount  == 0){
+ 438               		.loc 1 142 0
+ 439 01a2 2091 0000 		lds r18,ToggleCMDTimerCount
+ 440 01a6 3091 0000 		lds r19,ToggleCMDTimerCount+1
+ 441 01aa 232B      		or r18,r19
+ 442 01ac 01F4      		brne .L29
+ 143:iroblib.c     ****     PORTD ^= (3 << 5);	
+ 443               		.loc 1 143 0
+ 444 01ae 2BB1      		in r18,0xb
+ 445 01b0 30E6      		ldi r19,lo8(96)
+ 446 01b2 2327      		eor r18,r19
+ 447 01b4 2BB9      		out 0xb,r18
+ 144:iroblib.c     ****     ToggleCMDTimerCount = time;
+ 448               		.loc 1 144 0
+ 449 01b6 9093 0000 		sts ToggleCMDTimerCount+1,r25
+ 450 01ba 8093 0000 		sts ToggleCMDTimerCount,r24
+ 451               	.L29:
+ 452 01be 0895      		ret
+ 453               		.cfi_endproc
+ 454               	.LFE10:
+ 456               	.global	driveStraight
+ 458               	driveStraight:
+ 459               	.LFB12:
+ 145:iroblib.c     ****   }
  146:iroblib.c     **** }
  147:iroblib.c     **** 
  148:iroblib.c     **** //detect the play and advance buttons
@@ -595,501 +606,868 @@
  156:iroblib.c     ****   uint8_t play = buttons & (1 << 0);
  157:iroblib.c     ****   uint8_t advance  = buttons & (1 << 2);
  158:iroblib.c     **** 
- 159:iroblib.c     ****   if(play) {drivePentagonCW();}
- 160:iroblib.c     ****   else if(advance) {drivePentagonCCW();}
+ 159:iroblib.c     ****   if(play) {}
+ 160:iroblib.c     ****   else if(advance) {}
  161:iroblib.c     ****   else {stopCreate();}
  162:iroblib.c     **** 
  163:iroblib.c     **** 
  164:iroblib.c     **** }
  165:iroblib.c     **** 
- 166:iroblib.c     **** //drive the create around a pentagon clockwise
- 167:iroblib.c     **** //vl needs to be positive
- 168:iroblib.c     **** void drivePentagonCW(void) {
- 169:iroblib.c     **** 
- 170:iroblib.c     ****   for(uint8_t numRotates = 0; numRotates < 5; numRotates++) {
- 171:iroblib.c     **** 
- 172:iroblib.c     ****     driveStraight(V, V);
- 173:iroblib.c     ****     delayMs(DRIVE_D);
- 174:iroblib.c     ****     stopCreate();
- 175:iroblib.c     ****     rotate(~V, V);
- 176:iroblib.c     ****     delayMs(ROTATE_72_D);
- 177:iroblib.c     ****     stopCreate();
- 178:iroblib.c     ****   }
- 179:iroblib.c     **** }
- 180:iroblib.c     **** 
- 181:iroblib.c     **** //drive the create around a pentagon counter clockwise
- 182:iroblib.c     **** //vl needs to be negative
- 183:iroblib.c     **** //The rotates before/after the for loop account for beginning/ending
- 184:iroblib.c     **** //orientation.
- 185:iroblib.c     **** void drivePentagonCCW(void) {
- 186:iroblib.c     **** 
- 187:iroblib.c     ****   rotate(~V, V);
- 188:iroblib.c     ****   delayMs(ROTATE_108_D);  
- 189:iroblib.c     ****   stopCreate();
- 190:iroblib.c     ****   for(uint8_t numRotates = 0; numRotates < 5; numRotates++) {
- 191:iroblib.c     **** 
- 192:iroblib.c     ****     driveStraight(V, V);
- 193:iroblib.c     ****     delayMs(DRIVE_D);
- 194:iroblib.c     ****     stopCreate();
- 195:iroblib.c     ****     rotate(V, ~V);
- 196:iroblib.c     ****     delayMs(ROTATE_72_D);
- 197:iroblib.c     ****     stopCreate();
- 198:iroblib.c     ****   }
- 199:iroblib.c     ****   rotate(V, ~V);
- 200:iroblib.c     ****   delayMs(ROTATE_108_D);
- 201:iroblib.c     ****   stopCreate();
- 202:iroblib.c     **** }
- 203:iroblib.c     **** 
- 204:iroblib.c     **** 
- 205:iroblib.c     **** //drive create straight for a specified distance
- 206:iroblib.c     **** void driveStraight(uint16_t vr, uint16_t vl) {
- 449               		.loc 1 206 0
- 450               		.cfi_startproc
- 451               	.LVL62:
- 452 01aa 1F93      		push r17
- 453               	.LCFI1:
- 454               		.cfi_def_cfa_offset 3
- 455               		.cfi_offset 17, -2
- 456 01ac CF93      		push r28
- 457               	.LCFI2:
- 458               		.cfi_def_cfa_offset 4
- 459               		.cfi_offset 28, -3
- 460 01ae DF93      		push r29
- 461               	.LCFI3:
- 462               		.cfi_def_cfa_offset 5
- 463               		.cfi_offset 29, -4
- 464 01b0 00D0      		rcall .
- 465 01b2 1F92      		push __zero_reg__
- 466               	.LCFI4:
- 467               		.cfi_def_cfa_offset 8
- 468 01b4 CDB7      		in r28,__SP_L__
- 469 01b6 DEB7      		in r29,__SP_H__
- 470               	.LCFI5:
- 471               		.cfi_def_cfa_register 28
- 472               	/* prologue: function */
- 473               	/* frame size = 3 */
- 474               	/* stack size = 6 */
- 475               	.L__stack_usage = 6
- 476 01b8 182F      		mov r17,r24
- 207:iroblib.c     **** 
- 208:iroblib.c     ****   byteTx(CmdDriveWheels);
- 477               		.loc 1 208 0
- 478 01ba 81E9      		ldi r24,lo8(-111)
- 479               	.LVL63:
- 480 01bc 6B83      		std Y+3,r22
- 481 01be 7A83      		std Y+2,r23
- 482 01c0 9983      		std Y+1,r25
- 483 01c2 0E94 0000 		call byteTx
- 484               	.LVL64:
- 209:iroblib.c     ****   byteTx((vr>>8)&0xFF);
- 485               		.loc 1 209 0
- 486 01c6 9981      		ldd r25,Y+1
- 487 01c8 892F      		mov r24,r25
- 488 01ca 0E94 0000 		call byteTx
- 489               	.LVL65:
- 210:iroblib.c     ****   byteTx(vr&0xFF);
- 490               		.loc 1 210 0
- 491 01ce 812F      		mov r24,r17
- 492 01d0 0E94 0000 		call byteTx
- 493               	.LVL66:
- 211:iroblib.c     ****   byteTx((vl>>8)&0xFF);
- 494               		.loc 1 211 0
- 495 01d4 7A81      		ldd r23,Y+2
- 496 01d6 872F      		mov r24,r23
- 497 01d8 0E94 0000 		call byteTx
- 498               	.LVL67:
- 212:iroblib.c     ****   byteTx(vl&0xFF);
- 499               		.loc 1 212 0
- 500 01dc 6B81      		ldd r22,Y+3
- 501 01de 862F      		mov r24,r22
- 502               	/* epilogue start */
- 213:iroblib.c     **** }
- 503               		.loc 1 213 0
- 504 01e0 0F90      		pop __tmp_reg__
- 505 01e2 0F90      		pop __tmp_reg__
- 506 01e4 0F90      		pop __tmp_reg__
- 507 01e6 DF91      		pop r29
- 508 01e8 CF91      		pop r28
- 509 01ea 1F91      		pop r17
- 212:iroblib.c     ****   byteTx(vl&0xFF);
- 510               		.loc 1 212 0
- 511 01ec 0C94 0000 		jmp byteTx
- 512               	.LVL68:
- 513               		.cfi_endproc
- 514               	.LFE13:
- 516               	.global	rotate
- 518               	rotate:
- 519               	.LFB14:
- 214:iroblib.c     **** 
- 215:iroblib.c     **** void rotate(uint16_t vr, uint16_t vl) {
- 520               		.loc 1 215 0
- 521               		.cfi_startproc
- 522               	.LVL69:
- 523 01f0 1F93      		push r17
- 524               	.LCFI6:
- 525               		.cfi_def_cfa_offset 3
- 526               		.cfi_offset 17, -2
- 527 01f2 CF93      		push r28
- 528               	.LCFI7:
- 529               		.cfi_def_cfa_offset 4
- 530               		.cfi_offset 28, -3
- 531 01f4 DF93      		push r29
- 532               	.LCFI8:
- 533               		.cfi_def_cfa_offset 5
- 534               		.cfi_offset 29, -4
- 535 01f6 00D0      		rcall .
- 536 01f8 1F92      		push __zero_reg__
- 537               	.LCFI9:
- 538               		.cfi_def_cfa_offset 8
- 539 01fa CDB7      		in r28,__SP_L__
- 540 01fc DEB7      		in r29,__SP_H__
- 541               	.LCFI10:
- 542               		.cfi_def_cfa_register 28
- 543               	/* prologue: function */
- 544               	/* frame size = 3 */
- 545               	/* stack size = 6 */
- 546               	.L__stack_usage = 6
- 547 01fe 182F      		mov r17,r24
- 216:iroblib.c     **** 
- 217:iroblib.c     ****   byteTx(CmdDriveWheels);
- 548               		.loc 1 217 0
- 549 0200 81E9      		ldi r24,lo8(-111)
- 550               	.LVL70:
- 551 0202 6B83      		std Y+3,r22
- 552 0204 7A83      		std Y+2,r23
- 553 0206 9983      		std Y+1,r25
- 554 0208 0E94 0000 		call byteTx
- 555               	.LVL71:
- 218:iroblib.c     ****   byteTx((vr>>8)&0xFF);
- 556               		.loc 1 218 0
- 557 020c 9981      		ldd r25,Y+1
- 558 020e 892F      		mov r24,r25
- 559 0210 0E94 0000 		call byteTx
- 560               	.LVL72:
- 219:iroblib.c     ****   byteTx(vr&0xFF);
- 561               		.loc 1 219 0
- 562 0214 812F      		mov r24,r17
- 563 0216 0E94 0000 		call byteTx
- 564               	.LVL73:
- 220:iroblib.c     ****   byteTx((vl>>8)&0xFF);
- 565               		.loc 1 220 0
- 566 021a 7A81      		ldd r23,Y+2
- 567 021c 872F      		mov r24,r23
- 568 021e 0E94 0000 		call byteTx
- 569               	.LVL74:
- 221:iroblib.c     ****   byteTx(vl&0xFF);
- 570               		.loc 1 221 0
- 571 0222 6B81      		ldd r22,Y+3
- 572 0224 862F      		mov r24,r22
- 573               	/* epilogue start */
- 222:iroblib.c     **** 
- 223:iroblib.c     **** }
- 574               		.loc 1 223 0
- 575 0226 0F90      		pop __tmp_reg__
- 576 0228 0F90      		pop __tmp_reg__
- 577 022a 0F90      		pop __tmp_reg__
- 578 022c DF91      		pop r29
- 579 022e CF91      		pop r28
- 580 0230 1F91      		pop r17
- 221:iroblib.c     ****   byteTx(vl&0xFF);
- 581               		.loc 1 221 0
- 582 0232 0C94 0000 		jmp byteTx
- 583               	.LVL75:
- 584               		.cfi_endproc
- 585               	.LFE14:
- 587               	.global	stopCreate
- 589               	stopCreate:
- 590               	.LFB15:
- 224:iroblib.c     **** 
- 225:iroblib.c     **** void stopCreate(void) {
- 591               		.loc 1 225 0
- 592               		.cfi_startproc
- 593               	/* prologue: function */
- 594               	/* frame size = 0 */
- 595               	/* stack size = 0 */
- 596               	.L__stack_usage = 0
- 226:iroblib.c     **** 
- 227:iroblib.c     ****   byteTx(CmdDriveWheels);
- 597               		.loc 1 227 0
- 598 0236 81E9      		ldi r24,lo8(-111)
- 599 0238 0E94 0000 		call byteTx
- 600               	.LVL76:
- 228:iroblib.c     ****   byteTx(0);
- 601               		.loc 1 228 0
- 602 023c 80E0      		ldi r24,0
- 603 023e 0E94 0000 		call byteTx
- 604               	.LVL77:
- 229:iroblib.c     ****   byteTx(0);
- 605               		.loc 1 229 0
- 606 0242 80E0      		ldi r24,0
- 607 0244 0E94 0000 		call byteTx
- 608               	.LVL78:
- 230:iroblib.c     ****   byteTx(0);
- 609               		.loc 1 230 0
- 610 0248 80E0      		ldi r24,0
- 611 024a 0E94 0000 		call byteTx
- 612               	.LVL79:
- 231:iroblib.c     ****   byteTx(0);
- 613               		.loc 1 231 0
- 614 024e 80E0      		ldi r24,0
- 615 0250 0C94 0000 		jmp byteTx
- 616               	.LVL80:
- 617               		.cfi_endproc
- 618               	.LFE15:
- 620               	.global	drivePentagonCW
- 622               	drivePentagonCW:
- 623               	.LFB11:
- 168:iroblib.c     **** void drivePentagonCW(void) {
- 624               		.loc 1 168 0
- 625               		.cfi_startproc
- 626 0254 CF93      		push r28
- 627               	.LCFI11:
- 628               		.cfi_def_cfa_offset 3
- 629               		.cfi_offset 28, -2
- 630               	/* prologue: function */
- 631               	/* frame size = 0 */
- 632               	/* stack size = 1 */
- 633               	.L__stack_usage = 1
- 634               	.LVL81:
- 168:iroblib.c     **** void drivePentagonCW(void) {
- 635               		.loc 1 168 0
- 636 0256 C5E0      		ldi r28,lo8(5)
- 637               	.LVL82:
- 638               	.L35:
- 639               	.LBB2:
- 172:iroblib.c     ****     driveStraight(V, V);
- 640               		.loc 1 172 0 discriminator 2
- 641 0258 64E6      		ldi r22,lo8(100)
- 642 025a 70E0      		ldi r23,0
- 643 025c 84E6      		ldi r24,lo8(100)
- 644 025e 90E0      		ldi r25,0
- 645 0260 0E94 0000 		call driveStraight
- 646               	.LVL83:
- 173:iroblib.c     ****     delayMs(DRIVE_D);
- 647               		.loc 1 173 0 discriminator 2
- 648 0264 80ED      		ldi r24,lo8(-48)
- 649 0266 90E2      		ldi r25,lo8(32)
- 650 0268 0E94 0000 		call delayMs
- 651               	.LVL84:
- 174:iroblib.c     ****     stopCreate();
- 652               		.loc 1 174 0 discriminator 2
- 653 026c 0E94 0000 		call stopCreate
- 654               	.LVL85:
- 175:iroblib.c     ****     rotate(~V, V);
- 655               		.loc 1 175 0 discriminator 2
- 656 0270 64E6      		ldi r22,lo8(100)
- 657 0272 70E0      		ldi r23,0
- 658 0274 8BE9      		ldi r24,lo8(-101)
- 659 0276 9FEF      		ldi r25,lo8(-1)
- 660 0278 0E94 0000 		call rotate
- 661               	.LVL86:
- 176:iroblib.c     ****     delayMs(ROTATE_72_D);
- 662               		.loc 1 176 0 discriminator 2
- 663 027c 83EB      		ldi r24,lo8(-77)
- 664 027e 96E0      		ldi r25,lo8(6)
- 665 0280 0E94 0000 		call delayMs
- 666               	.LVL87:
- 177:iroblib.c     ****     stopCreate();
- 667               		.loc 1 177 0 discriminator 2
- 668 0284 0E94 0000 		call stopCreate
- 669               	.LVL88:
- 670 0288 C150      		subi r28,lo8(-(-1))
- 671               	.LVL89:
- 170:iroblib.c     ****   for(uint8_t numRotates = 0; numRotates < 5; numRotates++) {
- 672               		.loc 1 170 0 discriminator 2
- 673 028a 01F4      		brne .L35
- 674               	/* epilogue start */
- 675               	.LBE2:
- 179:iroblib.c     **** }
- 676               		.loc 1 179 0
- 677 028c CF91      		pop r28
- 678               	.LVL90:
- 679 028e 0895      		ret
- 680               		.cfi_endproc
- 681               	.LFE11:
- 683               	.global	drivePentagonCCW
- 685               	drivePentagonCCW:
- 686               	.LFB12:
- 185:iroblib.c     **** void drivePentagonCCW(void) {
- 687               		.loc 1 185 0
- 688               		.cfi_startproc
- 689 0290 CF93      		push r28
- 690               	.LCFI12:
- 691               		.cfi_def_cfa_offset 3
- 692               		.cfi_offset 28, -2
- 693               	/* prologue: function */
- 694               	/* frame size = 0 */
- 695               	/* stack size = 1 */
- 696               	.L__stack_usage = 1
- 187:iroblib.c     ****   rotate(~V, V);
- 697               		.loc 1 187 0
- 698 0292 64E6      		ldi r22,lo8(100)
- 699 0294 70E0      		ldi r23,0
- 700 0296 8BE9      		ldi r24,lo8(-101)
- 701 0298 9FEF      		ldi r25,lo8(-1)
- 702 029a 0E94 0000 		call rotate
- 703               	.LVL91:
- 188:iroblib.c     ****   delayMs(ROTATE_108_D);  
- 704               		.loc 1 188 0
- 705 029e 8AE0      		ldi r24,lo8(10)
- 706 02a0 9AE0      		ldi r25,lo8(10)
- 707 02a2 0E94 0000 		call delayMs
- 708               	.LVL92:
- 189:iroblib.c     ****   stopCreate();
- 709               		.loc 1 189 0
- 710 02a6 0E94 0000 		call stopCreate
- 711               	.LVL93:
- 712 02aa C5E0      		ldi r28,lo8(5)
- 713               	.LVL94:
- 714               	.L38:
- 715               	.LBB3:
- 192:iroblib.c     ****     driveStraight(V, V);
- 716               		.loc 1 192 0 discriminator 2
- 717 02ac 64E6      		ldi r22,lo8(100)
- 718 02ae 70E0      		ldi r23,0
- 719 02b0 84E6      		ldi r24,lo8(100)
- 720 02b2 90E0      		ldi r25,0
- 721 02b4 0E94 0000 		call driveStraight
- 722               	.LVL95:
- 193:iroblib.c     ****     delayMs(DRIVE_D);
- 723               		.loc 1 193 0 discriminator 2
- 724 02b8 80ED      		ldi r24,lo8(-48)
- 725 02ba 90E2      		ldi r25,lo8(32)
- 726 02bc 0E94 0000 		call delayMs
- 727               	.LVL96:
- 194:iroblib.c     ****     stopCreate();
- 728               		.loc 1 194 0 discriminator 2
- 729 02c0 0E94 0000 		call stopCreate
- 730               	.LVL97:
- 195:iroblib.c     ****     rotate(V, ~V);
- 731               		.loc 1 195 0 discriminator 2
- 732 02c4 6BE9      		ldi r22,lo8(-101)
- 733 02c6 7FEF      		ldi r23,lo8(-1)
- 734 02c8 84E6      		ldi r24,lo8(100)
- 735 02ca 90E0      		ldi r25,0
- 736 02cc 0E94 0000 		call rotate
- 737               	.LVL98:
- 196:iroblib.c     ****     delayMs(ROTATE_72_D);
- 738               		.loc 1 196 0 discriminator 2
- 739 02d0 83EB      		ldi r24,lo8(-77)
- 740 02d2 96E0      		ldi r25,lo8(6)
- 741 02d4 0E94 0000 		call delayMs
- 742               	.LVL99:
- 197:iroblib.c     ****     stopCreate();
- 743               		.loc 1 197 0 discriminator 2
- 744 02d8 0E94 0000 		call stopCreate
- 745               	.LVL100:
- 746 02dc C150      		subi r28,lo8(-(-1))
- 747               	.LVL101:
- 190:iroblib.c     ****   for(uint8_t numRotates = 0; numRotates < 5; numRotates++) {
- 748               		.loc 1 190 0 discriminator 2
- 749 02de 01F4      		brne .L38
- 750               	.LBE3:
- 199:iroblib.c     ****   rotate(V, ~V);
- 751               		.loc 1 199 0
- 752 02e0 6BE9      		ldi r22,lo8(-101)
- 753 02e2 7FEF      		ldi r23,lo8(-1)
- 754 02e4 84E6      		ldi r24,lo8(100)
- 755 02e6 90E0      		ldi r25,0
- 756 02e8 0E94 0000 		call rotate
- 757               	.LVL102:
- 200:iroblib.c     ****   delayMs(ROTATE_108_D);
- 758               		.loc 1 200 0
- 759 02ec 8AE0      		ldi r24,lo8(10)
- 760 02ee 9AE0      		ldi r25,lo8(10)
- 761 02f0 0E94 0000 		call delayMs
- 762               	.LVL103:
- 763               	/* epilogue start */
- 202:iroblib.c     **** }
- 764               		.loc 1 202 0
- 765 02f4 CF91      		pop r28
- 766               	.LVL104:
- 201:iroblib.c     ****   stopCreate();
- 767               		.loc 1 201 0
- 768 02f6 0C94 0000 		jmp stopCreate
- 769               	.LVL105:
- 770               		.cfi_endproc
- 771               	.LFE12:
- 773               	.global	buttonDetect
- 775               	buttonDetect:
- 776               	.LFB10:
+ 166:iroblib.c     **** //drive create straight for a specified distance
+ 167:iroblib.c     **** void driveStraight(uint16_t v) {
+ 460               		.loc 1 167 0
+ 461               		.cfi_startproc
+ 462               	.LVL63:
+ 463 01c0 CF93      		push r28
+ 464               	.LCFI1:
+ 465               		.cfi_def_cfa_offset 3
+ 466               		.cfi_offset 28, -2
+ 467 01c2 DF93      		push r29
+ 468               	.LCFI2:
+ 469               		.cfi_def_cfa_offset 4
+ 470               		.cfi_offset 29, -3
+ 471               	/* prologue: function */
+ 472               	/* frame size = 0 */
+ 473               	/* stack size = 2 */
+ 474               	.L__stack_usage = 2
+ 475 01c4 EC01      		movw r28,r24
+ 168:iroblib.c     **** 
+ 169:iroblib.c     ****   byteTx(CmdDriveWheels);
+ 476               		.loc 1 169 0
+ 477 01c6 81E9      		ldi r24,lo8(-111)
+ 478               	.LVL64:
+ 479 01c8 0E94 0000 		call byteTx
+ 480               	.LVL65:
+ 170:iroblib.c     ****   byteTx((v>>8)&0xFF);
+ 481               		.loc 1 170 0
+ 482 01cc 8D2F      		mov r24,r29
+ 483 01ce 0E94 0000 		call byteTx
+ 484               	.LVL66:
+ 171:iroblib.c     ****   byteTx(v&0xFF);
+ 485               		.loc 1 171 0
+ 486 01d2 8C2F      		mov r24,r28
+ 487 01d4 0E94 0000 		call byteTx
+ 488               	.LVL67:
+ 172:iroblib.c     ****   byteTx((v>>8)&0xFF);
+ 489               		.loc 1 172 0
+ 490 01d8 8D2F      		mov r24,r29
+ 491 01da 0E94 0000 		call byteTx
+ 492               	.LVL68:
+ 173:iroblib.c     ****   byteTx(v&0xFF);
+ 493               		.loc 1 173 0
+ 494 01de 8C2F      		mov r24,r28
+ 495               	/* epilogue start */
+ 174:iroblib.c     **** }
+ 496               		.loc 1 174 0
+ 497 01e0 DF91      		pop r29
+ 498 01e2 CF91      		pop r28
+ 499               	.LVL69:
+ 173:iroblib.c     ****   byteTx(v&0xFF);
+ 500               		.loc 1 173 0
+ 501 01e4 0C94 0000 		jmp byteTx
+ 502               	.LVL70:
+ 503               		.cfi_endproc
+ 504               	.LFE12:
+ 506               	.global	rotate
+ 508               	rotate:
+ 509               	.LFB13:
+ 175:iroblib.c     **** 
+ 176:iroblib.c     **** void rotate(int16_t vr, int16_t vl) {
+ 510               		.loc 1 176 0
+ 511               		.cfi_startproc
+ 512               	.LVL71:
+ 513 01e8 1F93      		push r17
+ 514               	.LCFI3:
+ 515               		.cfi_def_cfa_offset 3
+ 516               		.cfi_offset 17, -2
+ 517 01ea CF93      		push r28
+ 518               	.LCFI4:
+ 519               		.cfi_def_cfa_offset 4
+ 520               		.cfi_offset 28, -3
+ 521 01ec DF93      		push r29
+ 522               	.LCFI5:
+ 523               		.cfi_def_cfa_offset 5
+ 524               		.cfi_offset 29, -4
+ 525 01ee 00D0      		rcall .
+ 526 01f0 1F92      		push __zero_reg__
+ 527               	.LCFI6:
+ 528               		.cfi_def_cfa_offset 8
+ 529 01f2 CDB7      		in r28,__SP_L__
+ 530 01f4 DEB7      		in r29,__SP_H__
+ 531               	.LCFI7:
+ 532               		.cfi_def_cfa_register 28
+ 533               	/* prologue: function */
+ 534               	/* frame size = 3 */
+ 535               	/* stack size = 6 */
+ 536               	.L__stack_usage = 6
+ 537 01f6 182F      		mov r17,r24
+ 177:iroblib.c     **** 
+ 178:iroblib.c     ****   byteTx(CmdDriveWheels);
+ 538               		.loc 1 178 0
+ 539 01f8 81E9      		ldi r24,lo8(-111)
+ 540               	.LVL72:
+ 541 01fa 6B83      		std Y+3,r22
+ 542 01fc 7A83      		std Y+2,r23
+ 543 01fe 9983      		std Y+1,r25
+ 544 0200 0E94 0000 		call byteTx
+ 545               	.LVL73:
+ 179:iroblib.c     ****   byteTx((vr>>8)&0xFF);
+ 546               		.loc 1 179 0
+ 547 0204 9981      		ldd r25,Y+1
+ 548 0206 892F      		mov r24,r25
+ 549 0208 0E94 0000 		call byteTx
+ 550               	.LVL74:
+ 180:iroblib.c     ****   byteTx(vr&0xFF);
+ 551               		.loc 1 180 0
+ 552 020c 812F      		mov r24,r17
+ 553 020e 0E94 0000 		call byteTx
+ 554               	.LVL75:
+ 181:iroblib.c     ****   byteTx((vl>>8)&0xFF);
+ 555               		.loc 1 181 0
+ 556 0212 7A81      		ldd r23,Y+2
+ 557 0214 872F      		mov r24,r23
+ 558 0216 0E94 0000 		call byteTx
+ 559               	.LVL76:
+ 182:iroblib.c     ****   byteTx(vl&0xFF);
+ 560               		.loc 1 182 0
+ 561 021a 6B81      		ldd r22,Y+3
+ 562 021c 862F      		mov r24,r22
+ 563               	/* epilogue start */
+ 183:iroblib.c     **** 
+ 184:iroblib.c     **** }
+ 564               		.loc 1 184 0
+ 565 021e 0F90      		pop __tmp_reg__
+ 566 0220 0F90      		pop __tmp_reg__
+ 567 0222 0F90      		pop __tmp_reg__
+ 568 0224 DF91      		pop r29
+ 569 0226 CF91      		pop r28
+ 570 0228 1F91      		pop r17
+ 182:iroblib.c     ****   byteTx(vl&0xFF);
+ 571               		.loc 1 182 0
+ 572 022a 0C94 0000 		jmp byteTx
+ 573               	.LVL77:
+ 574               		.cfi_endproc
+ 575               	.LFE13:
+ 577               	.global	stopCreate
+ 579               	stopCreate:
+ 580               	.LFB14:
+ 185:iroblib.c     **** 
+ 186:iroblib.c     **** void stopCreate(void) {
+ 581               		.loc 1 186 0
+ 582               		.cfi_startproc
+ 583               	/* prologue: function */
+ 584               	/* frame size = 0 */
+ 585               	/* stack size = 0 */
+ 586               	.L__stack_usage = 0
+ 187:iroblib.c     **** 
+ 188:iroblib.c     ****   byteTx(CmdDriveWheels);
+ 587               		.loc 1 188 0
+ 588 022e 81E9      		ldi r24,lo8(-111)
+ 589 0230 0E94 0000 		call byteTx
+ 590               	.LVL78:
+ 189:iroblib.c     ****   byteTx(0);
+ 591               		.loc 1 189 0
+ 592 0234 80E0      		ldi r24,0
+ 593 0236 0E94 0000 		call byteTx
+ 594               	.LVL79:
+ 190:iroblib.c     ****   byteTx(0);
+ 595               		.loc 1 190 0
+ 596 023a 80E0      		ldi r24,0
+ 597 023c 0E94 0000 		call byteTx
+ 598               	.LVL80:
+ 191:iroblib.c     ****   byteTx(0);
+ 599               		.loc 1 191 0
+ 600 0240 80E0      		ldi r24,0
+ 601 0242 0E94 0000 		call byteTx
+ 602               	.LVL81:
+ 192:iroblib.c     ****   byteTx(0);
+ 603               		.loc 1 192 0
+ 604 0246 80E0      		ldi r24,0
+ 605 0248 0C94 0000 		jmp byteTx
+ 606               	.LVL82:
+ 607               		.cfi_endproc
+ 608               	.LFE14:
+ 610               	.global	buttonDetect
+ 612               	buttonDetect:
+ 613               	.LFB11:
  149:iroblib.c     **** void buttonDetect(void) {
- 777               		.loc 1 149 0
- 778               		.cfi_startproc
- 779               	/* prologue: function */
- 780               	/* frame size = 0 */
- 781               	/* stack size = 0 */
- 782               	.L__stack_usage = 0
+ 614               		.loc 1 149 0
+ 615               		.cfi_startproc
+ 616               	/* prologue: function */
+ 617               	/* frame size = 0 */
+ 618               	/* stack size = 0 */
+ 619               	.L__stack_usage = 0
  152:iroblib.c     ****   byteTx(CmdSensors); //"read sensors"
- 783               		.loc 1 152 0
- 784 02fa 8EE8      		ldi r24,lo8(-114)
- 785 02fc 0E94 0000 		call byteTx
- 786               	.LVL106:
+ 620               		.loc 1 152 0
+ 621 024c 8EE8      		ldi r24,lo8(-114)
+ 622 024e 0E94 0000 		call byteTx
+ 623               	.LVL83:
  153:iroblib.c     ****   byteTx(18); //sensor packet 18 for play and advance buttons
- 787               		.loc 1 153 0
- 788 0300 82E1      		ldi r24,lo8(18)
- 789 0302 0E94 0000 		call byteTx
- 790               	.LVL107:
+ 624               		.loc 1 153 0
+ 625 0252 82E1      		ldi r24,lo8(18)
+ 626 0254 0E94 0000 		call byteTx
+ 627               	.LVL84:
  155:iroblib.c     ****   uint8_t buttons = byteRx();
- 791               		.loc 1 155 0
- 792 0306 0E94 0000 		call byteRx
- 793               	.LVL108:
- 157:iroblib.c     ****   uint8_t advance  = buttons & (1 << 2);
- 794               		.loc 1 157 0
- 795 030a 982F      		mov r25,r24
- 796 030c 9470      		andi r25,lo8(4)
- 797               	.LVL109:
- 159:iroblib.c     ****   if(play) {drivePentagonCW();}
- 798               		.loc 1 159 0
- 799 030e 80FD      		sbrc r24,0
- 159:iroblib.c     ****   if(play) {drivePentagonCW();}
- 800               		.loc 1 159 0 is_stmt 0 discriminator 1
- 801 0310 0C94 0000 		jmp drivePentagonCW
- 802               	.LVL110:
- 803               	.L40:
- 160:iroblib.c     ****   else if(advance) {drivePentagonCCW();}
- 804               		.loc 1 160 0 is_stmt 1
- 805 0314 9111      		cpse r25,__zero_reg__
- 160:iroblib.c     ****   else if(advance) {drivePentagonCCW();}
- 806               		.loc 1 160 0 is_stmt 0 discriminator 1
- 807 0316 0C94 0000 		jmp drivePentagonCCW
- 808               	.LVL111:
- 809               	.L41:
+ 628               		.loc 1 155 0
+ 629 0258 0E94 0000 		call byteRx
+ 630               	.LVL85:
+ 631 025c 8570      		andi r24,lo8(5)
+ 632               	.LVL86:
+ 160:iroblib.c     ****   else if(advance) {}
+ 633               		.loc 1 160 0
+ 634 025e 01F4      		brne .L34
  161:iroblib.c     ****   else {stopCreate();}
- 810               		.loc 1 161 0 is_stmt 1
- 811 031a 0C94 0000 		jmp stopCreate
- 812               	.LVL112:
- 813               		.cfi_endproc
- 814               	.LFE10:
- 816               	.Letext0:
- 817               		.file 2 "/usr/lib/avr/include/stdint.h"
- 818               		.file 3 "cmod.h"
- 819               		.file 4 "timer.h"
+ 635               		.loc 1 161 0
+ 636 0260 0C94 0000 		jmp stopCreate
+ 637               	.LVL87:
+ 638               	.L34:
+ 639 0264 0895      		ret
+ 640               		.cfi_endproc
+ 641               	.LFE11:
+ 643               	.global	printToConsole
+ 645               	printToConsole:
+ 646               	.LFB15:
+ 193:iroblib.c     **** 
+ 194:iroblib.c     **** }
+ 195:iroblib.c     **** 
+ 196:iroblib.c     **** void printToConsole(char printData[printLSize]){
+ 647               		.loc 1 196 0
+ 648               		.cfi_startproc
+ 649               	.LVL88:
+ 650 0266 1F93      		push r17
+ 651               	.LCFI8:
+ 652               		.cfi_def_cfa_offset 3
+ 653               		.cfi_offset 17, -2
+ 654 0268 CF93      		push r28
+ 655               	.LCFI9:
+ 656               		.cfi_def_cfa_offset 4
+ 657               		.cfi_offset 28, -3
+ 658 026a DF93      		push r29
+ 659               	.LCFI10:
+ 660               		.cfi_def_cfa_offset 5
+ 661               		.cfi_offset 29, -4
+ 662               	/* prologue: function */
+ 663               	/* frame size = 0 */
+ 664               	/* stack size = 3 */
+ 665               	.L__stack_usage = 3
+ 666 026c EC01      		movw r28,r24
+ 667               	.LVL89:
+ 197:iroblib.c     ****   uint8_t i = 0;
+ 198:iroblib.c     ****   for (i = 0; i < strlen(printData); i++) {
+ 668               		.loc 1 198 0
+ 669 026e 10E0      		ldi r17,0
+ 670               	.LVL90:
+ 671               	.L37:
+ 672               		.loc 1 198 0 is_stmt 0 discriminator 1
+ 673 0270 812F      		mov r24,r17
+ 674 0272 90E0      		ldi r25,0
+ 675 0274 FE01      		movw r30,r28
+ 676               		0:
+ 677 0276 0190      		ld __tmp_reg__,Z+
+ 678 0278 0020      		tst __tmp_reg__
+ 679 027a 01F4      		brne 0b
+ 680 027c 3197      		sbiw r30,1
+ 681 027e EC1B      		sub r30,r28
+ 682 0280 FD0B      		sbc r31,r29
+ 683 0282 8E17      		cp r24,r30
+ 684 0284 9F07      		cpc r25,r31
+ 685 0286 00F4      		brsh .L39
+ 199:iroblib.c     ****     byteTx(printData[i]);
+ 686               		.loc 1 199 0 is_stmt 1 discriminator 2
+ 687 0288 FE01      		movw r30,r28
+ 688 028a E80F      		add r30,r24
+ 689 028c F91F      		adc r31,r25
+ 690 028e 8081      		ld r24,Z
+ 691 0290 0E94 0000 		call byteTx
+ 692               	.LVL91:
+ 198:iroblib.c     ****   for (i = 0; i < strlen(printData); i++) {
+ 693               		.loc 1 198 0 discriminator 2
+ 694 0294 1F5F      		subi r17,lo8(-(1))
+ 695               	.LVL92:
+ 696 0296 00C0      		rjmp .L37
+ 697               	.L39:
+ 698               	/* epilogue start */
+ 200:iroblib.c     ****   }
+ 201:iroblib.c     **** }
+ 699               		.loc 1 201 0
+ 700 0298 DF91      		pop r29
+ 701 029a CF91      		pop r28
+ 702               	.LVL93:
+ 703 029c 1F91      		pop r17
+ 704               	.LVL94:
+ 705 029e 0895      		ret
+ 706               		.cfi_endproc
+ 707               	.LFE15:
+ 709               		.section	.rodata.str1.1,"aMS",@progbits,1
+ 710               	.LC0:
+ 711 0000 4C65 6674 		.string	"Left Cliff Signal: %u\n"
+ 711      2043 6C69 
+ 711      6666 2053 
+ 711      6967 6E61 
+ 711      6C3A 2025 
+ 712               	.LC1:
+ 713 0017 4C65 6674 		.string	"Left Front Cliff Signal: %u\n"
+ 713      2046 726F 
+ 713      6E74 2043 
+ 713      6C69 6666 
+ 713      2053 6967 
+ 714               	.LC2:
+ 715 0034 5269 6768 		.string	"Right Front Cliff Signal: %u\n"
+ 715      7420 4672 
+ 715      6F6E 7420 
+ 715      436C 6966 
+ 715      6620 5369 
+ 716               	.LC3:
+ 717 0052 5269 6768 		.string	"Right Cliff Signal: %u\n"
+ 717      7420 436C 
+ 717      6966 6620 
+ 717      5369 676E 
+ 717      616C 3A20 
+ 718               	.LC4:
+ 719 006a 5761 6C6C 		.string	"Wall Signal: %u\n"
+ 719      2053 6967 
+ 719      6E61 6C3A 
+ 719      2025 750A 
+ 719      00
+ 720               	.LC5:
+ 721 007b 4368 6172 		.string	"Charging State: %u\n"
+ 721      6769 6E67 
+ 721      2053 7461 
+ 721      7465 3A20 
+ 721      2575 0A00 
+ 722               	.LC6:
+ 723 008f 4261 7474 		.string	"Battery Voltage: %u mV\n"
+ 723      6572 7920 
+ 723      566F 6C74 
+ 723      6167 653A 
+ 723      2025 7520 
+ 724               	.LC7:
+ 725 00a7 4261 7474 		.string	"Battery Current: %i mA\n"
+ 725      6572 7920 
+ 725      4375 7272 
+ 725      656E 743A 
+ 725      2025 6920 
+ 726               	.LC8:
+ 727 00bf 4261 7474 		.string	"Battery Temperature: %i degrees C.\n"
+ 727      6572 7920 
+ 727      5465 6D70 
+ 727      6572 6174 
+ 727      7572 653A 
+ 728               	.LC9:
+ 729 00e3 4261 7474 		.string	"Battery Charge: %u mAh\n"
+ 729      6572 7920 
+ 729      4368 6172 
+ 729      6765 3A20 
+ 729      2575 206D 
+ 730               	.LC10:
+ 731 00fb 4261 7474 		.string	"Battery Capacity: %u mAh\n"
+ 731      6572 7920 
+ 731      4361 7061 
+ 731      6369 7479 
+ 731      3A20 2575 
+ 732               	.LC11:
+ 733 0115 0A00      		.string	"\n"
+ 734               		.text
+ 735               	.global	printSensorData
+ 737               	printSensorData:
+ 738               	.LFB16:
+ 202:iroblib.c     **** 
+ 203:iroblib.c     **** void printSensorData(void){
+ 739               		.loc 1 203 0
+ 740               		.cfi_startproc
+ 741 02a0 CF92      		push r12
+ 742               	.LCFI11:
+ 743               		.cfi_def_cfa_offset 3
+ 744               		.cfi_offset 12, -2
+ 745 02a2 DF92      		push r13
+ 746               	.LCFI12:
+ 747               		.cfi_def_cfa_offset 4
+ 748               		.cfi_offset 13, -3
+ 749 02a4 EF92      		push r14
+ 750               	.LCFI13:
+ 751               		.cfi_def_cfa_offset 5
+ 752               		.cfi_offset 14, -4
+ 753 02a6 FF92      		push r15
+ 754               	.LCFI14:
+ 755               		.cfi_def_cfa_offset 6
+ 756               		.cfi_offset 15, -5
+ 757 02a8 0F93      		push r16
+ 758               	.LCFI15:
+ 759               		.cfi_def_cfa_offset 7
+ 760               		.cfi_offset 16, -6
+ 761 02aa 1F93      		push r17
+ 762               	.LCFI16:
+ 763               		.cfi_def_cfa_offset 8
+ 764               		.cfi_offset 17, -7
+ 765 02ac CF93      		push r28
+ 766               	.LCFI17:
+ 767               		.cfi_def_cfa_offset 9
+ 768               		.cfi_offset 28, -8
+ 769 02ae DF93      		push r29
+ 770               	.LCFI18:
+ 771               		.cfi_def_cfa_offset 10
+ 772               		.cfi_offset 29, -9
+ 773 02b0 CDB7      		in r28,__SP_L__
+ 774 02b2 DEB7      		in r29,__SP_H__
+ 775               	.LCFI19:
+ 776               		.cfi_def_cfa_register 28
+ 777 02b4 A897      		sbiw r28,40
+ 778               	.LCFI20:
+ 779               		.cfi_def_cfa_offset 50
+ 780 02b6 0FB6      		in __tmp_reg__,__SREG__
+ 781 02b8 F894      		cli
+ 782 02ba DEBF      		out __SP_H__,r29
+ 783 02bc 0FBE      		out __SREG__,__tmp_reg__
+ 784 02be CDBF      		out __SP_L__,r28
+ 785               	/* prologue: function */
+ 786               	/* frame size = 40 */
+ 787               	/* stack size = 48 */
+ 788               	.L__stack_usage = 48
+ 204:iroblib.c     ****   setSerialDestination(SERIAL_USB);
+ 789               		.loc 1 204 0
+ 790 02c0 82E0      		ldi r24,lo8(2)
+ 791 02c2 0E94 0000 		call setSerialDestination
+ 792               	.LVL95:
+ 205:iroblib.c     ****   cli();
+ 793               		.loc 1 205 0
+ 794               	/* #APP */
+ 795               	 ;  205 "iroblib.c" 1
+ 796 02c6 F894      		cli
+ 797               	 ;  0 "" 2
+ 206:iroblib.c     ****   char printL[printLSize];
+ 207:iroblib.c     ****   // Sensor Nick wants #1: 16-bit value
+ 208:iroblib.c     ****   sprintf(printL,"Left Cliff Signal: %u\n", (uint16_t)((sensors[SenCliffLSig1]<<8)| sensors[SenClif
+ 798               		.loc 1 208 0
+ 799               	/* #NOAPP */
+ 800 02c8 2091 0000 		lds r18,sensors+28
+ 801 02cc 8091 0000 		lds r24,sensors+29
+ 802 02d0 90E0      		ldi r25,0
+ 803 02d2 922B      		or r25,r18
+ 804 02d4 9F93      		push r25
+ 805 02d6 8F93      		push r24
+ 806 02d8 80E0      		ldi r24,lo8(.LC0)
+ 807 02da 90E0      		ldi r25,hi8(.LC0)
+ 808 02dc 9F93      		push r25
+ 809 02de 8F93      		push r24
+ 810 02e0 8E01      		movw r16,r28
+ 811 02e2 0F5F      		subi r16,-1
+ 812 02e4 1F4F      		sbci r17,-1
+ 813 02e6 1F93      		push r17
+ 814 02e8 0F93      		push r16
+ 815 02ea 0E94 0000 		call sprintf
+ 816               	.LVL96:
+ 209:iroblib.c     ****   printToConsole(printL);
+ 817               		.loc 1 209 0
+ 818 02ee C801      		movw r24,r16
+ 819 02f0 0E94 0000 		call printToConsole
+ 820               	.LVL97:
+ 210:iroblib.c     ****   // Sensor Nick Wants #2
+ 211:iroblib.c     ****   sprintf(printL,"Left Front Cliff Signal: %u\n", (uint16_t)((sensors[SenCliffFLSig1]<<8)| sensors[
+ 821               		.loc 1 211 0
+ 822 02f4 2091 0000 		lds r18,sensors+30
+ 823 02f8 8091 0000 		lds r24,sensors+31
+ 824 02fc 90E0      		ldi r25,0
+ 825 02fe 922B      		or r25,r18
+ 826 0300 9F93      		push r25
+ 827 0302 8F93      		push r24
+ 828 0304 80E0      		ldi r24,lo8(.LC1)
+ 829 0306 90E0      		ldi r25,hi8(.LC1)
+ 830 0308 9F93      		push r25
+ 831 030a 8F93      		push r24
+ 832 030c 1F93      		push r17
+ 833 030e 0F93      		push r16
+ 834 0310 0E94 0000 		call sprintf
+ 835               	.LVL98:
+ 212:iroblib.c     ****   printToConsole(printL);
+ 836               		.loc 1 212 0
+ 837 0314 C801      		movw r24,r16
+ 838 0316 0E94 0000 		call printToConsole
+ 839               	.LVL99:
+ 213:iroblib.c     ****   // Sensor Nick Wants #3
+ 214:iroblib.c     ****   sprintf(printL,"Right Front Cliff Signal: %u\n", (uint16_t)((sensors[SenCliffFRSig1]<<8)| sensors
+ 840               		.loc 1 214 0
+ 841 031a 2091 0000 		lds r18,sensors+32
+ 842 031e 8091 0000 		lds r24,sensors+33
+ 843 0322 90E0      		ldi r25,0
+ 844 0324 922B      		or r25,r18
+ 845 0326 9F93      		push r25
+ 846 0328 8F93      		push r24
+ 847 032a 80E0      		ldi r24,lo8(.LC2)
+ 848 032c 90E0      		ldi r25,hi8(.LC2)
+ 849 032e 9F93      		push r25
+ 850 0330 8F93      		push r24
+ 851 0332 1F93      		push r17
+ 852 0334 0F93      		push r16
+ 853 0336 0E94 0000 		call sprintf
+ 854               	.LVL100:
+ 215:iroblib.c     ****   printToConsole(printL);
+ 855               		.loc 1 215 0
+ 856 033a C801      		movw r24,r16
+ 857 033c 0E94 0000 		call printToConsole
+ 858               	.LVL101:
+ 216:iroblib.c     ****   // Sensor Nick Wants #4
+ 217:iroblib.c     ****   sprintf(printL,"Right Cliff Signal: %u\n", (uint16_t)((sensors[SenCliffRSig1]<<8 | sensors[SenCli
+ 859               		.loc 1 217 0
+ 860 0340 2091 0000 		lds r18,sensors+34
+ 861 0344 8091 0000 		lds r24,sensors+35
+ 862 0348 90E0      		ldi r25,0
+ 863 034a 922B      		or r25,r18
+ 864 034c 9F93      		push r25
+ 865 034e 8F93      		push r24
+ 866 0350 80E0      		ldi r24,lo8(.LC3)
+ 867 0352 90E0      		ldi r25,hi8(.LC3)
+ 868 0354 9F93      		push r25
+ 869 0356 8F93      		push r24
+ 870 0358 1F93      		push r17
+ 871 035a 0F93      		push r16
+ 872 035c 0E94 0000 		call sprintf
+ 873               	.LVL102:
+ 218:iroblib.c     ****   printToConsole(printL);
+ 874               		.loc 1 218 0
+ 875 0360 C801      		movw r24,r16
+ 876 0362 0E94 0000 		call printToConsole
+ 877               	.LVL103:
+ 219:iroblib.c     ****   // Sensor Nick Wants #5
+ 220:iroblib.c     ****   sprintf(printL,"Wall Signal: %u\n", (uint16_t)((sensors[SenWallSig1]<<8) | (sensors[SenWallSig0])
+ 878               		.loc 1 220 0
+ 879 0366 2091 0000 		lds r18,sensors+26
+ 880 036a 8091 0000 		lds r24,sensors+27
+ 881 036e 90E0      		ldi r25,0
+ 882 0370 922B      		or r25,r18
+ 883 0372 9F93      		push r25
+ 884 0374 8F93      		push r24
+ 885 0376 80E0      		ldi r24,lo8(.LC4)
+ 886 0378 90E0      		ldi r25,hi8(.LC4)
+ 887 037a 9F93      		push r25
+ 888 037c 8F93      		push r24
+ 889 037e 1F93      		push r17
+ 890 0380 0F93      		push r16
+ 891 0382 0E94 0000 		call sprintf
+ 892               	.LVL104:
+ 221:iroblib.c     ****   printToConsole(printL);
+ 893               		.loc 1 221 0
+ 894 0386 C801      		movw r24,r16
+ 895 0388 0E94 0000 		call printToConsole
+ 896               	.LVL105:
+ 222:iroblib.c     ****   // Sensor Nick Wants #6
+ 223:iroblib.c     ****   sprintf(printL,"Charging State: %u\n", (uint16_t)(sensors[SenChargeState]));
+ 897               		.loc 1 223 0
+ 898 038c 8091 0000 		lds r24,sensors+16
+ 899 0390 1F92      		push __zero_reg__
+ 900 0392 8F93      		push r24
+ 901 0394 80E0      		ldi r24,lo8(.LC5)
+ 902 0396 90E0      		ldi r25,hi8(.LC5)
+ 903 0398 9F93      		push r25
+ 904 039a 8F93      		push r24
+ 905 039c 1F93      		push r17
+ 906 039e 0F93      		push r16
+ 907 03a0 0E94 0000 		call sprintf
+ 908               	.LVL106:
+ 224:iroblib.c     ****   printToConsole(printL);
+ 909               		.loc 1 224 0
+ 910 03a4 0FB6      		in __tmp_reg__,__SREG__
+ 911 03a6 F894      		cli
+ 912 03a8 DEBF      		out __SP_H__,r29
+ 913 03aa 0FBE      		out __SREG__,__tmp_reg__
+ 914 03ac CDBF      		out __SP_L__,r28
+ 915 03ae C801      		movw r24,r16
+ 916 03b0 0E94 0000 		call printToConsole
+ 917               	.LVL107:
+ 225:iroblib.c     ****   // Sensor Nick Wants #7
+ 226:iroblib.c     ****   sprintf(printL,"Battery Voltage: %u mV\n", (uint16_t)((sensors[SenCharge1]<<8) | (sensors[SenChar
+ 918               		.loc 1 226 0
+ 919 03b4 80E0      		ldi r24,lo8(sensors+22)
+ 920 03b6 C82E      		mov r12,r24
+ 921 03b8 80E0      		ldi r24,hi8(sensors+22)
+ 922 03ba D82E      		mov r13,r24
+ 923 03bc F601      		movw r30,r12
+ 924 03be 2081      		ld r18,Z
+ 925 03c0 90E0      		ldi r25,lo8(sensors+23)
+ 926 03c2 E92E      		mov r14,r25
+ 927 03c4 90E0      		ldi r25,hi8(sensors+23)
+ 928 03c6 F92E      		mov r15,r25
+ 929 03c8 F701      		movw r30,r14
+ 930 03ca 8081      		ld r24,Z
+ 931 03cc 90E0      		ldi r25,0
+ 932 03ce 922B      		or r25,r18
+ 933 03d0 9F93      		push r25
+ 934 03d2 8F93      		push r24
+ 935 03d4 80E0      		ldi r24,lo8(.LC6)
+ 936 03d6 90E0      		ldi r25,hi8(.LC6)
+ 937 03d8 9F93      		push r25
+ 938 03da 8F93      		push r24
+ 939 03dc 1F93      		push r17
+ 940 03de 0F93      		push r16
+ 941 03e0 0E94 0000 		call sprintf
+ 942               	.LVL108:
+ 227:iroblib.c     ****   printToConsole(printL);
+ 943               		.loc 1 227 0
+ 944 03e4 C801      		movw r24,r16
+ 945 03e6 0E94 0000 		call printToConsole
+ 946               	.LVL109:
+ 228:iroblib.c     ****   // Sensor Nick Wants #8
+ 229:iroblib.c     ****   sprintf(printL,"Battery Current: %i mA\n", (uint16_t)((sensors[SenCurr1]<<8) | (sensors[SenCurr0]
+ 947               		.loc 1 229 0
+ 948 03ea 2091 0000 		lds r18,sensors+19
+ 949 03ee 8091 0000 		lds r24,sensors+20
+ 950 03f2 90E0      		ldi r25,0
+ 951 03f4 922B      		or r25,r18
+ 952 03f6 9F93      		push r25
+ 953 03f8 8F93      		push r24
+ 954 03fa 80E0      		ldi r24,lo8(.LC7)
+ 955 03fc 90E0      		ldi r25,hi8(.LC7)
+ 956 03fe 9F93      		push r25
+ 957 0400 8F93      		push r24
+ 958 0402 1F93      		push r17
+ 959 0404 0F93      		push r16
+ 960 0406 0E94 0000 		call sprintf
+ 961               	.LVL110:
+ 230:iroblib.c     ****   printToConsole(printL);
+ 962               		.loc 1 230 0
+ 963 040a C801      		movw r24,r16
+ 964 040c 0E94 0000 		call printToConsole
+ 965               	.LVL111:
+ 231:iroblib.c     ****   // Sensor Nick Wants #9
+ 232:iroblib.c     ****   sprintf(printL,"Battery Temperature: %i degrees C.\n", (uint16_t)((sensors[SenTemp])));
+ 966               		.loc 1 232 0
+ 967 0410 8091 0000 		lds r24,sensors+21
+ 968 0414 1F92      		push __zero_reg__
+ 969 0416 8F93      		push r24
+ 970 0418 80E0      		ldi r24,lo8(.LC8)
+ 971 041a 90E0      		ldi r25,hi8(.LC8)
+ 972 041c 9F93      		push r25
+ 973 041e 8F93      		push r24
+ 974 0420 1F93      		push r17
+ 975 0422 0F93      		push r16
+ 976 0424 0E94 0000 		call sprintf
+ 977               	.LVL112:
+ 233:iroblib.c     ****   printToConsole(printL);
+ 978               		.loc 1 233 0
+ 979 0428 C801      		movw r24,r16
+ 980 042a 0E94 0000 		call printToConsole
+ 981               	.LVL113:
+ 234:iroblib.c     ****   // Sensor Nick Wants #10
+ 235:iroblib.c     ****   sprintf(printL,"Battery Charge: %u mAh\n", (uint16_t)((sensors[SenCharge1]<<8) | (sensors[SenChar
+ 982               		.loc 1 235 0
+ 983 042e F601      		movw r30,r12
+ 984 0430 2081      		ld r18,Z
+ 985 0432 F701      		movw r30,r14
+ 986 0434 8081      		ld r24,Z
+ 987 0436 90E0      		ldi r25,0
+ 988 0438 922B      		or r25,r18
+ 989 043a 9F93      		push r25
+ 990 043c 8F93      		push r24
+ 991 043e 80E0      		ldi r24,lo8(.LC9)
+ 992 0440 90E0      		ldi r25,hi8(.LC9)
+ 993 0442 9F93      		push r25
+ 994 0444 8F93      		push r24
+ 995 0446 1F93      		push r17
+ 996 0448 0F93      		push r16
+ 997 044a 0E94 0000 		call sprintf
+ 998               	.LVL114:
+ 236:iroblib.c     ****   printToConsole(printL);
+ 999               		.loc 1 236 0
+ 1000 044e C801      		movw r24,r16
+ 1001 0450 0E94 0000 		call printToConsole
+ 1002               	.LVL115:
+ 237:iroblib.c     ****   // Sensor Nick Wants #11
+ 238:iroblib.c     ****   sprintf(printL,"Battery Capacity: %u mAh\n", (uint16_t)((sensors[SenCap1]<<8) | (sensors[SenCap0]
+ 1003               		.loc 1 238 0
+ 1004 0454 2091 0000 		lds r18,sensors+24
+ 1005 0458 8091 0000 		lds r24,sensors+25
+ 1006 045c 90E0      		ldi r25,0
+ 1007 045e 922B      		or r25,r18
+ 1008 0460 9F93      		push r25
+ 1009 0462 8F93      		push r24
+ 1010 0464 80E0      		ldi r24,lo8(.LC10)
+ 1011 0466 90E0      		ldi r25,hi8(.LC10)
+ 1012 0468 9F93      		push r25
+ 1013 046a 8F93      		push r24
+ 1014 046c 1F93      		push r17
+ 1015 046e 0F93      		push r16
+ 1016 0470 0E94 0000 		call sprintf
+ 1017               	.LVL116:
+ 239:iroblib.c     ****   printToConsole(printL);
+ 1018               		.loc 1 239 0
+ 1019 0474 C801      		movw r24,r16
+ 1020 0476 0E94 0000 		call printToConsole
+ 1021               	.LVL117:
+ 240:iroblib.c     ****   // End line for Formatting
+ 241:iroblib.c     ****   sprintf(printL,"\n");
+ 1022               		.loc 1 241 0
+ 1023 047a 60E0      		ldi r22,lo8(.LC11)
+ 1024 047c 70E0      		ldi r23,hi8(.LC11)
+ 1025 047e C801      		movw r24,r16
+ 1026 0480 0E94 0000 		call strcpy
+ 1027               	.LVL118:
+ 242:iroblib.c     ****   printToConsole(printL);
+ 1028               		.loc 1 242 0
+ 1029 0484 C801      		movw r24,r16
+ 1030 0486 0E94 0000 		call printToConsole
+ 1031               	.LVL119:
+ 243:iroblib.c     ****   sei();
+ 1032               		.loc 1 243 0
+ 1033               	/* #APP */
+ 1034               	 ;  243 "iroblib.c" 1
+ 1035 048a 7894      		sei
+ 1036               	 ;  0 "" 2
+ 244:iroblib.c     ****   //Change Back
+ 245:iroblib.c     ****   setSerialDestination(SERIAL_CREATE);
+ 1037               		.loc 1 245 0
+ 1038               	/* #NOAPP */
+ 1039 048c 81E0      		ldi r24,lo8(1)
+ 1040 048e 0E94 0000 		call setSerialDestination
+ 1041               	.LVL120:
+ 246:iroblib.c     ****   canPrint=0;
+ 1042               		.loc 1 246 0
+ 1043 0492 1092 0000 		sts canPrint,__zero_reg__
+ 1044 0496 0FB6      		in __tmp_reg__,__SREG__
+ 1045 0498 F894      		cli
+ 1046 049a DEBF      		out __SP_H__,r29
+ 1047 049c 0FBE      		out __SREG__,__tmp_reg__
+ 1048 049e CDBF      		out __SP_L__,r28
+ 1049               	/* epilogue start */
+ 247:iroblib.c     **** }
+ 1050               		.loc 1 247 0
+ 1051 04a0 A896      		adiw r28,40
+ 1052 04a2 0FB6      		in __tmp_reg__,__SREG__
+ 1053 04a4 F894      		cli
+ 1054 04a6 DEBF      		out __SP_H__,r29
+ 1055 04a8 0FBE      		out __SREG__,__tmp_reg__
+ 1056 04aa CDBF      		out __SP_L__,r28
+ 1057 04ac DF91      		pop r29
+ 1058 04ae CF91      		pop r28
+ 1059 04b0 1F91      		pop r17
+ 1060 04b2 0F91      		pop r16
+ 1061 04b4 FF90      		pop r15
+ 1062 04b6 EF90      		pop r14
+ 1063 04b8 DF90      		pop r13
+ 1064 04ba CF90      		pop r12
+ 1065 04bc 0895      		ret
+ 1066               		.cfi_endproc
+ 1067               	.LFE16:
+ 1069               	.global	updateSensors
+ 1071               	updateSensors:
+ 1072               	.LFB17:
+ 248:iroblib.c     **** 
+ 249:iroblib.c     **** void updateSensors(void){
+ 1073               		.loc 1 249 0
+ 1074               		.cfi_startproc
+ 1075 04be CF93      		push r28
+ 1076               	.LCFI21:
+ 1077               		.cfi_def_cfa_offset 3
+ 1078               		.cfi_offset 28, -2
+ 1079 04c0 DF93      		push r29
+ 1080               	.LCFI22:
+ 1081               		.cfi_def_cfa_offset 4
+ 1082               		.cfi_offset 29, -3
+ 1083               	/* prologue: function */
+ 1084               	/* frame size = 0 */
+ 1085               	/* stack size = 2 */
+ 1086               	.L__stack_usage = 2
+ 250:iroblib.c     ****   cli();
+ 1087               		.loc 1 250 0
+ 1088               	/* #APP */
+ 1089               	 ;  250 "iroblib.c" 1
+ 1090 04c2 F894      		cli
+ 1091               	 ;  0 "" 2
+ 251:iroblib.c     ****   byteTx(CmdSensors);
+ 1092               		.loc 1 251 0
+ 1093               	/* #NOAPP */
+ 1094 04c4 8EE8      		ldi r24,lo8(-114)
+ 1095 04c6 0E94 0000 		call byteTx
+ 1096               	.LVL121:
+ 252:iroblib.c     ****   byteTx(6); //get all the data!
+ 1097               		.loc 1 252 0
+ 1098 04ca 86E0      		ldi r24,lo8(6)
+ 1099 04cc 0E94 0000 		call byteTx
+ 1100               	.LVL122:
+ 1101 04d0 C0E0      		ldi r28,0
+ 1102 04d2 D0E0      		ldi r29,0
+ 1103               	.LVL123:
+ 1104               	.L43:
+ 1105               	.LBB2:
+ 253:iroblib.c     ****   for(uint8_t i = 0; i < 52; i++){
+ 254:iroblib.c     ****     sensors[i] = byteRx();  // read each sensor byte 
+ 1106               		.loc 1 254 0 discriminator 2
+ 1107 04d4 0E94 0000 		call byteRx
+ 1108               	.LVL124:
+ 1109 04d8 FE01      		movw r30,r28
+ 1110 04da E050      		subi r30,lo8(-(sensors))
+ 1111 04dc F040      		sbci r31,hi8(-(sensors))
+ 1112 04de 8083      		st Z,r24
+ 1113               	.LVL125:
+ 1114 04e0 2196      		adiw r28,1
+ 1115               	.LVL126:
+ 253:iroblib.c     ****   for(uint8_t i = 0; i < 52; i++){
+ 1116               		.loc 1 253 0 discriminator 2
+ 1117 04e2 C433      		cpi r28,52
+ 1118 04e4 D105      		cpc r29,__zero_reg__
+ 1119 04e6 01F4      		brne .L43
+ 1120               	.LBE2:
+ 255:iroblib.c     ****   } 
+ 256:iroblib.c     ****   canSense=0;
+ 1121               		.loc 1 256 0
+ 1122 04e8 1092 0000 		sts canSense,__zero_reg__
+ 257:iroblib.c     ****   sei();  
+ 1123               		.loc 1 257 0
+ 1124               	/* #APP */
+ 1125               	 ;  257 "iroblib.c" 1
+ 1126 04ec 7894      		sei
+ 1127               	 ;  0 "" 2
+ 1128               	/* epilogue start */
+ 258:iroblib.c     **** }
+ 1129               		.loc 1 258 0
+ 1130               	/* #NOAPP */
+ 1131 04ee DF91      		pop r29
+ 1132 04f0 CF91      		pop r28
+ 1133               	.LVL127:
+ 1134 04f2 0895      		ret
+ 1135               		.cfi_endproc
+ 1136               	.LFE17:
+ 1138               		.comm	timer2Scale,1,1
+ 1139               	.Letext0:
+ 1140               		.file 2 "/usr/lib/avr/include/stdint.h"
+ 1141               		.file 3 "timer.h"
+ 1142               		.file 4 "cmod.h"
+ 1143               		.file 5 "/usr/lib/avr/include/stdio.h"
+ 1144               		.file 6 "<built-in>"
 DEFINED SYMBOLS
                             *ABS*:0000000000000000 iroblib.c
-     /tmp/ccpKMzbp.s:2      *ABS*:000000000000003e __SP_H__
-     /tmp/ccpKMzbp.s:3      *ABS*:000000000000003d __SP_L__
-     /tmp/ccpKMzbp.s:4      *ABS*:000000000000003f __SREG__
-     /tmp/ccpKMzbp.s:5      *ABS*:0000000000000000 __tmp_reg__
-     /tmp/ccpKMzbp.s:6      *ABS*:0000000000000001 __zero_reg__
-     /tmp/ccpKMzbp.s:12     .text:0000000000000000 defineSongs
-     /tmp/ccpKMzbp.s:130    .text:000000000000009c powerOnRobot
-     /tmp/ccpKMzbp.s:184    .text:00000000000000d6 powerOffRobot
-     /tmp/ccpKMzbp.s:223    .text:00000000000000f8 powerLed
-     /tmp/ccpKMzbp.s:264    .text:0000000000000116 setupCMDLeds
-     /tmp/ccpKMzbp.s:282    .text:000000000000011e robotLeftLedOn
-     /tmp/ccpKMzbp.s:311    .text:0000000000000136 robotRightLedOn
-     /tmp/ccpKMzbp.s:340    .text:000000000000014e robotLedsOn
-     /tmp/ccpKMzbp.s:369    .text:0000000000000166 robotLedsOff
-     /tmp/ccpKMzbp.s:398    .text:000000000000017e bumperLedsNotif
-     /tmp/ccpKMzbp.s:447    .text:00000000000001aa driveStraight
-     /tmp/ccpKMzbp.s:518    .text:00000000000001f0 rotate
-     /tmp/ccpKMzbp.s:589    .text:0000000000000236 stopCreate
-     /tmp/ccpKMzbp.s:622    .text:0000000000000254 drivePentagonCW
-     /tmp/ccpKMzbp.s:685    .text:0000000000000290 drivePentagonCCW
-     /tmp/ccpKMzbp.s:775    .text:00000000000002fa buttonDetect
+     /tmp/ccLL1EsV.s:2      *ABS*:000000000000003e __SP_H__
+     /tmp/ccLL1EsV.s:3      *ABS*:000000000000003d __SP_L__
+     /tmp/ccLL1EsV.s:4      *ABS*:000000000000003f __SREG__
+     /tmp/ccLL1EsV.s:5      *ABS*:0000000000000000 __tmp_reg__
+     /tmp/ccLL1EsV.s:6      *ABS*:0000000000000001 __zero_reg__
+     /tmp/ccLL1EsV.s:12     .text:0000000000000000 defineSongs
+     /tmp/ccLL1EsV.s:130    .text:000000000000009c powerOnRobot
+     /tmp/ccLL1EsV.s:184    .text:00000000000000d6 powerOffRobot
+     /tmp/ccLL1EsV.s:223    .text:00000000000000f8 powerLed
+     /tmp/ccLL1EsV.s:264    .text:0000000000000116 robotLeftLedOn
+     /tmp/ccLL1EsV.s:293    .text:000000000000012e robotRightLedOn
+     /tmp/ccLL1EsV.s:322    .text:0000000000000146 robotLedsOn
+     /tmp/ccLL1EsV.s:351    .text:000000000000015e robotLedsOff
+     /tmp/ccLL1EsV.s:380    .text:0000000000000176 bumperLedsNotif
+     /tmp/ccLL1EsV.s:429    .text:00000000000001a2 toggleCMDLeds
+     /tmp/ccLL1EsV.s:458    .text:00000000000001c0 driveStraight
+     /tmp/ccLL1EsV.s:508    .text:00000000000001e8 rotate
+     /tmp/ccLL1EsV.s:579    .text:000000000000022e stopCreate
+     /tmp/ccLL1EsV.s:612    .text:000000000000024c buttonDetect
+     /tmp/ccLL1EsV.s:645    .text:0000000000000266 printToConsole
+     /tmp/ccLL1EsV.s:737    .text:00000000000002a0 printSensorData
+     /tmp/ccLL1EsV.s:1071   .text:00000000000004be updateSensors
+                            *COM*:0000000000000001 timer2Scale
 
 UNDEFINED SYMBOLS
 byteTx
 delayMs
 byteRx
+ToggleCMDTimerCount
+setSerialDestination
+sensors
+sprintf
+strcpy
+canPrint
+canSense
+__do_copy_data
+__do_clear_bss

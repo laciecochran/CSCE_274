@@ -134,3 +134,9 @@
 #define RobotPowerSense    0x20
 #define RobotIsOn          (PINB & RobotPowerSense)
 #define RobotIsOff         !(PINB & RobotPowerSense)
+
+//Extra Defines
+#define printLSize      40
+#define SERIAL_CREATE	1
+#define SERIAL_USB	2
+

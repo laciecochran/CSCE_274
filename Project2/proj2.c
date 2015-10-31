@@ -6,7 +6,7 @@
 
 // Declare Global variables 
 
-int main() {
+int main(void) {
   // Set up Create and module
   initializeCommandModule();
     
@@ -50,9 +50,14 @@ int main() {
   // Infinite operation loop
   for(;;) {
     // toggle command module Leds using a timer
-    toggleCMDLeds(1000);
+    //toggleCMDLeds(1000);
     //USING HERSHEL!!!
-    
+    if(canSense) {
+      updateSensors();
+    }
+    if(canPrint) {
+      printSensorData();
+    }
     
     if(UserButtonPressed) {
       powerOffRobot();

@@ -192,3 +192,67 @@ void stopCreate(void) {
   byteTx(0);
 
 }
+
+void printToConsole(char printData[printLSize]){
+  uint8_t i = 0;
+  for (i = 0; i < strlen(printData); i++) {
+    byteTx(printData[i]);
+  }
+}
+
+void printSensorData(void){
+  setSerialDestination(SERIAL_USB);
+  cli();
+  char printL[printLSize];
+  // Sensor Nick wants #1: 16-bit value
+  sprintf(printL,"Left Cliff Signal: %u\n", (uint16_t)((sensors[SenCliffLSig1]<<8)| sensors[SenCliffLSig0]));
+  printToConsole(printL);
+  // Sensor Nick Wants #2
+  sprintf(printL,"Left Front Cliff Signal: %u\n", (uint16_t)((sensors[SenCliffFLSig1]<<8)| sensors[SenCliffFLSig0]));
+  printToConsole(printL);
+  // Sensor Nick Wants #3
+  sprintf(printL,"Right Front Cliff Signal: %u\n", (uint16_t)((sensors[SenCliffFRSig1]<<8)| sensors[SenCliffFRSig0]));
+  printToConsole(printL);
+  // Sensor Nick Wants #4
+  sprintf(printL,"Right Cliff Signal: %u\n", (uint16_t)((sensors[SenCliffRSig1]<<8 | sensors[SenCliffRSig0])));
+  printToConsole(printL);
+  // Sensor Nick Wants #5
+  sprintf(printL,"Wall Signal: %u\n", (uint16_t)((sensors[SenWallSig1]<<8) | (sensors[SenWallSig0])));
+  printToConsole(printL);
+  // Sensor Nick Wants #6
+  sprintf(printL,"Charging State: %u\n", (uint16_t)(sensors[SenChargeState]));
+  printToConsole(printL);
+  // Sensor Nick Wants #7
+  sprintf(printL,"Battery Voltage: %u mV\n", (uint16_t)((sensors[SenCharge1]<<8) | (sensors[SenCharge0])));
+  printToConsole(printL);
+  // Sensor Nick Wants #8
+  sprintf(printL,"Battery Current: %i mA\n", (uint16_t)((sensors[SenCurr1]<<8) | (sensors[SenCurr0])));
+  printToConsole(printL);
+  // Sensor Nick Wants #9
+  sprintf(printL,"Battery Temperature: %i degrees C.\n", (uint16_t)((sensors[SenTemp])));
+  printToConsole(printL);
+  // Sensor Nick Wants #10
+  sprintf(printL,"Battery Charge: %u mAh\n", (uint16_t)((sensors[SenCharge1]<<8) | (sensors[SenCharge0])));
+  printToConsole(printL);
+  // Sensor Nick Wants #11
+  sprintf(printL,"Battery Capacity: %u mAh\n", (uint16_t)((sensors[SenCap1]<<8) | (sensors[SenCap0])));
+  printToConsole(printL);
+  // End line for Formatting
+  sprintf(printL,"\n");
+  printToConsole(printL);
+  sei();
+  //Change Back
+  setSerialDestination(SERIAL_CREATE);
+  canPrint=0;
+}
+
+void updateSensors(void){
+  cli();
+  byteTx(CmdSensors);
+  byteTx(6); //get all the data!
+  for(uint8_t i = 0; i < 52; i++){
+    sensors[i] = byteRx();  // read each sensor byte 
+  } 
+  canSense=0;
+  sei();  
+}

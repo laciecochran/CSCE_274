@@ -15,6 +15,20 @@ void initializeCommandModule(void){
   sei();
 }
 
+void setSerialDestination(uint8_t dest) {
+  //delay so pending bytes are sent
+  delayMs(10);
+  //configure the port
+  if(dest == SERIAL_CREATE) {
+    PORTB &= ~0x10;
+  }
+  else {
+    PORTB |= 0x10;
+  }
+
+  delayMs(10);
+}
+
 void setupIOPins(void) {
   // Set I/O pins
   DDRB  = 0x10;

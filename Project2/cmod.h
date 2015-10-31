@@ -20,4 +20,6 @@
 
   // Switch the baud rate on both Create and module  
   void baud(uint8_t baud_code);
+  //switch destinations
+  void setSerialDestination(uint8_t dest);
 #endif
