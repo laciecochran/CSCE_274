@@ -247,12 +247,12 @@ void printSensorData(void){
 }
 
 void updateSensors(void){
-  cli();
+  //cli();
   byteTx(CmdSensors);
   byteTx(6); //get all the data!
   for(uint8_t i = 0; i < 52; i++){
     sensors[i] = byteRx();  // read each sensor byte 
   } 
   canSense=0;
-  sei();  
+  //sei();  
 }

@@ -3,13 +3,15 @@
 
 // Timer variables defined here
 volatile uint16_t delayTimerCount = 0;            // Definition checked against declaration
-volatile uint16_t ToggleCMDTimerCount = 0;            // Definition checked against declaration
+volatile uint16_t ToggleCMDTimerCount = 0; 
+volatile uint8_t driveTimerCount = 0;           // Definition checked against declaration
 volatile uint8_t  delayTimerRunning = 0;          // Definition checked against declaration
+volatile uint16_t doTheThingCount=0;
 volatile uint8_t sensors[Sen6Size];
 volatile uint8_t timer2Scale = 0;
-volatile uint8_t canPrint=0;
-volatile uint8_t canSense=0;
-
+volatile uint8_t canPrint=1;
+volatile uint8_t canSense=1;
+volatile uint8_t doTheThing=1;
 ISR(USART_RX_vect) {  //SIGNAL(SIG_USART_RECV) 
   // Serial receive interrupt to store sensor values
   
@@ -32,7 +34,15 @@ ISR(TIMER0_COMPA_vect) {
   if(ToggleCMDTimerCount  != 0) {
     ToggleCMDTimerCount--;
   }
+  if(driveTimerCount != 0) {
+    driveTimerCount--;
+  }
 
+  if(doTheThingCount !=0) {
+    doTheThingCount--;
+  } else {
+    doTheThing=1;
+  }
 }
 
 ISR(TIMER1_COMPA_vect) {

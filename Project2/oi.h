@@ -139,4 +139,6 @@
 #define printLSize      40
 #define SERIAL_CREATE	1
 #define SERIAL_USB	2
-
+#define IRForward	130
+#define IRLeft		129
+#define IRRight		131

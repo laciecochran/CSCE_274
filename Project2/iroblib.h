@@ -49,4 +49,6 @@ void rotate(int16_t vr, int16_t vl);
 void stopCreate(void);
 //stop the create's motion
 void printToConsole(char printData[]);
+
+void updateSensors(void);
 #endif
