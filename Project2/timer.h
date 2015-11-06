@@ -25,8 +25,8 @@
   volatile uint8_t timer2Scale;
   extern volatile uint8_t canPrint;
   extern volatile uint8_t canSense;
-  extern volatile uint8_t driveTimerCount;
-  extern volatile uint16_t doTheThingCount;
-  extern volatile uint8_t doTheThing;
+  extern volatile uint16_t driveTimerCount;
+  extern volatile uint16_t rotateTimerCount;
+  extern volatile uint16_t detectIR;
 
 #endif

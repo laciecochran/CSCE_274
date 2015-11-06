@@ -7,6 +7,9 @@
 // Declare Global variables 
 volatile uint8_t IRValue;
 
+uint8_t isDriving = 0;
+uint8_t isRotating = 0;
+
 int main(void) {
   // Set up Create and module
   initializeCommandModule();
@@ -56,71 +59,53 @@ int main(void) {
     if(canSense) {
       updateSensors();
     }
-    /*if(canPrint) {
-      setSerialDestination(SERIAL_USB);
-      cli();
-      char printL[printLSize];
-      // Sensor Nick wants #1: 16-bit value
-      sprintf(printL,"IR Signal: %u %u %u\n", (uint8_t)(sensors[SenIRChar]), (uint8_t)(IRValue), (uint8_t) (driveTimerCount));
-      printToConsole(printL);
-      sprintf(printL,"Bumps and Wheeldrops: %u\n\n", (uint8_t)(sensors[0]));
-      printToConsole(printL);
-      sei();
-      setSerialDestination(SERIAL_CREATE);
-      canPrint=0;
-    }*/
-
-	    if((sensors[SenIRChar] == IRForward) || (sensors[SenIRChar] == IRLeft) || (sensors[SenIRChar] == IRRight)) {
-	      IRValue = sensors[SenIRChar];
-	    } else {
-	      IRValue = 255;
-	    }
-
-
-	    if(IRValue == IRForward) {
-		if(!(sensors[SenBumpDrop] | sensors[SenWall] | sensors[SenCliffL] | sensors[SenCliffFL] | sensors[SenCliffFR] | sensors[SenCliffR])) {
-		  if(driveTimerCount == 0) {
-		    driveStraight(V);
-		    driveTimerCount = 25;
-		  }
+	
+		if(isDriving){
+			// unsafe
+			if(sensors[SenBumpDrop] | sensors[SenCliffL] | sensors[SenCliffFL] | sensors[SenCliffFR] | sensors[SenCliffR]) {
+				driveTimerCount=0;		
+			}
+			if(driveTimerCount==0) {
+				stopCreate();
+				isDriving=0;
+			}
 		}
-	       else {
-		 stopCreate();
-		 driveTimerCount = 2;//0;
-	       }
-	    }
-	    else if(IRValue == IRLeft) {
-		if(!(sensors[SenBumpDrop] & 28)) {
-		  if(driveTimerCount == 0) {
-		    rotate(V, ~V);
-		    driveTimerCount = 39; 
-		  }
+		if(isRotating){
+			if(sensors[SenBumpDrop] & 28) {
+				rotateTimerCount=0;
+			}
+			if(rotateTimerCount==0) {
+				stopCreate();
+				isRotating=0;
+			}
 		}
-		else {
-		  stopCreate();
-		  driveTimerCount = 0;
-		}	
+
+
+		if((detectIR==0) && !isDriving && !isRotating) {
+			IRValue = sensors[SenIRChar];
+			if(IRValue == IRForward) {
+			//if(!(sensors[SenBumpDrop] | sensors[SenCliffL] | sensors[SenCliffFL] | sensors[SenCliffFR] | sensors[SenCliffR])){
+				driveStraight(V);
+				driveTimerCount = DRIVE_D;
+				isDriving=1;
+			//}
+			}
+			else if(IRValue == IRLeft) {
+			//if(!(sensors[SenBumpDrop] & 28)) {
+				rotate(V, ~V);
+				rotateTimerCount = ROTATE_30_D; 
+				isRotating=1;
+			//}
+		
 	    }
 	    else if(IRValue == IRRight) {
-		if(!(sensors[SenBumpDrop] & 28)) {
-		  if(driveTimerCount == 0) {
-		    rotate(~V, V);
-		    driveTimerCount = 39; 
-		  }
-		}
-		else {
-		  stopCreate();
-		  driveTimerCount = 0;
-		}
-	    }
-	    else {
-	      stopCreate();
-	    }
-
-	    if(driveTimerCount == 0) {
-	      IRValue = 255;
-	      stopCreate();
-	    }
+			//if(!(sensors[SenBumpDrop] & 28)) {
+				rotate(~V, V);
+				rotateTimerCount =  ROTATE_30_D; 
+				isRotating=1;
+			}
+			detectIR=100;
+		}	 
 
     if(UserButtonPressed) {
       powerOffRobot();
@@ -128,4 +113,3 @@ int main(void) {
     }
   }
 }
-

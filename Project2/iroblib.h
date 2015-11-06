@@ -16,10 +16,8 @@
 //define the drive velocity for the create
 #define V 100
 //drive and rotate delays
-#define DRIVE_D 8400
-#define ROTATE_72_D 1715
-#define ROTATE_108_D 2570 //1715*1.5=2573
-
+#define DRIVE_D 400;
+#define ROTATE_30_D 810;
 
 void defineSongs(void);
   // Songs
