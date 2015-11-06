@@ -90,7 +90,7 @@ TIMSK0 = _BV(OCIE0A);
 //      Use a counter inside the ISR to get a 50ms interrupt
 // Mode: CTC
 // Prescalar: 1024
-  TCCR2A = _BV(WGM01); //Mode
+  TCCR2A = _BV(WGM21); //Mode
   TCCR2B = (_BV(CS22) | _BV(CS21) | _BV(CS20)); //prescalar
   OCR2A = 170;
   TIMSK2 = _BV(OCIE2A);

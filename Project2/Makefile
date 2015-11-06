@@ -56,7 +56,7 @@ FORMAT = ihex
 
 
 # Target file name (without extension).
-TARGET = proj2
+TARGET=proj2_t1
 
 
 # List C source files here. (C dependencies are automatically generated.)

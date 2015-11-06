@@ -202,7 +202,6 @@ void printToConsole(char printData[printLSize]){
 
 void printSensorData(void){
   setSerialDestination(SERIAL_USB);
-  cli();
   char printL[printLSize];
   // Sensor Nick wants #1: 16-bit value
   sprintf(printL,"Left Cliff Signal: %u\n", (uint16_t)((sensors[SenCliffLSig1]<<8)| sensors[SenCliffLSig0]));
@@ -240,7 +239,6 @@ void printSensorData(void){
   // End line for Formatting
   sprintf(printL,"\n");
   printToConsole(printL);
-  sei();
   //Change Back
   setSerialDestination(SERIAL_CREATE);
   canPrint=0;
