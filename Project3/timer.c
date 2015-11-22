@@ -7,11 +7,9 @@ volatile uint16_t ToggleCMDTimerCount = 0;
 volatile uint16_t driveTimerCount = 0;           // Definition checked against declaration
 volatile uint16_t rotateTimerCount = 0;
 volatile uint8_t  delayTimerRunning = 0;          // Definition checked against declaration
-volatile uint16_t detectIR=0;
-volatile uint8_t sensors[Sen6Size];
-volatile uint8_t timer2Scale = 0;
-volatile uint8_t canPrint=0;
-volatile uint8_t canSense=1;
+volatile uint16_t sensorTimerCount = 0;
+volatile uint16_t pidTimerCount = 0;
+
 ISR(USART_RX_vect) {  //SIGNAL(SIG_USART_RECV) 
   // Serial receive interrupt to store sensor values
   
@@ -29,10 +27,15 @@ ISR(TIMER0_COMPA_vect) {
     delayTimerCount--;
   } else {
     delayTimerRunning = 0;
-  }
-   
+  } 
   if(ToggleCMDTimerCount  != 0) {
     ToggleCMDTimerCount--;
+  }
+  if(sensorTimerCount != 0) {
+    sensorTimerCount--;
+  }
+  if(pidTimerCount != 0) {
+    pidTimerCount--;
   }
   if(driveTimerCount != 0) {
     driveTimerCount--;
@@ -41,26 +44,22 @@ ISR(TIMER0_COMPA_vect) {
   if(rotateTimerCount != 0) {
     rotateTimerCount--;
   }
-
-  if(detectIR !=0) {
-    detectIR--;
-  }
 }
-
+/*
 ISR(TIMER1_COMPA_vect) {
-  canPrint=1;
+  updateSensors();
 }
+*/
 
-
+/*
 ISR(TIMER2_COMPA_vect) {
- if(timer2Scale == 10){
-   timer2Scale = 0; 
-   canSense=1;  
-  }
-  else
-  timer2Scale++;
+  toggleCMDLeds() 
 }
 
+ISR(TIMER2_COMPB_vect) {
+  toggleCMDLeds() 
+}
+*/
 
 void setupTimer(void) {
 // Set up timer 0
@@ -72,30 +71,36 @@ TCCR0A = _BV(WGM01); //mode
 TCCR0B = (_BV(CS00) | _BV(CS02)); //scalar
 OCR0A = 17;
 TIMSK0 = _BV(OCIE0A);
+}
 
+/*
+void setupTimerOne(void){
 // Set up the timer 1
-// Use: cause an interrupt to get all sensor data every 1s
+// Use: cause an interrupt to get all sensor data every 30ms
 // Mode: CTC
 // Prescalar: 1024
   TCCR1A = 0x00;
   TCCR1B = (_BV(WGM12) | _BV(CS10) | _BV(CS12)); //mode and prescalar
     // TCCR1B = 0x0C;
-  OCR1A = 17999;
+  OCR1A = 1799;
   TIMSK1 = _BV(OCIE1A);
     // TIMSK1 = 0x02;
+}
+*/
 
-
+/*
+void setupTimerTwo(void){
 // Set up the timer 2
-// Use: cause an interrupt to get all sensor data every 10ms 
-//      Use a counter inside the ISR to get a 50ms interrupt
+// Use: cause an interrupt every 15ms
 // Mode: CTC
 // Prescalar: 1024
   TCCR2A = _BV(WGM21); //Mode
   TCCR2B = (_BV(CS22) | _BV(CS21) | _BV(CS20)); //prescalar
-  OCR2A = 170;
+  OCR2A = 255;
+  OCR2B = 255;
   TIMSK2 = _BV(OCIE2A);
-
 }
+*/
 
 // Delay for the specified time in ms without updating sensor values
 void delayMs(uint16_t time_ms)

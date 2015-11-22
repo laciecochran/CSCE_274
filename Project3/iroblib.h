@@ -5,60 +5,82 @@
 #include <avr/interrupt.h>
 #include <stdio.h>
 #include <string.h>
+#include "oi.h"
 
 // Constants
 #define RESET_SONG 0
 #define START_SONG 1
 //distance between create wheels
 #define L 260
-//angle for pentagon
-#define ROTATE_ANGLE 72 //180-108
 //define the drive velocity for the create
 #define V 100
 
 //PID constants
-#define dt 1
-#define pTerm 20
-#define iTerm 0
-#define dTerm 0
-#define refPoint 50
+#define dt 0.25 //Seconds x/0.25 = x << 4 and x*0.25 = x >> 4
+#define pTerm 2
+#define iTerm 2
+#define dTerm 1
+#define cGain 3 
+#define refPoint 80
+#define max 100
+#define min 0
+#define AntiWToleranceLow -500
+#define AntiWToleranceHigh 500 
 
 //PID variables
 int16_t errorTerm;
 int16_t errorTermPrev;
 int32_t sumOfError;
 int16_t controlOut;
+int8_t usingPID;
+int16_t totalWall;
+int16_t velocityLeft;
+int16_t velocityRight;
+
+//Sensor 
+uint8_t sensors[Sen6Size];
 
 void defineSongs(void);
   // Songs
   // Indicator that the robot is Powered on and has reset.
 
+// Power the create On/Off
 void powerOnRobot(void);
 void powerOffRobot(void);
-// Power the create On/Off
-void powerLed(uint8_t color);
+
 //turn on and change color of power Led
-void setupCMDLeds(void);
+void powerLed(uint8_t color);
+
 //setup to be able to use CMD Leds
-void robotLeftLedOn(void);
-void robotRightLedOn(void);
-void robotLedsOff(void);
-void robotLedsOn(void);
+void setupCMDLeds(void);
+
 //toggle cmd leds
 void toggleCMDLeds(uint16_t time);
 
+//Robot LEDs
+void robotLeftLedOn(void);
+void robotRightLedOn(void);
+void robotLedsOn(void);
+void robotLedsOff(void);
+
+//drive commands
 void driveStraight(uint16_t v);
-void rotate(int16_t vr, int16_t vl);
-//drive the create around a pentagon
+void rotate(int16_t v);
+void driveCreate(int16_t vr, int16_t vl);
 void stopCreate(void);
-//stop the create's motion
+
+//print to terminal on workstation
 void printToConsole(char printData[]);
 void printSensorData(void);
-//print to terminal on workstation
-void updateSensors(void);
+
 //get all sensor values
+void updateSensors(void);
+
+
+//PID controller functions
 int8_t findWall(void);
 int8_t alignWall(void);
-int16_t pid(int16_t sensor);
-//PID controller functions
+void clearPIDVar(void);
+int8_t pid(void);
+uint16_t getTotalWall(void);
 #endif

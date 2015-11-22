@@ -3,11 +3,15 @@
 #include "cmod.h"
 #include "timer.h"
 
-//define PID variables
-errorTerm = 0;
-errorTermPrev = 0;
-sumOfError = 0;
-controlOut = 0;
+//initiallize variables
+int16_t errorTerm = 0;
+int16_t errorTermPrev = 0;
+int32_t sumOfError = 0;
+int16_t controlOut = 0;
+int8_t usingPID = 0;
+int16_t totalWall = 0;
+int16_t velocityLeft = 0;
+int16_t velocityRight = 0;
 
 // Define songs to be played later
 void defineSongs(void) {
@@ -122,7 +126,7 @@ void robotLedsOff(void) {
   byteTx(255);
 }
 
-//toggle cmd leds
+//toggle command module leds
 void toggleCMDLeds(uint16_t time) {
   if(ToggleCMDTimerCount  == 0){
     PORTD ^= (3 << 5);	
@@ -130,7 +134,7 @@ void toggleCMDLeds(uint16_t time) {
   }
 }
 
-//drive create straight for a specified distance
+//drive create straight at a specified speed
 void driveStraight(uint16_t v) {
 
   byteTx(CmdDriveWheels);
@@ -140,7 +144,19 @@ void driveStraight(uint16_t v) {
   byteTx(v&0xFF);
 }
 
-void rotate(int16_t vr, int16_t vl) {
+//rotate in place at a specified speed
+void rotate(int16_t v) {
+
+  byteTx(CmdDriveWheels);
+  byteTx((v>>8)&0xFF);
+  byteTx(v&0xFF);
+  byteTx((-v>>8)&0xFF);
+  byteTx(-v&0xFF);
+
+}
+
+//Drive the Create at specified speed for both wheels
+void driveCreate(int16_t vr, int16_t vl) {
 
   byteTx(CmdDriveWheels);
   byteTx((vr>>8)&0xFF);
@@ -150,6 +166,7 @@ void rotate(int16_t vr, int16_t vl) {
 
 }
 
+//stop the Create
 void stopCreate(void) {
 
   byteTx(CmdDriveWheels);
@@ -160,6 +177,7 @@ void stopCreate(void) {
 
 }
 
+//Sends data a byte at a time to console
 void printToConsole(char printData[]){
   uint8_t i = 0;
   for (i = 0; i < strlen(printData); i++) {
@@ -167,61 +185,115 @@ void printToConsole(char printData[]){
   }
 }
 
+//Sensor data desired to be send to console
 void printSensorData(void){
   setSerialDestination(SERIAL_USB);
-  char printL[printLSize];
+  char printL[100];
   // Sensor Nick wants #1: 16-bit value
-  sprintf(printL,"Left Cliff Signal: %u\n", (uint16_t)((sensors[SenCliffLSig1]<<8)| sensors[SenCliffLSig0]));
+  sprintf(printL,"Wall Signal: %u\n", (uint16_t)((sensors[SenWallSig1]<<8) | (sensors[SenWallSig0])));
   printToConsole(printL);
   // End line for Formatting
   sprintf(printL,"\n");
   printToConsole(printL);
   //Change Back
   setSerialDestination(SERIAL_CREATE);
-  canPrint=0;
 }
 
 void updateSensors(void){
-  //cli();
-  byteTx(CmdSensors);
-  byteTx(6); //get all the data!
-  for(uint8_t i = 0; i < 52; i++){
-    sensors[i] = byteRx();  // read each sensor byte 
-  } 
-  canSense=0;
-  //sei();  
+  if(sensorTimerCount == 0) {
+    byteTx(CmdSensors);
+    byteTx(6); //get all the data!
+    for(uint8_t i = 0; i < 52; i++){
+      sensors[i] = byteRx();  // read each sensor byte 
+    }
+
+    // reset timer
+    sensorTimerCount=75;
+  }
+}
+/*int8_t saftyDriveCheck(){
+  cliffCheck = (sensors[SenCliffL] | sensors[SenCliffFL] | sensors[SenCliffFR] | sensors[SenCliffR]);
+  
+  if(sensors[SenBumpDrop] | ){
+
+  }
+}*/
+
+uint16_t getTotalWall(void) {
+  return (sensors[SenWallSig1] << 8) | sensors[SenWallSig0];
 }
 
 int8_t findWall(void){
-  isDriving = 1;
-  driveTimerCount = 100;
+  driveTimerCount = 1000;
   driveStraight(V);
-  int16_t totalWall = (sensors[SenWallSig1] << 8) & sensors[SenWallSig0];
-  if(sensors[SenBumpDrop] && (totalWall > refPoint)){
-    driveTimerCount = 0;
+  while(driveTimerCount != 0){
+    updateSensors();
+    delayMs(25);
+    totalWall = getTotalWall();
+    if(sensors[SenBumpDrop]){
+      stopCreate();
+      return 1;
+    }
+    else if(totalWall > refPoint){
+      return 2;
+    }
   }
-  if(driveTimerCount == 0) {
-    stopCreate();
-    isDriving = 0;
-  }
+  return 0;
 }
 
 int8_t alignWall(void){
-
+  rotateTimerCount = 1000;
+  while((rotateTimerCount != 0)){
+    updateSensors();
+    delayMs(25);
+    totalWall = getTotalWall();
+    if(sensors[SenBumpDrop]) {
+      rotate(V);
+    }
+    else if(!(sensors[SenBumpDrop]) && totalWall > refPoint){
+      return 2;
+    }
+    else{ return 0; }
+  }
+  return 0;
 }
 
-int16_t pid(int16_t sensor){
-  errorTerm = sensor - refPoint;
-  //poportional Term
-  controlOut = (int16_t)(pTerm * errorTerm);
-  //Integral Anti-Windup
-  //if(//output not maxed){
-    //integral Term
-    sumOfError += errorTerm;
-    controlOut += (int16_t)(iTerm * dt * sumOfError);
-  //}
-  //drivative term aka that thingy that does tha thing
-  controlOut += (int16_t)(dTerm * (errorTerm - errorTermPrev)/dt);
-  errorTermPrev = errorTerm;
-  return controlOut;
+void clearPIDVar(void){
+  errorTerm = 0;
+  errorTermPrev = 0;
+  sumOfError = 0;
+  controlOut = 0;
+}
+
+int8_t pid(void){
+  int16_t sensor = getTotalWall();
+  while(1+1==2){
+  updateSensors();
+  delayMs(25);
+  sensor = getTotalWall();
+  if(pidTimerCount == 0) {
+    errorTerm = sensor - refPoint;
+    //poportional Term
+    controlOut = (int16_t)(pTerm * errorTerm);
+    //Integral Anti-Windup check
+    if(sumOfError > AntiWToleranceLow || sumOfError < AntiWToleranceHigh){
+      //integral Term
+      sumOfError += errorTerm;
+      controlOut += (int16_t)(dt * sumOfError) >> iTerm;
+    }
+    //drivative term
+    controlOut += (int16_t)(dTerm * (errorTerm - errorTermPrev)/dt);
+    controlOut = controlOut >> cGain;
+    errorTermPrev = errorTerm;
+    
+    //reset timer
+    pidTimerCount = dt*1000; //dt is in Seconds thus a convertion is needed
+  }
+  //
+  velocityLeft = V - controlOut;
+  velocityRight = V + controlOut;
+  driveCreate(velocityRight, velocityLeft);//(vr, vl)
+  if(sensors[SenBumpDrop]){  clearPIDVar(); stopCreate(); return 1; }
+  
+  }
 }

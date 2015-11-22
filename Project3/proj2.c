@@ -5,10 +5,10 @@
 #include <stdlib.h>
 
 // Declare Global variables 
-volatile uint8_t IRValue;
-
 uint8_t isDriving = 0;
 uint8_t isRotating = 0;
+uint16_t wall = 0;
+int8_t state = 0;
 
 int main(void) {
   // Set up Create and module
@@ -51,62 +51,37 @@ int main(void) {
   //turn on one CMD Led so that it will toggle left and right
   PORTD &= ~(0x40);
 
+  //set up timer 1 so we don't ask for sensors before the create is initiallized
+  //setupTimerOne();
+  
   // Infinite operation loop
   for(;;) {
     // toggle command module Leds using a timer
     toggleCMDLeds(1000);
     //USING HERSHEL<F5>!!!
-    if(canSense) {
-      updateSensors();
+    updateSensors();
+    delayMs(25);
+    clearPIDVar();
+    
+    //Project 3 tasks: PID
+    switch(state){
+      case 0:
+        //finding wall
+        robotLeftLedOn();
+        state = findWall();
+        break;
+      case 1:
+        //We have a wall!
+        robotRightLedOn();
+        state = alignWall();
+        break;
+      case 2:
+        robotLedsOn();
+        state = pid();
+        break;
+      default: robotLedsOff();
     }
-	
-		if(isDriving){
-			// unsafe
-			if(sensors[SenBumpDrop] | sensors[SenCliffL] | sensors[SenCliffFL] | sensors[SenCliffFR] | sensors[SenCliffR]) {
-				driveTimerCount=0;		
-			}
-			if(driveTimerCount==0) {
-				stopCreate();
-				isDriving=0;
-			}
-		}
-		if(isRotating){
-			if(sensors[SenBumpDrop] & 28) {
-				rotateTimerCount=0;
-			}
-			if(rotateTimerCount==0) {
-				stopCreate();
-				isRotating=0;
-			}
-		}
-
-
-		if((detectIR==0) && !isDriving && !isRotating) {
-			IRValue = sensors[SenIRChar];
-			if(IRValue == IRForward) {
-			//if(!(sensors[SenBumpDrop] | sensors[SenCliffL] | sensors[SenCliffFL] | sensors[SenCliffFR] | sensors[SenCliffR])){
-				driveStraight(V);
-				driveTimerCount = DRIVE_D;
-				isDriving=1;
-			//}
-			}
-			else if(IRValue == IRLeft) {
-			//if(!(sensors[SenBumpDrop] & 28)) {
-				rotate(V, ~V);
-				rotateTimerCount = ROTATE_30_D; 
-				isRotating=1;
-			//}
-		
-	    }
-	    else if(IRValue == IRRight) {
-			//if(!(sensors[SenBumpDrop] & 28)) {
-				rotate(~V, V);
-				rotateTimerCount =  ROTATE_30_D; 
-				isRotating=1;
-			}
-			detectIR=100;
-		}	 
-
+    //printSensorData();
     if(UserButtonPressed) {
       powerOffRobot();
       exit(1);
