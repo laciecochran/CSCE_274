@@ -23,14 +23,18 @@
 #define dTerm 1
 #define cGain 3 
 #define refPoint 80
-#define dockRefPoint 254
 #define max 100
 #define min 0
 #define AntiWToleranceLow -500
 #define AntiWToleranceHigh 500
 
 //docking constants
-#define bouyError 1 
+#define bouyError 20
+#define dockRefPoint 254
+#define dockPTerm 4
+#define dockITerm 2
+#define dockDTerm 1
+#define dockCGain 2
 
 //PID variables
 int16_t errorTerm;

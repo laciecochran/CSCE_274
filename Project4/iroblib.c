@@ -324,23 +324,47 @@ int8_t pidDock(void){
 	  delayMs(25);
 	  sensor = sensors[SenIRChar];
 	  if(pidTimerCount == 0) {
-	    errorTerm = sensor - dockRefPoint;
+            //Red sensor is picked up
+	    if(sensor == 248 || sensor == 250){
+              errorTerm = bouyError;
+              robotRightLedOn();
+              }
+            //Green sensor is picked up
+            else if(sensor == 244 || sensor == 246){ 
+              errorTerm = -bouyError;
+              robotLeftLedOn();
+              }
+            //Both sensors are picked up
+            else if(sensor == 252 || sensor == 254){ 
+              errorTerm = 0;
+              robotLedsOn();
+              }/**
+            else if(sensor == 242){
+              errorTerm = bouyError;
+            }
+            else if(sensor == 255){
+              errorTerm = -bouyError;
+            }**/
+            else{
+              errorTerm = 0;
+              robotLedsOn();
+            }
 	    //poportional Term
-	    controlOut = (int16_t)(pTerm * errorTerm);
+	    controlOut = (int16_t)(dockPTerm * errorTerm);
 	    //Integral Anti-Windup check
-	    if(sumOfError > AntiWToleranceLow || sumOfError < AntiWToleranceHigh){
+	    if(!((velocityLeft < 0 || velocityLeft > (lilV*2)) && (velocityRight < 0 || velocityRight > (lilV)))){
 	      //integral Term
 	      sumOfError += errorTerm;
-	      controlOut += (int16_t)(dt * sumOfError) >> iTerm;
+	      controlOut += (int16_t)(dt * sumOfError) >> dockITerm;
 	    }
 	    //drivative term
-	    controlOut += (int16_t)(dTerm * (errorTerm - errorTermPrev)/dt);
-	    controlOut = controlOut >> cGain;
+	    controlOut += (int16_t)(dockDTerm * (errorTerm - errorTermPrev)/dt);
+	    controlOut = controlOut >> dockCGain;
 	    errorTermPrev = errorTerm;
 	    
 	    //reset timer
 	    pidTimerCount = dt*1000; //dt is in Seconds thus a convertion is needed
-	  }
+	  } 
 	  //
 	  velocityLeft = lilV - controlOut;
 	  velocityRight = lilV + controlOut;
@@ -348,10 +372,18 @@ int8_t pidDock(void){
 	  if(sensors[SenBumpDrop]){
 	    clearPIDVar();
 	    stopCreate();
+            delayMs(500);
+            updateSensors();
+	    delayMs(25);
 	    homeBase = sensors[SenChAvailable];
-	    if(homeBase == 1) {
+	    if(homeBase == 2) {
 	      return 4;
 	    } 
+	    else {
+	      driveCreate(~lilV, ~lilV+5);
+	      delayMs(5000);
+	      return 3;
+	    }
 	  }
   }
 }
@@ -376,14 +408,15 @@ int8_t runDockOver(void) {
 	  delayMs(1000);
 	  driveTimerCount = 7000;
 	  driveStraight(V);
+          //drive until read both red and green bouy
 	  while(driveTimerCount != 0 && IRValue != 252 && IRValue != 254) {
 	    updateSensors();
 	    delayMs(25);
 	    IRValue = sensors[SenIRChar];
 	  }
-	  rotateTimerCount = 5000;
-	  rotate(V);
-	  while(rotateTimerCount != 0 && (IRValue == 254 || IRValue == 252)) {
+	  rotateTimerCount = 2000;
+	  rotate(-V);
+	  while(rotateTimerCount != 0 && IRValue == 254){// || IRValue == 252)) {
 	    updateSensors();
 	    delayMs(25);
 	    IRValue = sensors[SenIRChar];
