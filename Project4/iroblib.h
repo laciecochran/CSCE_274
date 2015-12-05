@@ -14,6 +14,7 @@
 #define L 260
 //define the drive velocity for the create
 #define V 100
+#define lilV 20
 
 //PID constants
 #define dt 0.25 //Seconds x/0.25 = x << 4 and x*0.25 = x >> 4
@@ -22,10 +23,14 @@
 #define dTerm 1
 #define cGain 3 
 #define refPoint 80
+#define dockRefPoint 254
 #define max 100
 #define min 0
 #define AntiWToleranceLow -500
-#define AntiWToleranceHigh 500 
+#define AntiWToleranceHigh 500
+
+//docking constants
+#define bouyError 1 
 
 //PID variables
 int16_t errorTerm;
@@ -39,6 +44,8 @@ int16_t velocityRight;
 
 //docking variables
 uint8_t IRValue;
+uint8_t homeBase;
+int8_t inForceField;
 
 //Sensor 
 uint8_t sensors[Sen6Size];
@@ -89,4 +96,5 @@ uint16_t getTotalWall(void);
 
 //docking
 int8_t runDockOver(void);
+int8_t pidDock(void);
 #endif

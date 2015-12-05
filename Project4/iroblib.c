@@ -13,6 +13,8 @@ int16_t totalWall = 0;
 int16_t velocityLeft = 0;
 int16_t velocityRight = 0;
 uint8_t IRValue = 255; //initially not reading anything
+uint8_t homeBase = 0; //initially not charging
+int8_t inForceField = 0; //1=true, 0=false
 
 // Define songs to be played later
 void defineSongs(void) {
@@ -238,6 +240,12 @@ int8_t findWall(void){
     else if(totalWall > refPoint){
       return 2;
     }
+    /*else if(sensors[SenIRChar] > 241 && sensors[SenIRChar] < 255) {
+      clearPIDVar();
+      stopCreate();
+      return 3;
+    }*/
+
   }
   return 0;
 }
@@ -254,6 +262,12 @@ int8_t alignWall(void){
     else if(!(sensors[SenBumpDrop]) && totalWall > refPoint){
       return 2;
     }
+    /*else if(sensors[SenIRChar] > 241 && sensors[SenIRChar] < 255) {
+      clearPIDVar();
+      stopCreate();
+      return 3;
+    }*/
+
     else{ return 0; }
   }
   return 0;
@@ -303,43 +317,111 @@ int8_t pid(void){
 	}
 }
 
+int8_t pidDock(void){
+  int16_t sensor = sensors[SenIRChar];
+  while(1+1==2){
+	  updateSensors();
+	  delayMs(25);
+	  sensor = sensors[SenIRChar];
+	  if(pidTimerCount == 0) {
+	    errorTerm = sensor - dockRefPoint;
+	    //poportional Term
+	    controlOut = (int16_t)(pTerm * errorTerm);
+	    //Integral Anti-Windup check
+	    if(sumOfError > AntiWToleranceLow || sumOfError < AntiWToleranceHigh){
+	      //integral Term
+	      sumOfError += errorTerm;
+	      controlOut += (int16_t)(dt * sumOfError) >> iTerm;
+	    }
+	    //drivative term
+	    controlOut += (int16_t)(dTerm * (errorTerm - errorTermPrev)/dt);
+	    controlOut = controlOut >> cGain;
+	    errorTermPrev = errorTerm;
+	    
+	    //reset timer
+	    pidTimerCount = dt*1000; //dt is in Seconds thus a convertion is needed
+	  }
+	  //
+	  velocityLeft = lilV - controlOut;
+	  velocityRight = lilV + controlOut;
+	  driveCreate(velocityRight, velocityLeft);//(vr, vl)
+	  if(sensors[SenBumpDrop]){
+	    clearPIDVar();
+	    stopCreate();
+	    homeBase = sensors[SenChAvailable];
+	    if(homeBase == 1) {
+	      return 4;
+	    } 
+	  }
+  }
+}
+
 int8_t runDockOver(void) {
-  while(1+1=2) {
+  while(1+1==2) {
+	updateSensors();
+	delayMs(25);
 	IRValue = sensors[SenIRChar];
-	//If we only have the force field registering
-	if(IRValue == 242) {
+	homeBase = sensors[SenChAvailable];
+	//full charging check
+	if(homeBase == 1) {
 	  stopCreate();
+	  return 4;
+	}
+	//If we have the force field registering
+	if(IRValue == 242 && inForceField == 0) {
+	  stopCreate();
+	  inForceField = 1; 
 	  rotate(V);
-          inForceField = 1; 
 	  //delay?
+	  delayMs(1000);
+	  driveTimerCount = 7000;
+	  driveStraight(V);
+	  while(driveTimerCount != 0 && IRValue != 252 && IRValue != 254) {
+	    updateSensors();
+	    delayMs(25);
+	    IRValue = sensors[SenIRChar];
+	  }
+	  rotateTimerCount = 5000;
+	  rotate(V);
+	  while(rotateTimerCount != 0 && (IRValue == 254 || IRValue == 252)) {
+	    updateSensors();
+	    delayMs(25);
+	    IRValue = sensors[SenIRChar];
+	  }
+	  return 3;
 	}
-	else if(IRValue == 248) { //red bouy
-          errorTerm = -bouyError;
-          inForceField = 0; 
+        /*else if(IRValue == 248) { //red bouy
+          //errorTerm = -bouyError;
+          inForceField = 0;
+	  robotLeftLedOn();
+	  stopCreate();
+	  return 3;
 	} 
-	else if(IRValue == 244) { //green bouy
-          errorTerm = bouyError;
-          inForceField = 0; 
+        else if(IRValue == 244) { //green bouy
+          //errorTerm = bouyError;
+          inForceField = 0;
+	  robotRightLedOn(); 
+	  stopCreate();
+	  return 3;
+	}*/
+        else if(IRValue == 252) { //both
+          //errorTerm = 0;
+	  //driveStraight(100);
+	  robotLedsOn();
+	  stopCreate();
+	  return 3;
 	}
-          else if(IRValue == 252) { //both
-          errorTerm = 0;
-	}
-	else if(IRValue == 254) { //both and force field
-        //NO RAMMING OF THE HOME BASE!!!!!!!! SAM!
-        errorTerm = 0;
-        inForceField = 1;             
-      }
-    else {
-      /**
-      if(thatTimer > 0){
-        thatTimer = 1000;
-      }
-      else{
-        return 0;
-      }
-      **/
-      driveCreate(V - 10, V);
-      
-    }
+        else if(IRValue == 254) { //both and force field
+          //NO RAMMING OF THE HOME BASE!!!!!!!! SAM!
+          //errorTerm = 0;
+          inForceField = 1;
+	  //powerLed(255);
+	  robotLedsOn();
+	  int8_t internalState = pidDock();
+	  return internalState;             
+        }
+        else {
+         //return 0;
+        }
   }
 }
